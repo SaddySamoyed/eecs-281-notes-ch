@@ -35,7 +35,32 @@
 using namespace std;
 
 bool isAnagram(const string &s1, const string &s2) {
-  // TODO
-  assert(false);
-  return false;
+    if (s1.length() != s2.length()) {
+        return false;
+    }
+
+    unordered_map<char, int> charCount;
+    for (char c : s1) {
+        charCount[c]++;
+    }
+
+    for (char c : s2) {
+        if (charCount.find(c) == charCount.end() || charCount[c] == 0) {
+            return false;
+        }
+        charCount[c]--;
+    }
+
+    return true;
+}
+
+int main () {
+    string s1 = "listen";
+    string s2 = "silent";
+    cout << isAnagram(s1, s2) << endl;
+
+    string s3 = "hello";
+    string s4 = "world";
+    cout << isAnagram(s3, s4) << endl;
+    return 0;
 }
