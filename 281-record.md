@@ -513,7 +513,7 @@ while (sptr != src_ar + SIZE)
 
 random access 的时间消耗相比 dereference 要大。使用 1 次 sequntial access 比 1 次 random access 耗时大，但使用 1 次 sequntial access 比 n 次 random access 耗时显著小。所以如果要 traversal 应该使用 double ptr.
 
-### What to Store/Get in a container
+#### What to Store/Get in a container
 
 Store:
 
@@ -533,9 +533,213 @@ Get:
 
 
 
+#### Use dynamic array in C++
 
+`new[]` 在 heap 中生成一个 array 并对其中每个 object call default ctor
+
+`delete[]` 对 array 中每个 object call tor.
+
+```c++
+class Array {
+  size_t length = 0;
+  double *data = nullptr;
+  
+  public:
+  Array(size_t len) : length{len};
+  								data{new double[length]} {} // dynamic array
+  
+  ~Array() {
+    delete[] data;	//delete dynamic array
+    data = nullptr;
+  }
+}
+```
+
+
+
+### Best deep copy 方法：copy-swap method
+
+普通方法：在 operator= 中，先 `delete[] data;` 然后 `data = new double[length];` 然后 loop 进行 deep copy.
+
+Copy-swap method: 
+
+```c++
+#include <utility> //为了使用 std::swap
+
+Array(const Array &other) : Length{other.length},
+														data{new double[length]} {
+	for (size_t i = 0; i < length; ++i)
+    data[i] = other.data[i];
+}
+
+Array &=operator=(const Array &other) {
+  Array temp(other);	//temporary object
+  
+  // assign by swap, 原 object 数据和 temp 交换
+  std::swap(length, temp.length);
+  std::swap(data, temp.data);
+  
+  return *this;	//temp out of scope 自动被 dtor 掉
+}
+```
+
+这个方法去除了 explicit deallocation in the assignment operator，同时很好地处理了 Self-Assignment Handling. 
+
+
+
+### C++11: Move ctor for r-value
+
+Big 5 for using dynamic memory
+
+1. dtor
+2. copy ctor
+3. `operator=()`
+4. **copy ctor from r-value**
+5. **`operator=()` from r-value**
+
+
+
+在 C++11 中，"copy constructor from r-value" 通常指的是 **Move Constructo**
+
+当被 copy 的 obj 是一个右值（r-value）时，可以减少不必要的 deep copy
+
+- 在 C++ 中，**左值（l-value）**是指有名字并且持久存在的对象，而**右值（r-value）**是临时的、不持久的对象。
+  - **左值（l-value）**：像变量 `int a = 5;` 中的 `a` 是一个左值，因为它有一个名字且在作用域内持续存在。
+  - **右值（r-value）**：像表达式 `5` 或者函数返回的临时对象 `a + b` 是右值，它们的生命周期很短，只在语句中使用时存在。
+
+在 C++11 之前，所有的复制操作都只能通过  copy ctor 来完成，
+
+ 对于短生命周期的临时对象，deep copy 会增加不必要的 cost.
+
+为了更好地处理这种情况，C++11 引入了
+1. **Move Constructor**：用来从右值中“移动”资源，而不是复制。
+2. **Move `operator=()`**.
+
+
+
+move ctor 的参数是一个右值引用（r-value reference），即使用 `&&` 来表示。例如：
+
+```cpp
+Array(Array &&other) noexcept {
+    length = other.length;
+    data = other.data;
+    other.length = 0;
+    other.data = nullptr;
+}
+Array& operator=(Array &&other) noexcept {
+    if (this != &other) {
+        delete[] data;
+        length = other.length;
+        data = other.data;
+        other.length = 0;
+        other.data = nullptr;
+    }
+    return *this;
+}
+```
+
+- **右值引用 (`Array&& other`)**：`&&` 表示一个右值引用，可以绑定到一个右值（例如临时对象）。
+- 在移动构造函数中，我们**直接接管**了右值 `other` 的资源：
+  - `data = other.data;`：把 `other` 的指针直接赋值给当前对象，而不是进行深拷贝。
+  - `other.data = nullptr;`：将 `other` 的指针置为 `nullptr`，表示它不再管理这块内存。
+  - 这样，数据的所有权被转移，而不是拷贝，极大提高了效率，尤其是对于大规模数据对象。
+
+使用例：
+
+```c++
+Array createArray(size_t len) {
+    return Array(len); // 返回一个临时对象 (r-value)
+}
+
+int main() {
+    Array a(5); 
+    Array b = a; // deep copy
+
+    Array c = createArray(10); // 使用 move ctor
+
+    Array d(3);
+    d = createArray(15); // 使用 move opertor=
+
+    return 0;
+}
+```
+
+
+
+### Array class operation: `[]` 和 `insert`
+
+对于 `[]` 我们需要一个 const version 和一个 nonconst version. compiler 会自行选择. 
+
+const version 可以 **help compiler optimize code for speed.**
+
+```c++
+double &operator[](size_t i) {
+  if (i < length)
+    return data[i];
+  throw runtime_error("bad i");
+}
+
+const double &operator[](size_t i) const {
+  if (i < length)
+    return data[i];
+  throw runtime_error("bad i");
+}
+
+// const 的参数，compiler 会自动选择 const 的 operator
+ostream &operator<<(ostream &os, const Array &a) {
+  //...
+}
+```
+
+
+
+Insert:
+
+```c++
+bool Array::insert(size_t index, double val) {
+  if (index >= length)
+    return false;
+  for (size_t i = length - 1; i > index; --i)	//at most n-1 times
+    data[i] = data[i-1];
+  data[index] = val;
+  return true;
+}
+```
+
+会向右 shift 整个 array 一格.
 
 ## Lec 7 - STL
 
 
 
+## Lec 8 - Heap & Heapsort
+
+
+
+
+
+## Project 2A: Stock Market
+
+Your program market will receive a series of “**orders**,” or intentions to buy or sell shares of a certain stock. An order consists of the following information:
+
+- Timestamp - the timestamp that this order comes in
+- Trader ID - the trader who is issuing the order
+- Stock ID - the stock that the trader is interested in
+- Buy/Sell Intent - whether the trader wants to buy or sell shares
+- Price Limit - the max/min amount the trader is willing to pay/receive per share
+- Quantity - the number of shares the trader is interested in
+
+As each order comes in, your program should see if the new order can be matched with any previous orders. A new order can be matched with a previous order if:
+
+- Both orders are for the same stock ID
+  - Trader ID does not matter; traders are allowed to buy from themselves.
+- The buy/sell intentions are different. That is, one trader is buying and the other trader is selling.
+- The selling order’s price limit is less than or equal to the buying order’s price limit.
+
+A buyer will always try to buy for the lowest price possible, and a seller will always try to sell for the highest price possible. Functionally, this means that whenever a possible match exists, it will **always** occur at the price of the *earlier* order. When trying to match orders, use priority queues to identify the *lowest-price* seller and the *highest-price* buyer.
+
+
+
+If the SELL order arrived first, then the price of the match will be at the price listed by the seller. If the BUY order arrived first, the match price will be the price listed by the buyer.
+
+In the event of a tie (e.g. the two cheapest sellers are offering for the same price), **always match using the order that arrived earliest.**
