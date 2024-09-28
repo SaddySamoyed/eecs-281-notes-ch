@@ -664,6 +664,24 @@ int main() {
 }
 ```
 
+#### Move syntax 的好处
+
+c++11 之后：
+
+```c++
+vector<string> readData() {
+    vector<string> data;
+    string temp;
+    while (cin >> temp)
+        data.push_back(temp);
+    return data;  
+} // data 返回时不会被 copy 而是 move 到左边的 object 上, 节省 time
+```
+
+(Note: vector 是在 heap 上的，相当于 dynamic array)
+
+函数返回的 data 是临时对象，是一个 r-value. 返回时会直接 move 到左边的 vector 上而不会 deep copy. 节省了 deep copy 的 time.
+
 
 
 ### Array class operation: `[]` 和 `insert`
