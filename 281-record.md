@@ -283,15 +283,62 @@ $$
 
 
 
+## Lec 6 - Arrays & Containers
+
+#### 2D dynamic array with double ptr
+
+```c++
+size_t rows, cols, r, c;
+int **a = new int *[rows];
+for (r = 0; r < rows; ++r)
+    a[r] = new int[cols];
+
+for (r = 0; r < rows; ++r)
+    for (c = 0; c < cols; ++c) 
+        a[r][c] = 0;
+```
+
+### Pros and Cons of fixed/dymc array
+
+Fixed array is allocated on the stack.
+
+Pros:
+
+1. 出 scope 时自动被 deallocated
+2. **`a[i][j]` 只使用一次 Memory operation 而不是两次（连续 Memory）**
+
+Cons:
+
+1. 无法 work for large size，stack 太小
+2. size fixed
+3. 作为参数传给函数会有问题。会自动转成ptr，容易越界访问.
 
 
-## Lab 4
 
-### Heap & Heap sort
+Double pointer dynamic array is allocated on the heap.
 
+Pros:
 
+1. 支持 **triangular arrays.**
+2. 可以 copy 以及 swap rows quickly (one operation)
+3. size 可变
 
+Cons:
 
+1. `a[i][j]` random access 略慢一些
+2. 有 leak memory 的风险
 
-### Union find
+#### C++11 range-based for loop
+
+```c++
+for (int &item: my_array)
+    item *= 2;
+
+for (int i = 0; i < 5; ++i)
+    my_array[i] *= 2;
+```
+
+time / memory 和语义完全一样. 
+
+记得要加 reference for range based.
 
