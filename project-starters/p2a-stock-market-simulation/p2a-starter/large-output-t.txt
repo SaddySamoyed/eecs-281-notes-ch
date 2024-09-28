@@ -1,0 +1,29 @@
+Processing orders...
+---End of Day---
+Trades Completed: 76593
+---Time Travelers---
+A time traveler would buy Stock 0 at time 66 for $1 and sell it at time 77 for $100
+A time traveler would buy Stock 1 at time 23 for $1 and sell it at time 140 for $100
+A time traveler would buy Stock 2 at time 121 for $1 and sell it at time 134 for $100
+A time traveler would buy Stock 3 at time 20 for $1 and sell it at time 392 for $100
+A time traveler would buy Stock 4 at time 123 for $1 and sell it at time 168 for $100
+A time traveler would buy Stock 5 at time 13 for $1 and sell it at time 64 for $100
+A time traveler would buy Stock 6 at time 50 for $1 and sell it at time 167 for $100
+A time traveler would buy Stock 7 at time 45 for $1 and sell it at time 79 for $100
+A time traveler would buy Stock 8 at time 64 for $1 and sell it at time 192 for $100
+A time traveler would buy Stock 9 at time 16 for $1 and sell it at time 239 for $100
+A time traveler would buy Stock 10 at time 20 for $1 and sell it at time 59 for $100
+A time traveler would buy Stock 11 at time 54 for $1 and sell it at time 299 for $100
+A time traveler would buy Stock 12 at time 66 for $1 and sell it at time 109 for $100
+A time traveler would buy Stock 13 at time 119 for $1 and sell it at time 175 for $100
+A time traveler would buy Stock 14 at time 99 for $1 and sell it at time 114 for $100
+A time traveler would buy Stock 15 at time 29 for $1 and sell it at time 41 for $100
+A time traveler would buy Stock 16 at time 97 for $1 and sell it at time 199 for $100
+A time traveler would buy Stock 17 at time 26 for $1 and sell it at time 38 for $100
+A time traveler would buy Stock 18 at time 205 for $1 and sell it at time 346 for $100
+A time traveler would buy Stock 19 at time 65 for $1 and sell it at time 217 for $100
+A time traveler would buy Stock 20 at time 74 for $1 and sell it at time 106 for $100
+A time traveler would buy Stock 21 at time 23 for $1 and sell it at time 29 for $100
+A time traveler would buy Stock 22 at time 112 for $1 and sell it at time 175 for $100
+A time traveler would buy Stock 23 at time 9 for $1 and sell it at time 149 for $100
+A time traveler would buy Stock 24 at time 4 for $1 and sell it at time 58 for $100

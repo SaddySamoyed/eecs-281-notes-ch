@@ -1,0 +1,24 @@
+Processing orders...
+---End of Day---
+Trades Completed: 76593
+---Trader Info---
+Trader 0 bought 46403 and sold 51022 for a net transfer of $275745
+Trader 1 bought 50512 and sold 50343 for a net transfer of $-69325
+Trader 2 bought 50453 and sold 48710 for a net transfer of $-101830
+Trader 3 bought 49305 and sold 50149 for a net transfer of $58571
+Trader 4 bought 50327 and sold 51673 for a net transfer of $42065
+Trader 5 bought 49326 and sold 49306 for a net transfer of $-17592
+Trader 6 bought 50465 and sold 50273 for a net transfer of $-4802
+Trader 7 bought 50824 and sold 50121 for a net transfer of $-47561
+Trader 8 bought 48085 and sold 50962 for a net transfer of $90422
+Trader 9 bought 52549 and sold 50141 for a net transfer of $-157324
+Trader 10 bought 48660 and sold 50504 for a net transfer of $125263
+Trader 11 bought 48870 and sold 49541 for a net transfer of $29991
+Trader 12 bought 51296 and sold 49061 for a net transfer of $-83749
+Trader 13 bought 51190 and sold 48384 for a net transfer of $-103803
+Trader 14 bought 49814 and sold 49245 for a net transfer of $-6543
+Trader 15 bought 50025 and sold 51978 for a net transfer of $146027
+Trader 16 bought 49035 and sold 50989 for a net transfer of $95565
+Trader 17 bought 50829 and sold 50232 for a net transfer of $-47764
+Trader 18 bought 51124 and sold 46747 for a net transfer of $-208359
+Trader 19 bought 51824 and sold 51535 for a net transfer of $-14997

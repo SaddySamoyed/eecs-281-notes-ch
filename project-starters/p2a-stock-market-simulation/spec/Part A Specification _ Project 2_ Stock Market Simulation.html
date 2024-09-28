@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://eecs281staff.github.io/p2-stocks/ -->
+<html lang="en-US" data-theme-mode="dark" style="--primer-spec-rouge-cm-color: #868064; --primer-spec-rouge-cp-color: #aaaaaa; --primer-spec-rouge-c1-color: #868064; --primer-spec-rouge-cs-color: #868064; --primer-spec-rouge-cd-color: #868064; --primer-spec-rouge-c-color: #868064; --primer-spec-rouge-err-color: #960050; --primer-spec-rouge-gd-color: #49483e; --primer-spec-rouge-ge-color: #aaaaaa; --primer-spec-rouge-ge-font-style: italic; --primer-spec-rouge-gr-color: #960050; --primer-spec-rouge-gh-color: #999999; --primer-spec-rouge-gi-color: #49483e; --primer-spec-rouge-go-color: #999999; --primer-spec-rouge-gp-color: #999999; --primer-spec-rouge-gs-font-weight: bold; --primer-spec-rouge-gu-color: #aaaaaa; --primer-spec-rouge-gt-color: #960050; --primer-spec-rouge-kc-color: #66d9ef; --primer-spec-rouge-kd-color: #66d9ef; --primer-spec-rouge-kd-font-style: italic; --primer-spec-rouge-kn-color: #f92672; --primer-spec-rouge-kp-color: #f92672; --primer-spec-rouge-kr-color: #66d9ef; --primer-spec-rouge-kt-color: #66d9ef; --primer-spec-rouge-kt-font-style: italic; --primer-spec-rouge-kv-color: #f92672; --primer-spec-rouge-k-color: #f92672; --primer-spec-rouge-mf-color: #ae81ff; --primer-spec-rouge-mh-color: #ae81ff; --primer-spec-rouge-il-color: #ae81ff; --primer-spec-rouge-mi-color: #ae81ff; --primer-spec-rouge-mo-color: #ae81ff; --primer-spec-rouge-mb-color: #ae81ff; --primer-spec-rouge-mx-color: #ae81ff; --primer-spec-rouge-m-color: #ae81ff; --primer-spec-rouge-sb-color: #e6db74; --primer-spec-rouge-sc-color: #ae81ff; --primer-spec-rouge-sd-color: #e6db74; --primer-spec-rouge-s2-color: #e6db74; --primer-spec-rouge-se-color: #ae81ff; --primer-spec-rouge-sh-color: #e6db74; --primer-spec-rouge-si-color: #e6db74; --primer-spec-rouge-sx-color: #e6db74; --primer-spec-rouge-sr-color: #f6aa11; --primer-spec-rouge-s1-color: #e6db74; --primer-spec-rouge-ss-color: #ae81ff; --primer-spec-rouge-s-color: #e6db74; --primer-spec-rouge-na-color: #a6e22e; --primer-spec-rouge-bp-color: #ffffff; --primer-spec-rouge-nb-color: #f6aa11; --primer-spec-rouge-nc-color: #a6e22e; --primer-spec-rouge-no-color: #66d9ef; --primer-spec-rouge-nd-color: #a6e22e; --primer-spec-rouge-ni-color: #ffffff; --primer-spec-rouge-ne-color: #a6e22e; --primer-spec-rouge-nf-color: #a6e22e; --primer-spec-rouge-nl-color: #ffffff; --primer-spec-rouge-nn-color: #ffffff; --primer-spec-rouge-nt-color: #f92672; --primer-spec-rouge-nx-color: #ffffff; --primer-spec-rouge-vc-color: #ffffff; --primer-spec-rouge-vg-color: #ffffff; --primer-spec-rouge-vi-color: #ffffff; --primer-spec-rouge-nv-color: #ffffff; --primer-spec-rouge-ow-color: #f92672; --primer-spec-rouge-o-color: #ffffff; --primer-spec-rouge-w-color: #ffffff; --primer-spec-rouge-txt-color: #ffffff; --primer-spec-rouge-txt-background-color: rgb(35, 37, 41);"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Part A Specification | Project 2: Stock Market Simulation</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Part A Specification">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Project 2: Stock Market Simulation">
+<meta property="og:description" content="Project 2: Stock Market Simulation">
+<link rel="canonical" href="https://eecs281staff.github.io/p2-stocks/">
+<meta property="og:url" content="https://eecs281staff.github.io/p2-stocks/">
+<meta property="og:site_name" content="Part A Specification">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Part A Specification">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Project 2: Stock Market Simulation","headline":"Part A Specification","name":"Part A Specification","url":"https://eecs281staff.github.io/p2-stocks/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="preload" href="./Part A Specification _ Project 2_ Stock Market Simulation_files/all.css" as="style" crossorigin="anonymous" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr">
+        <link rel="icon" href="https://eecs281staff.github.io/eecs281.org/assets/images/eecs281favicon.ico">
+        <style class="anchorjs"></style><link rel="stylesheet" href="./Part A Specification _ Project 2_ Stock Market Simulation_files/primer-spec-base.css">
+
+        <!--
+            This page is formatted using Primer Spec.
+            Would you like to contribute to the theme?
+            Check out: https://github.com/eecs485staff/primer-spec
+        -->
+        <script>
+            window.PrimerSpecConfig = {
+                pdfPath: null, // @managed by build-primer-spec-action
+                siteQualifiedBaseUrl: 'https://eecs281staff.github.io/p2-stocks/',
+                hideSidebarOnLoad: false,
+                disableSidebar: false,
+                defaultSubthemeName: 'default',
+                defaultSubthemeMode: 'system',
+                sitemapEnabled: true,
+                sitemapUrls: [{
+                        url: '/p2-stocks/',
+                        path: 'README.md',title: 'Part A Specification',current: true,
+                    },{
+                        url: '/p2-stocks/files.html',
+                        path: 'files.md',title: 'Starter and Sample Files',sitemapOrder: 5,
+                    },{
+                        url: '/p2-stocks/hints-and-advice.html',
+                        path: 'hints-and-advice.md',title: 'Hints and Advice',sitemapOrder: 1,
+                    },{
+                        url: '/p2-stocks/test-case-legend.html',
+                        path: 'test-case-legend.md',title: 'Test Case Legend',sitemapOrder: 10,
+                    },{
+                        url: '/p2-stocks/assets/v1.10/css/primer-spec-base.css',
+                        path: 'assets/v1.10/css/primer-spec-base.scss',
+                    },{
+                        url: '/p2-stocks/assets/v1.10/css/style.css',
+                        path: 'assets/v1.10/css/style.scss',
+                    },{
+                        url: 'https://youtu.be/O6huRSBuaVE',
+                        title: 'Part A Explanation Video',
+                        external: true,
+                    },{
+                        url: 'https://youtu.be/_T63Cajeyhw',
+                        title: 'Fast Running Median Video',
+                        external: true,
+                    },{
+                        url: 'https://youtube.com/@EECS281',
+                        title: 'EECS 281 YouTube Channel',
+                        external: true,
+                    },],
+                sitemapLabel: null,
+                sitemapSiteTitle: 'Part A Specification',
+                useLegacyCodeBlocks: false,
+                defaultCodeblockVariant: "enhanced",
+                disableJokes: false
+            };
+        </script>
+        <script src="./Part A Specification _ Project 2_ Stock Market Simulation_files/primer_spec_plugin.min.js" crossorigin="anonymous" defer=""></script>
+        <style>
+            /**
+             * To make MathJax CHTML scroll like other large Primer Spec
+             * code-blocks, we need to set the `overflow` property on
+             * `mjx-container` elements.
+             */
+            mjx-container {
+                overflow: auto;
+                overflow-y: hidden;
+            }
+
+            /**
+             * On mobile (at least on iOS), the 0-line-height style from
+             * MathJax causes rendering issues with inline math. This style
+             * overrides the property. (Needed to add specificity to override.)
+             */
+             mjx-container[jax="CHTML"].MathJax {
+              line-height: inherit;
+            }
+        </style>
+        <script src="./Part A Specification _ Project 2_ Stock Market Simulation_files/tex-chtml.js" id="MathJax-script" defer=""></script>
+    <link rel="stylesheet" href="./Part A Specification _ Project 2_ Stock Market Simulation_files/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c398::before {
+  padding: 0.705em 0.778em 0.022em 0;
+  content: "\398";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-c1D45B.TEX-I::before {
+  padding: 0.442em 0.6em 0.011em 0;
+  content: "n";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c5B::before {
+  padding: 0.75em 0.278em 0.25em 0;
+  content: "[";
+}
+
+mjx-c.mjx-c30::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "0";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c39::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "9";
+}
+
+mjx-c.mjx-c5D::before {
+  padding: 0.75em 0.278em 0.25em 0;
+  content: "]";
+}
+</style></head>
+    <body style="--sidebar-bg-color: #0d1117; --sidebar-heading-text-color: #cccccc; --sidebar-heading-link-color: #cccccc; --sidebar-toc-h1-link-color: #58a6ff; --sidebar-toc-h1-border-color: #555; --sidebar-toc-h2-link-color: #58a6ff; --sidebar-active-toc-section-bg-color: #e4d93f; --sidebar-active-toc-section-link-color: #0d1117; --sidebar-active-toc-h1-section-link-color: #0d1117; --sidebar-active-toc-h2-section-link-color: #0d1117; --sidebar-toc-section-link-color: #cccccc; --sidebar-tt-active-text-color: #0d1117; --sidebar-resize-handle: #333; --main-heading-text-color: #e7ebee; --main-heading-link-color: #58a6ff; --main-link-color: #58a6ff; --hoverable-link-hover-color: #9dd2fb; --main-bg-color: #0d1117; --sidebar-border-color: #21262d; --main-text-color: #c9d1d9; --main-table-bg-color: #0d1117; --main-table-bg-contrast-color: #262d36; --main-table-pre-bg-color: #161b22; --main-table-pre-text-color: white; --main-table-pre-border: 1px solid rgb(60, 62, 66); --tt-bg-color: rgba(240, 246, 252, 0.15); --tt-text-color: #c9d1d9; --tt-border: 0px; --tt-border-radius: 6px; --sidebar-tt-active-bg-color: rgba(0, 0, 0, 0); --main-blockquote-text-color: #8b949e; --main-blockquote-text-border: #3b434b; --main-header-border-bottom-color: #21262d; --main-image-border-color: #21262d; --main-image-border-color-inverted: #eaecef; --primer-spec-callout-neutral-bg-color: rgba(22, 27, 34, 0.8); --primer-spec-callout-neutral-text-color: #c9d1d9; --primer-spec-callout-neutral-border-color: rgb(48, 54, 61); --primer-spec-callout-info-bg-color: rgba(56, 139, 253, 0.15); --primer-spec-callout-info-text-color: #c9d1d9; --primer-spec-callout-info-border-color: rgba(56, 139, 253, 0.4); --primer-spec-callout-info-icon-color: #58a6ff; --primer-spec-callout-warning-bg-color: rgba(187, 128, 9, 0.15); --primer-spec-callout-warning-text-color: #c9d1d9; --primer-spec-callout-warning-border-color: rgba(187, 128, 9, 0.4); --primer-spec-callout-warning-icon-color: #d29922; --primer-spec-callout-danger-bg-color: rgba(248, 81, 73, 0.15); --primer-spec-callout-danger-text-color: #c9d1d9; --primer-spec-callout-danger-border-color: rgba(248, 81, 73, 0.4); --primer-spec-callout-danger-icon-color: #f85149; --primer-spec-callout-success-bg-color: rgba(46, 160, 67, 0.15); --primer-spec-callout-success-text-color: #c9d1d9; --primer-spec-callout-success-border-color: rgba(46, 160, 67, 0.4); --primer-spec-callout-success-icon-color: #3fb950; --code-block-default-color: #c9d1d9; --code-block-border-color: rgb(60, 62, 66); --code-block-header-bg-color: #161b22; --code-block-bg-color: rgb(13, 17, 23); --code-block-line-number-color: #484f58; --code-block-highlight-bg-color: rgba(187, 128, 9, 0.15); --code-block-highlight-shadow-color: rgba(187, 128, 9, 0.4); --code-block-button-color: #c9d1d9; --code-block-button-bg-color: #21262d; --code-block-button-border-color: rgba(240, 246, 252, 0.1); --code-block-button-shadow: 0 0 transparent; --code-block-button-shadow-inset-color: 0 0 transparent; --code-block-button-hover-bg-color: rgb(48, 54, 61); --code-block-button-hover-border-color: rgb(140, 148, 158); --tooltip-background-color: rgb(110, 118, 129); --tooltip-color: white; --kbd-border-color: rgba(110, 118, 129, 0.4);">
+        <div id="primer-spec-top"></div>
+        <div id="primer-spec-app-container" onclick="return true;"><header class="primer-spec-topbar position-fixed width-full top-0 left-0 py-2 no-print"><div class="primer-spec-float-right"><div id="primer-spec-settings-toggle" class="primer-spec-topbar-button"><span class="primer-spec-hoverable "><button class="btn-link primer-spec-hoverable no-print" aria-label="Open settings pane"><i class="fas fa-cog"></i></button></span></div></div></header><main id="primer-spec-preact-main-content" class="container-lg px-3 my-5 markdown-body primer-spec-content-margin-extra">
+            
+
+            <p><img src="./Part A Specification _ Project 2_ Stock Market Simulation_files/umseal.svg" alt="The Seal of the University of Michigan" align="right" style="padding: 0px" width="170px" height="170px"></p>
+
+<h1 class="primer-spec-toc-ignore" id="eecs-281---project-2a-stock-market-simulation">EECS 281 - Project 2A: Stock Market Simulation<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#eecs-281---project-2a-stock-market-simulation" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h1>
+
+<p><strong><em>Due Thursday, October 10, 2024 at 11:59pm</em></strong></p>
+
+<div class="primer-spec-callout warning">
+
+  <p><strong>Important Note:</strong> There are two parts to this project. In your IDE, make
+a separate “IDE Project” for each part. If you try to create a single
+project, you run into a problem of having two copies of <code class="language-plaintext highlighter-rouge">main()</code>, which
+won’t compile, etc.</p>
+
+</div>
+
+<h2 class="primer-spec-toc-ignore" id="project-overview">Project Overview<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#project-overview" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>There are <strong>two</strong> parts to Project 2. Part A is an emulation of an electronic
+stock exchange market. Part B requires you to make multiple implementations
+of the priority queue abstract data type.</p>
+
+<h3 class="primer-spec-toc-ignore" id="part-a-goals">Part A Goals<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#part-a-goals" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ul>
+  <li>Gain experience using a priority queue.</li>
+  <li>Become more proficient with object-oriented design.</li>
+  <li>Become more proficient using the STL, especially <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code>.</li>
+</ul>
+
+<h3 class="primer-spec-toc-ignore" id="part-b-goals">Part B Goals<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#part-b-goals" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ul>
+  <li>Implement multiple versions of the priority queue and compare their
+performances.</li>
+  <li>Learn a data structure (the pairing heap) from a paper. This type of task
+is something that programmers have to do in their careers.</li>
+  <li>Gain experience writing templated classes and subclasses.</li>
+</ul>
+
+<h2 id="command-line-interface">Command Line Interface<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#command-line-interface" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Your program market should take the following case-sensitive command-line
+options that will determine which types of output to generate. There are no
+arguments required or allowed for any of the output options. Details about
+each output mode are under the Output Details section.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-v</code>, <code class="language-plaintext highlighter-rouge">--verbose</code></li>
+</ul>
+
+<p>An optional flag that indicates verbose output should be generated</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-m</code>, <code class="language-plaintext highlighter-rouge">--median</code></li>
+</ul>
+
+<p>An optional flag that indicates median output should be generated</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-i</code>, <code class="language-plaintext highlighter-rouge">--trader_info</code></li>
+</ul>
+
+<p>An optional flag that indicates that the trader details output should be
+generated</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-t</code>, <code class="language-plaintext highlighter-rouge">--time_travelers</code></li>
+</ul>
+
+<p>An optional flag that indicates that time travelers’ output should be
+generated</p>
+
+<h3 class="primer-spec-toc-ignore" id="legal-command-line-examples">Legal Command Line Examples<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#legal-command-line-examples" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-0" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-0-LR1"><td id="primer-spec-code-block-0-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-0-LC1" class="primer-spec-code-block-line-code">./market &lt; infile.txt &gt; outfile.txt</td></tr><tr id="primer-spec-code-block-0-LR2"><td id="primer-spec-code-block-0-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-0-LC2" class="primer-spec-code-block-line-code">./market --verbose --trader_info &lt; infile.txt</td></tr><tr id="primer-spec-code-block-0-LR3"><td id="primer-spec-code-block-0-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-0-LC3" class="primer-spec-code-block-line-code">./market --verbose --median &gt; outfile.txt</td></tr><tr id="primer-spec-code-block-0-LR4"><td id="primer-spec-code-block-0-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-0-LC4" class="primer-spec-code-block-line-code">./market --time_travelers</td></tr><tr id="primer-spec-code-block-0-LR5"><td id="primer-spec-code-block-0-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-0-LC5" class="primer-spec-code-block-line-code">./market --trader_info --verbose </td></tr><tr id="primer-spec-code-block-0-LR6"><td id="primer-spec-code-block-0-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-0-LC6" class="primer-spec-code-block-line-code">./market -vmit</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<h3 class="primer-spec-toc-ignore" id="illegal-command-line-examples">Illegal Command Line Examples<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#illegal-command-line-examples" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-1" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-1-LR1"><td id="primer-spec-code-block-1-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="primer-spec-code-block-1-LC1" class="primer-spec-code-block-line-code">./market -v -q</td></tr></tbody></table><!----></div></div></div>
+
+<p>We will not be specifically error-checking your command-line handling;
+however we expect that your program conforms with the default behavior of
+<code class="language-plaintext highlighter-rouge">getopt_long()</code>. Incorrect command-line handling may lead to a variety of
+difficult-to-diagnose problems.</p>
+
+<h2 id="market-logic">Market Logic<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#market-logic" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Your program market will receive a series of “<strong>orders</strong>,” or intentions to
+buy or sell shares of a certain stock.  An order consists of the following
+information:</p>
+
+<ul>
+  <li>Timestamp - the timestamp that this order comes in</li>
+  <li>Trader ID - the trader who is issuing the order</li>
+  <li>Stock ID - the stock that the trader is interested in</li>
+  <li>Buy/Sell Intent - whether the trader wants to buy or sell shares</li>
+  <li>Price Limit - the max/min amount the trader is willing to pay/receive per share</li>
+  <li>Quantity - the number of shares the trader is interested in</li>
+</ul>
+
+<p>As each order comes in, your program should see if the new order can be
+matched with any previous orders. A new order can be matched with a previous
+order if:</p>
+
+<ul>
+  <li>Both orders are for the same stock ID
+    <ul>
+      <li>Trader ID does not matter; traders are allowed to buy from themselves.</li>
+    </ul>
+  </li>
+  <li>The buy/sell intentions are different. That is, one trader is buying and
+the other trader is selling.</li>
+  <li>The selling order’s price limit is less than or equal to the buying order’s
+price limit.</li>
+</ul>
+
+<p>A buyer will always try to buy for the lowest price possible, and a seller
+will always try to sell for the highest price possible. Functionally, this
+means that whenever a possible match exists, it will <strong>always</strong> occur at the
+price of the <em>earlier</em> order. When trying to match orders, use priority
+queues to identify the <em>lowest-price</em> seller and the <em>highest-price</em> buyer.</p>
+
+<div class="primer-spec-callout warning">
+  <p><strong>Important:</strong> For Part A, you should always use <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code>, not
+your templates from Part B.</p>
+</div>
+
+<p>If the SELL order arrived first, then the price of the match will be at the
+price listed by the seller. If the BUY order arrived first, the match price
+will be the price listed by the buyer.</p>
+
+<p>In the event of a tie (e.g. the two cheapest sellers are offering for the
+same price), <strong>always match using the order that arrived earliest.</strong></p>
+
+<h3 id="simple-example">Simple Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#simple-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>Consider the following series of orders:</p>
+
+<ol>
+  <li>Trader 1 wants to buy 10 shares of stock 2 for up to $100 each</li>
+  <li>Trader 2 wants to sell 20 shares of stock 2 for at least $10 each</li>
+  <li>Trader 3 wants to buy 10 shares of stock 2 for up to $1 each</li>
+</ol>
+
+<p>(see <a href="https://eecs281staff.github.io/p2-stocks/#input">Input</a> below for actual input formatting)</p>
+
+<p>Here is an explanation of what should happen:</p>
+
+<ol>
+  <li>Trader #1 enters the market with the intent to buy 10 shares of stock #2
+for up to $100/share
+    <ul>
+      <li>There are no other orders in the market yet, so trader #1 posts his order
+ to the stock exchange to wait for a matching order.</li>
+    </ul>
+  </li>
+  <li>Trader #2 enters the market with the intent to sell 20 shares of stock #2
+for as low as $10 per share
+    <ul>
+      <li>Trader #2 sees the order left by trader #1, and decides to first sell 10
+ shares of the stock to trader #1 for $100 each.</li>
+      <li>Even though she would have been happy selling for $10/share, she wants to
+ make as much money as possible and takes advantage of the fact that
+ trader #1 is willing to pay more.</li>
+      <li>After selling her 10 shares, she still has 10 shares she wants to get rid
+ of. So, she now posts an order to sell her 10 leftover shares for $10 per
+ share to wait for a matching order.</li>
+    </ul>
+  </li>
+  <li>Trader #3 enters the market with the intent to buy 10 shares of stock #2
+for only $1/share.
+    <ul>
+      <li>Trader #3 sees the order left by trader #2 to sell for $10 each, but is
+ not willing to pay that much.</li>
+      <li>As a result, Trader #3 posts an order to wait for a matching order.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="input">Input<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#input" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Input will arrive from standard input (<code class="language-plaintext highlighter-rouge">cin</code>). There are two input formats,
+trade list (TL) and pseudorandom (PR). All numeric values within an input
+file will always fit within a 4-byte integer variable (<code class="language-plaintext highlighter-rouge">int</code>).</p>
+
+<h3 id="input-file-header">Input File Header<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#input-file-header" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>The first four lines of input will always look the same, with no syntax
+errors, additions, or omissions, regardless of input format:</p>
+
+<div id="common-header-format-for-all-input-files-2" class="primer-spec-code-block"><div id="primer-spec-code-block-2" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="common-header-format-for-all-input-files-2">Common header format for all input files<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#common-header-format-for-all-input-files-2" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-2-LR1"><td id="primer-spec-code-block-2-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-2-LC1" class="primer-spec-code-block-line-code">COMMENT: &lt;COMMENT AS ONE OR MORE CHARACTERS AND/OR SPACES&gt;</td></tr><tr id="primer-spec-code-block-2-LR2"><td id="primer-spec-code-block-2-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-2-LC2" class="primer-spec-code-block-line-code">MODE: &lt;INPUT_MODE_AS_TWO_CHARACTERS&gt;</td></tr><tr id="primer-spec-code-block-2-LR3"><td id="primer-spec-code-block-2-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-2-LC3" class="primer-spec-code-block-line-code">NUM_TRADERS: &lt;NUM_TRADERS_AS_A_POSITIVE_INTEGER&gt;</td></tr><tr id="primer-spec-code-block-2-LR4"><td id="primer-spec-code-block-2-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-2-LC4" class="primer-spec-code-block-line-code">NUM_STOCKS: &lt;NUM_STOCKS_AS_A_POSITIVE_INTEGER&gt;</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p><strong>&lt;COMMENT…&gt;</strong> is a string terminated by a newline, which should be
+ignored. Each input file will have exactly one line of comments. You should
+add a meaningful comment your test files to explain their purpose.</p>
+
+<p><strong>&lt;INPUT_MODE…&gt;</strong> will either be the string “TL” or “PR” (without the
+quote marks). TL indicates that the rest of input will be in the trade list
+format, and PR indicates that the rest of input will be in pseudo-random
+format. Details for these input formats will be explained shortly.</p>
+
+<p><strong>&lt;NUM_TRADERS&gt;</strong> and <strong>&lt;NUM_STOCKS&gt;</strong>, respectively, will tell you how
+many traders and stocks will exist. These are integers.</p>
+
+<h3 id="trade-list-input-mode">Trade List Input Mode<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#trade-list-input-mode" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>If &lt;INPUT_MODE…&gt; is TL, the rest of the input file will be a series of
+lines in the following format:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-3" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-3-LR1"><td id="primer-spec-code-block-3-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="primer-spec-code-block-3-LC1" class="primer-spec-code-block-line-code">&lt;TIMESTAMP&gt; &lt;BUY/SELL&gt; T&lt;TRADER_ID&gt; S&lt;STOCK_NUM&gt; $&lt;PRICE&gt; #&lt;QUANTITY&gt;</td></tr></tbody></table><!----></div></div></div>
+
+<p>Each line represents a unique order. For example, the line:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-4" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-4-LR1"><td id="primer-spec-code-block-4-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="primer-spec-code-block-4-LC1" class="primer-spec-code-block-line-code">0 BUY T1 S2 $100 #50</td></tr></tbody></table><!----></div></div></div>
+
+<p>reads:</p>
+
+<p><em>“At timestamp 0, trader 1 is willing to buy 50 shares of stock 2 for up to
+$100/share.”</em></p>
+
+<p>Each line which describes an order will be well-formatted, meaning that it
+might have invalid values, but not an unreadable format.  For example, there
+will always be a <code class="language-plaintext highlighter-rouge">T</code> before the <code class="language-plaintext highlighter-rouge">&lt;TRADER_ID&gt;</code>, always be an <code class="language-plaintext highlighter-rouge">S</code> before the
+<code class="language-plaintext highlighter-rouge">&lt;STOCK_NUM&gt;</code>, etc. The things you expect to be integers will always be
+integers (not strings, not floating-point values with a decimal point).</p>
+
+<p>When you want to read a trade, DO NOT <code class="language-plaintext highlighter-rouge">getline()</code> the entire line, copy it to
+a stringstream, then extract what you want one piece at a time: that’s
+processing the same input three times. Instead, use <code class="language-plaintext highlighter-rouge">&gt;&gt;</code> to extract exactly
+what you need. Starting out, a trade needs some type of integer (the
+timestamp), a string (<code class="language-plaintext highlighter-rouge">BUY</code> or <code class="language-plaintext highlighter-rouge">SELL</code>), a char for the <code class="language-plaintext highlighter-rouge">T</code> before the trader
+number, some type of integer for the trader number, another char for the <code class="language-plaintext highlighter-rouge">S</code>,
+etc.</p>
+
+<h4 id="tl-input-errors">TL Input Errors<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#tl-input-errors" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>You will always find a number where you expect to find one (though they might
+be invalid values). To avoid unexpected losses of large amounts of money,
+you must check for each of the following:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;TIMESTAMP&gt;</code> is non-negative (no one can trade before the market
+opens)</li>
+  <li>Timestamps are non-decreasing
+    <ul>
+      <li>e.g. 0 cannot come after 1, but there can be multiple orders with the
+same timestamp</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;TRADER_ID&gt;</code> is in the range <code class="language-plaintext highlighter-rouge">[0, &lt;NUM_TRADERS&gt;)</code>
+    <ul>
+      <li>e.g. if <code class="language-plaintext highlighter-rouge">&lt;NUM_TRADERS&gt;</code> is 5, then valid trader IDs are 0, 1, 2, 3, 4</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;STOCK_ID&gt;</code> is in the range <code class="language-plaintext highlighter-rouge">[0, &lt;NUM_STOCKS&gt;)</code>
+    <ul>
+      <li>ibid.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;PRICE&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;QUANTITY&gt;</code> are both positive</li>
+</ul>
+
+<p>If you detect an input error at any time during the program, print a helpful
+message to <code class="language-plaintext highlighter-rouge">cerr</code> and <code class="language-plaintext highlighter-rouge">exit(1)</code>. You do not need to check for input errors
+not explicitly mentioned here.</p>
+
+<h3 id="pseudorandom-input-mode">Pseudorandom Input Mode<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#pseudorandom-input-mode" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>If &lt;INPUT_MODE&gt; is PR, the rest of input will consist of these three lines:</p>
+
+<div id="pseudorandom-generator-value-format-for-pr-input-files-5" class="primer-spec-code-block"><div id="primer-spec-code-block-5" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="pseudorandom-generator-value-format-for-pr-input-files-5">Pseudorandom generator value format for PR input files<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#pseudorandom-generator-value-format-for-pr-input-files-5" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-5-LR1"><td id="primer-spec-code-block-5-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-5-LC1" class="primer-spec-code-block-line-code">RANDOM_SEED: &lt;RANDOM_SEED&gt;</td></tr><tr id="primer-spec-code-block-5-LR2"><td id="primer-spec-code-block-5-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-5-LC2" class="primer-spec-code-block-line-code">NUMBER_OF_ORDERS: &lt;NUM_ORDERS&gt;</td></tr><tr id="primer-spec-code-block-5-LR3"><td id="primer-spec-code-block-5-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-5-LC3" class="primer-spec-code-block-line-code">ARRIVAL_RATE: &lt;ARRIVAL_RATE&gt;</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p><strong>&lt;RANDOM_SEED&gt;</strong> — A number integer used to initialize the random seed.</p>
+
+<p><strong>&lt;NUMBER_OF_ORDERS&gt;</strong> — The number of orders to generate.</p>
+
+<p><strong>&lt;ARRIVAL_RATE&gt;</strong> — The average number of orders per timestamp.</p>
+
+<p>All three of these values are unsigned integers.</p>
+
+<p><strong><em>PR input will always be correctly formatted.</em></strong></p>
+
+<h4 id="using-p2randomh">Using P2random.h<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#using-p2randomh" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>In the project folder, we provide a pair of files to generate the orders in
+PR mode. This pseudorandom order generator (PROG) is to make sure that the
+generation of pseudo-random numbers is consistent across platforms. The class
+P2random contains the following function:</p>
+
+<div id="pr-init-initializes-the-pseudorandom-order-generator-6" class="primer-spec-code-block"><div id="primer-spec-code-block-6" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="pr-init-initializes-the-pseudorandom-order-generator-6">PR_init() initializes the pseudorandom order generator<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#pr-init-initializes-the-pseudorandom-order-generator-6" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-6-LR1"><td id="primer-spec-code-block-6-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-6-LC1" class="primer-spec-code-block-line-code"><span class="kt">void</span> <span class="n">P2random</span><span class="o">::</span><span class="n">PR_init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="o">&amp;</span> <span class="n">ss</span><span class="p">,</span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">seed</span><span class="p">,</span></td></tr><tr id="primer-spec-code-block-6-LR2"><td id="primer-spec-code-block-6-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-6-LC2" class="primer-spec-code-block-line-code">                       <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">num_traders</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">num_stocks</span><span class="p">,</span></td></tr><tr id="primer-spec-code-block-6-LR3"><td id="primer-spec-code-block-6-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-6-LC3" class="primer-spec-code-block-line-code">                       <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">num_orders</span><span class="p">,</span>  <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">arrival_rate</span><span class="p">);</span></td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">P2random::PR_init()</code> will set the contents of the stringstream argument
+(<code class="language-plaintext highlighter-rouge">ss</code>) so that you can use it just like you would use cin for TL mode.</p>
+
+<p>You may find the following C++ code helpful in reducing code duplication:</p>
+
+<div id="useful-code-snippet-for-eliminating-duplicate-code-7" class="primer-spec-code-block"><div id="primer-spec-code-block-7" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="useful-code-snippet-for-eliminating-duplicate-code-7">Useful code snippet for eliminating duplicate code<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#useful-code-snippet-for-eliminating-duplicate-code-7" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-7-LR1"><td id="primer-spec-code-block-7-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-7-LC1" class="primer-spec-code-block-line-code"><span class="p">...</span></td></tr><tr id="primer-spec-code-block-7-LR2"><td id="primer-spec-code-block-7-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-7-LC2" class="primer-spec-code-block-line-code">  <span class="c1">// First read Input File Header (mode, num_traders, num_stocks)</span></td></tr><tr id="primer-spec-code-block-7-LR3"><td id="primer-spec-code-block-7-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-7-LC3" class="primer-spec-code-block-line-code"><span class="p">...</span></td></tr><tr id="primer-spec-code-block-7-LR4"><td id="primer-spec-code-block-7-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-7-LC4" class="primer-spec-code-block-line-code">
+</td></tr><tr id="primer-spec-code-block-7-LR5"><td id="primer-spec-code-block-7-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-7-LC5" class="primer-spec-code-block-line-code">  <span class="c1">// Create a stringstream object in case the PROG is used</span></td></tr><tr id="primer-spec-code-block-7-LR6"><td id="primer-spec-code-block-7-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-7-LC6" class="primer-spec-code-block-line-code">  <span class="n">stringstream</span> <span class="n">ss</span><span class="p">;</span></td></tr><tr id="primer-spec-code-block-7-LR7"><td id="primer-spec-code-block-7-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-7-LC7" class="primer-spec-code-block-line-code">  </td></tr><tr id="primer-spec-code-block-7-LR8"><td id="primer-spec-code-block-7-L8" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="8"></td><td id="primer-spec-code-block-7-LC8" class="primer-spec-code-block-line-code">  <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="s">"PR"</span><span class="p">)</span> <span class="p">{</span></td></tr><tr id="primer-spec-code-block-7-LR9"><td id="primer-spec-code-block-7-L9" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="9"></td><td id="primer-spec-code-block-7-LC9" class="primer-spec-code-block-line-code">    <span class="c1">// TODO: Read PR mode values from cin (seed, num_orders, arrival_rate)</span></td></tr><tr id="primer-spec-code-block-7-LR10"><td id="primer-spec-code-block-7-L10" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="10"></td><td id="primer-spec-code-block-7-LC10" class="primer-spec-code-block-line-code">    <span class="p">...</span></td></tr><tr id="primer-spec-code-block-7-LR11"><td id="primer-spec-code-block-7-L11" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="11"></td><td id="primer-spec-code-block-7-LC11" class="primer-spec-code-block-line-code">    <span class="c1">// Initialize the PROG and populate ss with orders</span></td></tr><tr id="primer-spec-code-block-7-LR12"><td id="primer-spec-code-block-7-L12" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="12"></td><td id="primer-spec-code-block-7-LC12" class="primer-spec-code-block-line-code">    <span class="n">P2random</span><span class="o">::</span><span class="n">PR_init</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">num_traders</span><span class="p">,</span> <span class="n">num_stocks</span><span class="p">,</span> <span class="n">num_orders</span><span class="p">,</span> <span class="n">rate</span><span class="p">);</span></td></tr><tr id="primer-spec-code-block-7-LR13"><td id="primer-spec-code-block-7-L13" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="13"></td><td id="primer-spec-code-block-7-LC13" class="primer-spec-code-block-line-code">  <span class="p">}</span>  <span class="c1">// if ..mode</span></td></tr><tr id="primer-spec-code-block-7-LR14"><td id="primer-spec-code-block-7-L14" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="14"></td><td id="primer-spec-code-block-7-LC14" class="primer-spec-code-block-line-code">
+</td></tr><tr id="primer-spec-code-block-7-LR15"><td id="primer-spec-code-block-7-L15" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="15"></td><td id="primer-spec-code-block-7-LC15" class="primer-spec-code-block-line-code">  <span class="c1">// Call the function with either the stringstream produced by PR_init()</span></td></tr><tr id="primer-spec-code-block-7-LR16"><td id="primer-spec-code-block-7-L16" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="16"></td><td id="primer-spec-code-block-7-LC16" class="primer-spec-code-block-line-code">  <span class="c1">// or cin</span></td></tr><tr id="primer-spec-code-block-7-LR17"><td id="primer-spec-code-block-7-L17" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="17"></td><td id="primer-spec-code-block-7-LC17" class="primer-spec-code-block-line-code">  <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="o">==</span> <span class="s">"PR"</span><span class="p">)</span></td></tr><tr id="primer-spec-code-block-7-LR18"><td id="primer-spec-code-block-7-L18" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="18"></td><td id="primer-spec-code-block-7-LC18" class="primer-spec-code-block-line-code">    <span class="n">processOrders</span><span class="p">(</span><span class="n">ss</span><span class="p">);</span>  <span class="c1">// This is a separate function you must write</span></td></tr><tr id="primer-spec-code-block-7-LR19"><td id="primer-spec-code-block-7-L19" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="19"></td><td id="primer-spec-code-block-7-LC19" class="primer-spec-code-block-line-code">  <span class="k">else</span></td></tr><tr id="primer-spec-code-block-7-LR20"><td id="primer-spec-code-block-7-L20" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="20"></td><td id="primer-spec-code-block-7-LC20" class="primer-spec-code-block-line-code">    <span class="n">processOrders</span><span class="p">(</span><span class="n">cin</span><span class="p">);</span></td></tr><tr id="primer-spec-code-block-7-LR21"><td id="primer-spec-code-block-7-L21" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="21"></td><td id="primer-spec-code-block-7-LC21" class="primer-spec-code-block-line-code">
+</td></tr><tr id="primer-spec-code-block-7-LR22"><td id="primer-spec-code-block-7-L22" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="22"></td><td id="primer-spec-code-block-7-LC22" class="primer-spec-code-block-line-code"><span class="p">...</span></td></tr><tr id="primer-spec-code-block-7-LR23"><td id="primer-spec-code-block-7-L23" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="23"></td><td id="primer-spec-code-block-7-LC23" class="primer-spec-code-block-line-code"><span class="p">}</span></td></tr><tr id="primer-spec-code-block-7-LR24"><td id="primer-spec-code-block-7-L24" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="24"></td><td id="primer-spec-code-block-7-LC24" class="primer-spec-code-block-line-code">
+</td></tr><tr id="primer-spec-code-block-7-LR25"><td id="primer-spec-code-block-7-L25" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="25"></td><td id="primer-spec-code-block-7-LC25" class="primer-spec-code-block-line-code"><span class="c1">// TODO: Create a separate function as referenced above, accepting a stream</span></td></tr><tr id="primer-spec-code-block-7-LR26"><td id="primer-spec-code-block-7-L26" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="26"></td><td id="primer-spec-code-block-7-LC26" class="primer-spec-code-block-line-code"><span class="c1">//       reference variable, to which you will pass cin or a stringstream</span></td></tr><tr id="primer-spec-code-block-7-LR27"><td id="primer-spec-code-block-7-L27" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="27"></td><td id="primer-spec-code-block-7-LC27" class="primer-spec-code-block-line-code"><span class="c1">//       that is populated by PR_init()</span></td></tr><tr id="primer-spec-code-block-7-LR28"><td id="primer-spec-code-block-7-L28" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="28"></td><td id="primer-spec-code-block-7-LC28" class="primer-spec-code-block-line-code"><span class="kt">void</span> <span class="n">processOrders</span><span class="p">(</span><span class="n">istream</span> <span class="o">&amp;</span><span class="n">inputStream</span><span class="p">)</span> <span class="p">{</span></td></tr><tr id="primer-spec-code-block-7-LR29"><td id="primer-spec-code-block-7-L29" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="29"></td><td id="primer-spec-code-block-7-LC29" class="primer-spec-code-block-line-code">  <span class="c1">// Read orders from inputStream, NOT cin</span></td></tr><tr id="primer-spec-code-block-7-LR30"><td id="primer-spec-code-block-7-L30" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="30"></td><td id="primer-spec-code-block-7-LC30" class="primer-spec-code-block-line-code">  <span class="k">while</span> <span class="p">(</span><span class="n">inputStream</span> <span class="o">&gt;&gt;</span> <span class="n">var1</span> <span class="o">&gt;&gt;</span> <span class="n">var2</span> <span class="p">...)</span> <span class="p">{</span></td></tr><tr id="primer-spec-code-block-7-LR31"><td id="primer-spec-code-block-7-L31" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="31"></td><td id="primer-spec-code-block-7-LC31" class="primer-spec-code-block-line-code">    <span class="c1">// process orders</span></td></tr><tr id="primer-spec-code-block-7-LR32"><td id="primer-spec-code-block-7-L32" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="32"></td><td id="primer-spec-code-block-7-LC32" class="primer-spec-code-block-line-code">    <span class="p">...</span></td></tr><tr id="primer-spec-code-block-7-LR33"><td id="primer-spec-code-block-7-L33" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="33"></td><td id="primer-spec-code-block-7-LC33" class="primer-spec-code-block-line-code">  <span class="p">}</span>  <span class="c1">// while ..inputStream</span></td></tr><tr id="primer-spec-code-block-7-LR34"><td id="primer-spec-code-block-7-L34" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="34"></td><td id="primer-spec-code-block-7-LC34" class="primer-spec-code-block-line-code"><span class="p">}</span>  <span class="c1">// processOrders()</span></td></tr><tr id="primer-spec-code-block-7-LR35"><td id="primer-spec-code-block-7-L35" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="35"></td><td id="primer-spec-code-block-7-LC35" class="primer-spec-code-block-line-code">
+</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<h3 id="spec-example-inputs">Spec Example Inputs<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#spec-example-inputs" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>The following two input files are in different modes, but produce the same
+buy/sell orders; thus they generate the same output.</p>
+
+<div id="spec-example-transaction-list-input-mode-p2-stocks-spec-input-tl-txt-8" class="primer-spec-code-block"><div id="primer-spec-code-block-8" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="spec-example-transaction-list-input-mode-p2-stocks-spec-input-tl-txt-8">Spec Example, Transaction List Input Mode:
+p2-stocks/spec-input-TL.txt<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#spec-example-transaction-list-input-mode-p2-stocks-spec-input-tl-txt-8" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-8-LR1"><td id="primer-spec-code-block-8-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-8-LC1" class="primer-spec-code-block-line-code">COMMENT: Spec Example, TL mode generating 12 orders.</td></tr><tr id="primer-spec-code-block-8-LR2"><td id="primer-spec-code-block-8-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-8-LC2" class="primer-spec-code-block-line-code">MODE: TL</td></tr><tr id="primer-spec-code-block-8-LR3"><td id="primer-spec-code-block-8-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-8-LC3" class="primer-spec-code-block-line-code">NUM_TRADERS: 3</td></tr><tr id="primer-spec-code-block-8-LR4"><td id="primer-spec-code-block-8-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-8-LC4" class="primer-spec-code-block-line-code">NUM_STOCKS: 2</td></tr><tr id="primer-spec-code-block-8-LR5"><td id="primer-spec-code-block-8-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-8-LC5" class="primer-spec-code-block-line-code">0 SELL T1 S0 $100 #44</td></tr><tr id="primer-spec-code-block-8-LR6"><td id="primer-spec-code-block-8-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-8-LC6" class="primer-spec-code-block-line-code">1 SELL T2 S0 $56 #42</td></tr><tr id="primer-spec-code-block-8-LR7"><td id="primer-spec-code-block-8-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-8-LC7" class="primer-spec-code-block-line-code">2 BUY T1 S0 $73 #19</td></tr><tr id="primer-spec-code-block-8-LR8"><td id="primer-spec-code-block-8-L8" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="8"></td><td id="primer-spec-code-block-8-LC8" class="primer-spec-code-block-line-code">2 BUY T2 S0 $34 #50</td></tr><tr id="primer-spec-code-block-8-LR9"><td id="primer-spec-code-block-8-L9" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="9"></td><td id="primer-spec-code-block-8-LC9" class="primer-spec-code-block-line-code">2 SELL T2 S1 $86 #23</td></tr><tr id="primer-spec-code-block-8-LR10"><td id="primer-spec-code-block-8-L10" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="10"></td><td id="primer-spec-code-block-8-LC10" class="primer-spec-code-block-line-code">2 SELL T0 S0 $20 #39</td></tr><tr id="primer-spec-code-block-8-LR11"><td id="primer-spec-code-block-8-L11" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="11"></td><td id="primer-spec-code-block-8-LC11" class="primer-spec-code-block-line-code">2 BUY T1 S1 $49 #24</td></tr><tr id="primer-spec-code-block-8-LR12"><td id="primer-spec-code-block-8-L12" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="12"></td><td id="primer-spec-code-block-8-LC12" class="primer-spec-code-block-line-code">2 SELL T1 S1 $83 #45</td></tr><tr id="primer-spec-code-block-8-LR13"><td id="primer-spec-code-block-8-L13" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="13"></td><td id="primer-spec-code-block-8-LC13" class="primer-spec-code-block-line-code">3 SELL T0 S1 $64 #22</td></tr><tr id="primer-spec-code-block-8-LR14"><td id="primer-spec-code-block-8-L14" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="14"></td><td id="primer-spec-code-block-8-LC14" class="primer-spec-code-block-line-code">3 SELL T2 S1 $6 #19</td></tr><tr id="primer-spec-code-block-8-LR15"><td id="primer-spec-code-block-8-L15" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="15"></td><td id="primer-spec-code-block-8-LC15" class="primer-spec-code-block-line-code">3 SELL T0 S1 $42 #37</td></tr><tr id="primer-spec-code-block-8-LR16"><td id="primer-spec-code-block-8-L16" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="16"></td><td id="primer-spec-code-block-8-LC16" class="primer-spec-code-block-line-code">4 SELL T1 S0 $10 #44</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<div id="spec-example-pseudorandom-input-mode-p2-stocks-spec-input-pr-txt-9" class="primer-spec-code-block"><div id="primer-spec-code-block-9" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="spec-example-pseudorandom-input-mode-p2-stocks-spec-input-pr-txt-9">Spec Example, Pseudorandom Input Mode:
+p2-stocks/spec-input-PR.txt<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#spec-example-pseudorandom-input-mode-p2-stocks-spec-input-pr-txt-9" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-9-LR1"><td id="primer-spec-code-block-9-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-9-LC1" class="primer-spec-code-block-line-code">COMMENT: Spec Example, PR mode generating the same 12 orders.</td></tr><tr id="primer-spec-code-block-9-LR2"><td id="primer-spec-code-block-9-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-9-LC2" class="primer-spec-code-block-line-code">MODE: PR</td></tr><tr id="primer-spec-code-block-9-LR3"><td id="primer-spec-code-block-9-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-9-LC3" class="primer-spec-code-block-line-code">NUM_TRADERS: 3</td></tr><tr id="primer-spec-code-block-9-LR4"><td id="primer-spec-code-block-9-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-9-LC4" class="primer-spec-code-block-line-code">NUM_STOCKS: 2</td></tr><tr id="primer-spec-code-block-9-LR5"><td id="primer-spec-code-block-9-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-9-LC5" class="primer-spec-code-block-line-code">RANDOM_SEED: 104</td></tr><tr id="primer-spec-code-block-9-LR6"><td id="primer-spec-code-block-9-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-9-LC6" class="primer-spec-code-block-line-code">NUMBER_OF_ORDERS: 12</td></tr><tr id="primer-spec-code-block-9-LR7"><td id="primer-spec-code-block-9-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-9-LC7" class="primer-spec-code-block-line-code">ARRIVAL_RATE: 10</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<h2 id="output-details">Output Details<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#output-details" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The output generated by your program will depend on the command line options
+specified at runtime. With the exception of startup output and the summary
+output, all output is optional and should not be generated unless the
+corresponding command line option is specified.</p>
+
+<h3 id="startup-output">Startup Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#startup-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>Your program should always print the following line before reading any
+deployments:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Processing orders...</code></p>
+
+<h3 id="summary-output">Summary Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#summary-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>After all input has been read and all possible trades completed, the
+following output should always be printed without any preceding newlines
+before any optional end of day output:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-10" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-10-LR1"><td id="primer-spec-code-block-10-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-10-LC1" class="primer-spec-code-block-line-code">---End of Day---</td></tr><tr id="primer-spec-code-block-10-LR2"><td id="primer-spec-code-block-10-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-10-LC2" class="primer-spec-code-block-line-code">Trades Completed: &lt;TRADES_COMPLETED&gt;&lt;NEWLINE&gt;</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p><strong>&lt;TRADES_COMPLETED&gt;</strong> is the total number of trades completed over the
+course of the trading day. The number of shares traded doesn’t matter; any
+seller and any buyer making a trade of matched orders adds one to this count.</p>
+
+<h3 id="verbose-output">Verbose Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#verbose-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>If and only if the <code class="language-plaintext highlighter-rouge">--verbose/-v</code> option is specified on the command line
+(see <a href="https://eecs281staff.github.io/p2-stocks/#command-line-interface">Command Line Interface</a>), whenever a trade is
+completed you should print on a single line:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Trader &lt;BUYING_TRADER_NUM&gt; purchased &lt;NUM_SHARES&gt; shares of Stock &lt;STOCK_NUM&gt; from Trader &lt;SELLING_TRADER_NUM&gt; for $&lt;PRICE&gt;/share</code></p>
+
+<h4 class="primer-spec-toc-ignore" id="verbose-output-example">Verbose Output Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#verbose-output-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Given the following list of orders:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-11" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-11-LR1"><td id="primer-spec-code-block-11-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-11-LC1" class="primer-spec-code-block-line-code">0 SELL T1 S0 $125 #10</td></tr><tr id="primer-spec-code-block-11-LR2"><td id="primer-spec-code-block-11-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-11-LC2" class="primer-spec-code-block-line-code">0 BUY T2 S0 $1 #100</td></tr><tr id="primer-spec-code-block-11-LR3"><td id="primer-spec-code-block-11-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-11-LC3" class="primer-spec-code-block-line-code">0 SELL T3 S0 $100 #10</td></tr><tr id="primer-spec-code-block-11-LR4"><td id="primer-spec-code-block-11-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-11-LC4" class="primer-spec-code-block-line-code">0 SELL T4 S0 $80 #10</td></tr><tr id="primer-spec-code-block-11-LR5"><td id="primer-spec-code-block-11-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-11-LC5" class="primer-spec-code-block-line-code">0 BUY T5 S0 $200 #4</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p><strong>No trades</strong> are possible until the <strong>5</strong>th order comes in. When the 5th
+order comes in, you should print:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Trader 5 purchased 4 shares of Stock 0 from Trader 4 for $80/share</code></p>
+
+<h3 id="median-output">Median Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#median-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>If and only if the <code class="language-plaintext highlighter-rouge">--median/-m</code> option is specified on the command line, at
+the times detailed in the Market Logic section, your program should print the
+current median match price for all stocks in ascending order by stock ID.
+<strong>If no trades have been made for a given stock, it does not have a median,
+and thus nothing should be printed for that stock’s median.</strong> In the case
+that a median does exist, you should print:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Median match price of Stock &lt;STOCK_ID&gt; at time &lt;TIMESTAMP&gt; is $&lt;MEDPRICE&gt;</code></p>
+
+<p>If there are an even number of trades, take the average of the middle-most
+and <strong>use integer division</strong> to compute the median. <strong>If a particular
+timestamp in the input file produces no new trades, you still print a median
+for that timestamp (limited by the rules above);</strong> see <a href="https://eecs281staff.github.io/p2-stocks/#detailed-algorithm">Detailed
+Algorithm</a>.</p>
+
+<h4 class="primer-spec-toc-ignore" id="median-output-example">Median Output Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#median-output-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Given the following transactions:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Trader 5 purchased 4 shares of Stock 9 from Trader 4 for $80/share</code><br>
+<code class="language-plaintext highlighter-rouge">Trader 2 purchased 1 shares of Stock 9 from Trader 10 for $50/share</code></p>
+
+<p>The median match price for Stock 9 after these two transactions is $(80 + 50
+/ 2) or $65. If the timestamp changed and the <code class="language-plaintext highlighter-rouge">--median/-m</code> option was
+specified, you should print:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Median match price of Stock 9 at time 0 is $65</code></p>
+
+<p>The median match price only considers transactions, and does not consider the
+quantity traded in each trade. You must keep a running median, and do it
+efficiently! Simply sorting the values every time you need the middle
+value(s) will take too much time.</p>
+
+<h3 id="trader-info-output">Trader Info Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#trader-info-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>If and only if the <code class="language-plaintext highlighter-rouge">--trader_info/-i</code> option is specified on the command
+line, <strong>following the summary output</strong>, you should print the following line
+without any preceding newlines.</p>
+
+<p><code class="language-plaintext highlighter-rouge">---Trader Info---</code></p>
+
+<p>This is followed by a line printed for every trader in ascending order (0, 1,
+2, etc.):</p>
+
+<p><code class="language-plaintext highlighter-rouge">Trader &lt;TRADER_ID&gt; bought &lt;NUMBER_BOUGHT&gt; and sold &lt;NUMBER_SOLD&gt; for a net
+transfer of $&lt;NET_VALUE_TRADED&gt;(newline)</code></p>
+
+<p>These numbers consider orders across all stocks.</p>
+
+<h4 class="primer-spec-toc-ignore" id="trader-info-example">Trader Info Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#trader-info-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-12" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-12-LR1"><td id="primer-spec-code-block-12-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-12-LC1" class="primer-spec-code-block-line-code">---Trader Info---</td></tr><tr id="primer-spec-code-block-12-LR2"><td id="primer-spec-code-block-12-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-12-LC2" class="primer-spec-code-block-line-code">Trader 0 bought 0 and sold 2 for a net transfer of $166</td></tr><tr id="primer-spec-code-block-12-LR3"><td id="primer-spec-code-block-12-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-12-LC3" class="primer-spec-code-block-line-code">Trader 1 bought 63 and sold 0 for a net transfer of $-5359</td></tr><tr id="primer-spec-code-block-12-LR4"><td id="primer-spec-code-block-12-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-12-LC4" class="primer-spec-code-block-line-code">Trader 2 bought 24 and sold 85 for a net transfer of $5193</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p>The numbers bought and sold, and net value traded include all stocks that the
+trader happened to trade in.  The total number bought by all traders should
+equal the total number sold by all traders, and the total of all the net
+transfers should be 0.  This shows that our simulation is a zero-sum game.</p>
+
+<h3 id="time-travelers-output">Time Travelers Output<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#time-travelers-output" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>In time-travel trading, we want to find the ideal times that a time traveler
+theoretically could have bought shares of a stock and then later sold that
+stock to maximize profit per share.</p>
+
+<p>If and only if the <code class="language-plaintext highlighter-rouge">--time_travelers/-t</code> option is specified on the command
+line, you should print the following line without any preceding newlines:</p>
+
+<p><code class="language-plaintext highlighter-rouge">---Time Travelers---</code></p>
+
+<p>This is followed by time traveler’s output for every stock in ascending order
+(0, 1, 2, etc.):</p>
+
+<p><code class="language-plaintext highlighter-rouge">A time traveler would buy Stock &lt;STOCK_ID&gt; at time &lt;TIMESTAMP1&gt; for
+$&lt;PRICE1&gt; and sell it at time &lt;TIMESTAMP2&gt; for $&lt;PRICE2&gt;</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;TIMESTAMP1&gt;</code> will correspond to an actual sell order that came in during
+the day, and <code class="language-plaintext highlighter-rouge">&lt;TIMESTAMP2&gt;</code> will correspond to an actual buy order that came
+after the sell order that maximizes the time traveler’s profit.</p>
+
+<ul>
+  <li>When calculating the results for time traveler trading, the only factors
+are the time and price of orders that happened throughout the day, quantity
+is not considered.</li>
+  <li>If there would be more than one answer that yields the optimal result, you
+should report the buy/sell pair with the lowest <code class="language-plaintext highlighter-rouge">&lt;TIMESTAMP1&gt;</code> and
+<code class="language-plaintext highlighter-rouge">&lt;TIMESTAMP2&gt;</code>. This implies the first selection when ties occur for either
+of the buy/sell prices, and the earliest matched pair if multiple matches
+return the same amount of profit.</li>
+</ul>
+
+<p>If there are no valid buy/sell order pairs (none exist, or none result in a
+profit) you should print:</p>
+
+<p><code class="language-plaintext highlighter-rouge">A time traveler could not make a profit on Stock &lt;STOCK_ID&gt;</code></p>
+
+<h4 class="primer-spec-toc-ignore" id="time-traveler-output-example">Time Traveler Output Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#time-traveler-output-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h4>
+
+<p>Suppose you had these orders:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-13" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-13-LR1"><td id="primer-spec-code-block-13-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-13-LC1" class="primer-spec-code-block-line-code">0 SELL T1 S0 $10 #10</td></tr><tr id="primer-spec-code-block-13-LR2"><td id="primer-spec-code-block-13-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-13-LC2" class="primer-spec-code-block-line-code">0 BUY T2 S0 $20 #10</td></tr><tr id="primer-spec-code-block-13-LR3"><td id="primer-spec-code-block-13-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-13-LC3" class="primer-spec-code-block-line-code">0 SELL T1 S0 $30 #10</td></tr><tr id="primer-spec-code-block-13-LR4"><td id="primer-spec-code-block-13-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-13-LC4" class="primer-spec-code-block-line-code">0 BUY T1 S0 $40 #10</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p>The most profitable time traveler trades of stock 0 would be to buy
+shares for $10, and then later sell them for $40. <em>*Notice that an actual
+matched pair of orders need not occur (the $10 shares are no longer available
+when the $40 buyer arrives). You should report only the most profitable
+*hypothetical</em> trade, regardless of which trades actually happen.</p>
+
+<p>Your time traveler must work in <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 119%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-n"><mjx-c class="mjx-c398"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> time (<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="1" style="font-size: 119%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-n"><mjx-c class="mjx-c398"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> per
+buy/sell order), using <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 119%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-n"><mjx-c class="mjx-c398"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c31"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> memory per stock.</p>
+
+<h2 id="detailed-algorithm">Detailed Algorithm<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#detailed-algorithm" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Following these steps in order will help guarantee that your program prints
+the correct output at the proper times. Details of the output options are
+be covered in the <a href="https://eecs281staff.github.io/p2-stocks/#output-details">Output Details</a> section.</p>
+
+<p>Initialize <code class="language-plaintext highlighter-rouge">CURRENT_TIMESTAMP</code> to 0, its value is updated throughout the run
+of the program, and even though the first order may not arrive at timestamp
+0, no valid orders can arrive before that time.</p>
+
+<ol>
+  <li>Print <a href="https://eecs281staff.github.io/p2-stocks/#startup-output">Startup Output</a></li>
+  <li>Read the next order from input</li>
+  <li>If the new order’s <code class="language-plaintext highlighter-rouge">TIMESTAMP != CURRENT_TIMESTAMP</code>
+  a. If the <code class="language-plaintext highlighter-rouge">--median/-m</code> option is specified, print the median price of all
+  stocks that have been traded on at least once by this point in ascending
+  order by stock ID (<a href="https://eecs281staff.github.io/p2-stocks/#median-output">Median Output</a>)
+  b. Set <code class="language-plaintext highlighter-rouge">CURRENT_TIMESTAMP</code> to be the new order’s <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>.</li>
+  <li>Add the new order to the market</li>
+  <li>Make all possible matches in the market that now includes the new order
+(observing the fact that a single incoming order may make matches with
+multiple existing orders)
+  a. If a match is made and the <code class="language-plaintext highlighter-rouge">--verbose/-v</code> option is specified, print
+  <a href="https://eecs281staff.github.io/p2-stocks/#verbose-output">Verbose Output</a>
+  b. Remove any completed orders from the market
+  c. Update the share quantity of any partially fulfilled order in the
+  market</li>
+  <li>Repeat steps 2-5 until there are no more orders</li>
+  <li>If the <code class="language-plaintext highlighter-rouge">--median/-m</code> flag is set, output final timestamp median
+information of all stocks that were traded that day 
+(<a href="https://eecs281staff.github.io/p2-stocks/#median-output">Median Output</a>)</li>
+  <li>Print <a href="https://eecs281staff.github.io/p2-stocks/#summary-output">Summary Output</a></li>
+  <li>If the <code class="language-plaintext highlighter-rouge">--trader_info/-i</code> flag is set print <a href="https://eecs281staff.github.io/p2-stocks/#trader-info-output">Trader Info
+Output</a></li>
+  <li>If the <code class="language-plaintext highlighter-rouge">--time_travelers/-t</code> flag is set print <a href="https://eecs281staff.github.io/p2-stocks/#time-travelers-output">Time Travelers
+   Output</a></li>
+</ol>
+
+<h2 id="full-spec-example">Full Spec Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#full-spec-example" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Given the Spec Example input in either format (TL input shown below):</p>
+
+<div id="p2-stocks-spec-input-tl-txt-14" class="primer-spec-code-block"><div id="primer-spec-code-block-14" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="p2-stocks-spec-input-tl-txt-14">p2-stocks/spec-input-TL.txt<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#p2-stocks-spec-input-tl-txt-14" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-14-LR1"><td id="primer-spec-code-block-14-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-14-LC1" class="primer-spec-code-block-line-code">COMMENT: Spec example, TL mode generating 12 orders.</td></tr><tr id="primer-spec-code-block-14-LR2"><td id="primer-spec-code-block-14-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-14-LC2" class="primer-spec-code-block-line-code">MODE: TL</td></tr><tr id="primer-spec-code-block-14-LR3"><td id="primer-spec-code-block-14-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-14-LC3" class="primer-spec-code-block-line-code">NUM_TRADERS: 3</td></tr><tr id="primer-spec-code-block-14-LR4"><td id="primer-spec-code-block-14-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-14-LC4" class="primer-spec-code-block-line-code">NUM_STOCKS: 2</td></tr><tr id="primer-spec-code-block-14-LR5"><td id="primer-spec-code-block-14-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-14-LC5" class="primer-spec-code-block-line-code">0 SELL T1 S0 $100 #44</td></tr><tr id="primer-spec-code-block-14-LR6"><td id="primer-spec-code-block-14-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-14-LC6" class="primer-spec-code-block-line-code">1 SELL T2 S0 $56 #42</td></tr><tr id="primer-spec-code-block-14-LR7"><td id="primer-spec-code-block-14-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-14-LC7" class="primer-spec-code-block-line-code">2 BUY T1 S0 $73 #19</td></tr><tr id="primer-spec-code-block-14-LR8"><td id="primer-spec-code-block-14-L8" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="8"></td><td id="primer-spec-code-block-14-LC8" class="primer-spec-code-block-line-code">2 BUY T2 S0 $34 #50</td></tr><tr id="primer-spec-code-block-14-LR9"><td id="primer-spec-code-block-14-L9" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="9"></td><td id="primer-spec-code-block-14-LC9" class="primer-spec-code-block-line-code">2 SELL T2 S1 $86 #23</td></tr><tr id="primer-spec-code-block-14-LR10"><td id="primer-spec-code-block-14-L10" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="10"></td><td id="primer-spec-code-block-14-LC10" class="primer-spec-code-block-line-code">2 SELL T0 S0 $20 #39</td></tr><tr id="primer-spec-code-block-14-LR11"><td id="primer-spec-code-block-14-L11" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="11"></td><td id="primer-spec-code-block-14-LC11" class="primer-spec-code-block-line-code">2 BUY T1 S1 $49 #24</td></tr><tr id="primer-spec-code-block-14-LR12"><td id="primer-spec-code-block-14-L12" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="12"></td><td id="primer-spec-code-block-14-LC12" class="primer-spec-code-block-line-code">2 SELL T1 S1 $83 #45</td></tr><tr id="primer-spec-code-block-14-LR13"><td id="primer-spec-code-block-14-L13" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="13"></td><td id="primer-spec-code-block-14-LC13" class="primer-spec-code-block-line-code">3 SELL T0 S1 $64 #22</td></tr><tr id="primer-spec-code-block-14-LR14"><td id="primer-spec-code-block-14-L14" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="14"></td><td id="primer-spec-code-block-14-LC14" class="primer-spec-code-block-line-code">3 SELL T2 S1 $6 #19</td></tr><tr id="primer-spec-code-block-14-LR15"><td id="primer-spec-code-block-14-L15" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="15"></td><td id="primer-spec-code-block-14-LC15" class="primer-spec-code-block-line-code">3 SELL T0 S1 $42 #37</td></tr><tr id="primer-spec-code-block-14-LR16"><td id="primer-spec-code-block-14-L16" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="16"></td><td id="primer-spec-code-block-14-LC16" class="primer-spec-code-block-line-code">4 SELL T1 S0 $10 #44</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<p>the output when run with command line options: <code class="language-plaintext highlighter-rouge">--verbose</code>, <code class="language-plaintext highlighter-rouge">--median</code>,
+<code class="language-plaintext highlighter-rouge">--trader_info</code>, and <code class="language-plaintext highlighter-rouge">--time_travelers</code> would be:</p>
+
+<div id="full-spec-example-output-p2-stocks-spec-output-all-txt-15" class="primer-spec-code-block"><div id="primer-spec-code-block-15" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="full-spec-example-output-p2-stocks-spec-output-all-txt-15">Full Spec Example Output: p2-stocks/spec-output-all.txt<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#full-spec-example-output-p2-stocks-spec-output-all-txt-15" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-15-LR1"><td id="primer-spec-code-block-15-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-15-LC1" class="primer-spec-code-block-line-code">Processing orders...</td></tr><tr id="primer-spec-code-block-15-LR2"><td id="primer-spec-code-block-15-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-15-LC2" class="primer-spec-code-block-line-code">Trader 1 purchased 19 shares of Stock 0 from Trader 2 for $56/share</td></tr><tr id="primer-spec-code-block-15-LR3"><td id="primer-spec-code-block-15-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-15-LC3" class="primer-spec-code-block-line-code">Trader 2 purchased 39 shares of Stock 0 from Trader 0 for $34/share</td></tr><tr id="primer-spec-code-block-15-LR4"><td id="primer-spec-code-block-15-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-15-LC4" class="primer-spec-code-block-line-code">Median match price of Stock 0 at time 2 is $45</td></tr><tr id="primer-spec-code-block-15-LR5"><td id="primer-spec-code-block-15-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-15-LC5" class="primer-spec-code-block-line-code">Trader 1 purchased 19 shares of Stock 1 from Trader 2 for $49/share</td></tr><tr id="primer-spec-code-block-15-LR6"><td id="primer-spec-code-block-15-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-15-LC6" class="primer-spec-code-block-line-code">Trader 1 purchased 5 shares of Stock 1 from Trader 0 for $49/share</td></tr><tr id="primer-spec-code-block-15-LR7"><td id="primer-spec-code-block-15-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-15-LC7" class="primer-spec-code-block-line-code">Median match price of Stock 0 at time 3 is $45</td></tr><tr id="primer-spec-code-block-15-LR8"><td id="primer-spec-code-block-15-L8" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="8"></td><td id="primer-spec-code-block-15-LC8" class="primer-spec-code-block-line-code">Median match price of Stock 1 at time 3 is $49</td></tr><tr id="primer-spec-code-block-15-LR9"><td id="primer-spec-code-block-15-L9" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="9"></td><td id="primer-spec-code-block-15-LC9" class="primer-spec-code-block-line-code">Trader 2 purchased 11 shares of Stock 0 from Trader 1 for $34/share</td></tr><tr id="primer-spec-code-block-15-LR10"><td id="primer-spec-code-block-15-L10" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="10"></td><td id="primer-spec-code-block-15-LC10" class="primer-spec-code-block-line-code">Median match price of Stock 0 at time 4 is $34</td></tr><tr id="primer-spec-code-block-15-LR11"><td id="primer-spec-code-block-15-L11" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="11"></td><td id="primer-spec-code-block-15-LC11" class="primer-spec-code-block-line-code">Median match price of Stock 1 at time 4 is $49</td></tr><tr id="primer-spec-code-block-15-LR12"><td id="primer-spec-code-block-15-L12" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="12"></td><td id="primer-spec-code-block-15-LC12" class="primer-spec-code-block-line-code">---End of Day---</td></tr><tr id="primer-spec-code-block-15-LR13"><td id="primer-spec-code-block-15-L13" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="13"></td><td id="primer-spec-code-block-15-LC13" class="primer-spec-code-block-line-code">Trades Completed: 5</td></tr><tr id="primer-spec-code-block-15-LR14"><td id="primer-spec-code-block-15-L14" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="14"></td><td id="primer-spec-code-block-15-LC14" class="primer-spec-code-block-line-code">---Trader Info---</td></tr><tr id="primer-spec-code-block-15-LR15"><td id="primer-spec-code-block-15-L15" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="15"></td><td id="primer-spec-code-block-15-LC15" class="primer-spec-code-block-line-code">Trader 0 bought 0 and sold 44 for a net transfer of $1571</td></tr><tr id="primer-spec-code-block-15-LR16"><td id="primer-spec-code-block-15-L16" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="16"></td><td id="primer-spec-code-block-15-LC16" class="primer-spec-code-block-line-code">Trader 1 bought 43 and sold 11 for a net transfer of $-1866</td></tr><tr id="primer-spec-code-block-15-LR17"><td id="primer-spec-code-block-15-L17" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="17"></td><td id="primer-spec-code-block-15-LC17" class="primer-spec-code-block-line-code">Trader 2 bought 50 and sold 38 for a net transfer of $295</td></tr><tr id="primer-spec-code-block-15-LR18"><td id="primer-spec-code-block-15-L18" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="18"></td><td id="primer-spec-code-block-15-LC18" class="primer-spec-code-block-line-code">---Time Travelers---</td></tr><tr id="primer-spec-code-block-15-LR19"><td id="primer-spec-code-block-15-L19" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="19"></td><td id="primer-spec-code-block-15-LC19" class="primer-spec-code-block-line-code">A time traveler would buy Stock 0 at time 1 for $56 and sell it at time 2 for $73</td></tr><tr id="primer-spec-code-block-15-LR20"><td id="primer-spec-code-block-15-L20" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="20"></td><td id="primer-spec-code-block-15-LC20" class="primer-spec-code-block-line-code">A time traveler could not make a profit on Stock 1</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<h2 id="the-stdpriority_queue">The <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#the-stdpriority_queue" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The STL <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code> data structure is an efficient
+implementation of the binary heap which you will code in Part B. To declare a
+<code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code> you need to state either one or three types:</p>
+
+<ol>
+  <li>
+    <p>The data type to be stored in the container. If this type has a natural
+sort order that meets your needs, this is the only type required.</p>
+  </li>
+  <li>
+    <p>The underlying container to use, usually just a <code class="language-plaintext highlighter-rouge">vector&lt;&gt;</code> of the first
+type.</p>
+  </li>
+  <li>
+    <p>The comparator to use to define what is considered the highest priority
+element.</p>
+  </li>
+</ol>
+
+<p>If the type that you store in the container has a natural sort order (i.e.
+it supports <code class="language-plaintext highlighter-rouge">operator&lt;()</code>), the <code class="language-plaintext highlighter-rouge">priority_queue&lt;&gt;</code> will be a max-heap of
+the declared type. For example, if you just want to store integers, and
+have the largest integer be the highest priority:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-16" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-16-LR1"><td id="primer-spec-code-block-16-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="primer-spec-code-block-16-LC1" class="primer-spec-code-block-line-code"><span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">pqMax</span><span class="p">;</span></td></tr></tbody></table><!----></div></div></div>
+
+<p>When you declare this, by default the underlying storage type is
+<code class="language-plaintext highlighter-rouge">vector&lt;int&gt;</code> and the default comparator is <code class="language-plaintext highlighter-rouge">less&lt;int&gt;</code>. If you want the
+smallest integer to be the highest priority:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-17" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-17-LR1"><td id="primer-spec-code-block-17-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="primer-spec-code-block-17-LC1" class="primer-spec-code-block-line-code"><span class="n">priority_queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">greater</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">pqMin</span><span class="p">;</span></td></tr></tbody></table><!----></div></div></div>
+
+<p>If you want to store something other than integers, define a custom
+comparator.</p>
+
+<h3 id="about-comparators">About Comparators<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#about-comparators" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>The functor must accept two of whatever is stored in your priority queue:
+if your PQ stores integers, the functor would accept two integers. If your
+PQ stores pointers to units, your functor would accept two pointers to
+orders (actually two const pointers, since you don’t have to modify orders
+to compare them).</p>
+
+<p>Your functor receives two parameters, let’s call them <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code>. It must
+always answer the following question: is the priority of <code class="language-plaintext highlighter-rouge">a</code> <strong>less than</strong>
+the priority of b? What does lower priority mean? It depends on your
+application. For example, refer back to
+<a href="https://eecs281staff.github.io/p2-stocks/#market-logic">Market Logic</a> if you have multiple sell orders for a stock,
+which order has the highest priority if a buyer arrives? In the same way,
+buy orders have a different way of determining the highest priority. This
+means you will need at least two different functors:
+one for a priority queue containing sell orders and a different functor for a
+priority queue containing buy orders.</p>
+
+<h2 id="submitting-your-solution">Submitting your solution<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#submitting-your-solution" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<h3 id="project-identifier">Project Identifier<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#project-identifier" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>You MUST include the project identifier at the top of all source and header
+files that you submit:</p>
+
+<p><code class="language-plaintext highlighter-rouge">// Project Identifier: 0E04A31E0D60C01986ACB20081C9D8722A1899B6</code></p>
+
+<h3 id="libraries-and-restrictions">Libraries and Restrictions<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#libraries-and-restrictions" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>We highly encourage the use of the STL for part A, with the exception of
+these prohibited features:</p>
+
+<ul>
+  <li>
+    <p>The thread/atomics libraries (e.g., boost, pthreads, etc) which spoil
+runtime measurements.</p>
+  </li>
+  <li>
+    <p>Smart pointers (both unique and shared).</p>
+  </li>
+</ul>
+
+<p>In addition to the above requirements, you may not use any STL facilities
+which trivialize your implementation of your priority queues in Part B,
+including but not limited to <code class="language-plaintext highlighter-rouge">priority_queue&lt;&gt;</code>, <code class="language-plaintext highlighter-rouge">make_heap()</code>,
+<code class="language-plaintext highlighter-rouge">push_heap()</code>, <code class="language-plaintext highlighter-rouge">pop_heap()</code>, <code class="language-plaintext highlighter-rouge">sort_heap()</code>, <code class="language-plaintext highlighter-rouge">partition()</code>,
+<code class="language-plaintext highlighter-rouge">partition_copy()</code>, <code class="language-plaintext highlighter-rouge">stable_partition()</code>, <code class="language-plaintext highlighter-rouge">partial_sort()</code>, or <code class="language-plaintext highlighter-rouge">qsort()</code>.
+However, you <strong>may</strong> (and probably should) use <code class="language-plaintext highlighter-rouge">sort()</code>. Your main program
+(Part A) <strong>must</strong> use <code class="language-plaintext highlighter-rouge">priority_queue&lt;&gt;</code>, but your PQ implementations (Part
+B) <strong>must not</strong>. If you are unsure about whether a given function or
+container may be used, ask on Piazza.</p>
+
+<h3 id="testing-and-debugging">Testing and Debugging<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#testing-and-debugging" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>Part of this project is to prepare several test files that expose defects
+in a solution. Each test file is an input file. We will give your test
+files as input to intentionally buggy solutions and compare the output to
+that of a correct project solution. You will receive points depending on
+how many buggy implementations your test files expose. The autograder will
+also tell you if one of your test files exposes bugs in your solution. For
+the first such file that the autograder finds, it will give you the correct
+output and the output of your program.</p>
+
+<h3 id="test-file-details">Test File Details<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#test-file-details" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p><strong>Your test files must be valid Transaction List input files, and may have no
+more than 30 orders</strong> in any one file. You may submit up to 10 test files
+(though it is possible to expose all buggy solutions with fewer test files).</p>
+
+<p>Test files should be named in the following format:</p>
+
+<p><code class="language-plaintext highlighter-rouge">test-&lt;N&gt;-&lt;OPTION&gt;.txt</code></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">&lt;N&gt;</code></strong> is an integer in the range <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 119%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c5B"></mjx-c></mjx-mo><mjx-mn class="mjx-n"><mjx-c class="mjx-c30"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="2"><mjx-c class="mjx-c39"></mjx-c></mjx-mn><mjx-mo class="mjx-n"><mjx-c class="mjx-c5D"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">[</mo><mn>0</mn><mo>,</mo><mn>9</mn><mo stretchy="false">]</mo></math></mjx-assistive-mml></mjx-container></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">&lt;OPTION&gt;</code></strong> is one (and only one) of the following characters <code class="language-plaintext highlighter-rouge">v</code>, <code class="language-plaintext highlighter-rouge">m</code>,
+<code class="language-plaintext highlighter-rouge">t</code>, or <code class="language-plaintext highlighter-rouge">i</code>.</p>
+
+    <ul>
+      <li>This tells the autograder which command-line option to test with.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">test-0-w.txt</code> and <code class="language-plaintext highlighter-rouge">test-5-v.txt</code> are both valid test file
+names.</p>
+
+<p>The tests on which the autograder runs your solution are NOT limited to 30
+deployments in a file; your solution should not impose any size limits (as
+long as memory is available)</p>
+
+<h3 id="submitting-to-the-autograder">Submitting to the Autograder<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#submitting-to-the-autograder" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<p>Do all of your work (with all needed files, as well as test files) in some
+directory other than your home directory. This will be your “submit
+directory” Before you turn in your code, be sure that:</p>
+
+<ul>
+  <li>
+    <p>Every source code and header file contains the following project
+identifier in a comment at the top of the file:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">// Project Identifier: 0E04A31E0D60C01986ACB20081C9D8722A1899B6</code></p>
+  </li>
+  <li>
+    <p>The Makefile must also have this identifier (in the first TODO block).</p>
+  </li>
+  <li>
+    <p>Your makefile is called <code class="language-plaintext highlighter-rouge">Makefile</code>. Typing <code class="language-plaintext highlighter-rouge">make -R -r</code> builds your code
+without errors and generates an executable file called <code class="language-plaintext highlighter-rouge">galaxy</code>. (The
+command-line options <code class="language-plaintext highlighter-rouge">-R</code> and <code class="language-plaintext highlighter-rouge">-r</code> disable automatic build rules; these
+automatic rules do not exist on the autograder).</p>
+  </li>
+  <li>
+    <p>Your Makefile specifies that you are compiling with the gcc optimization
+option <code class="language-plaintext highlighter-rouge">-O3</code>. This is extremely important for getting all of the
+performance points, as <code class="language-plaintext highlighter-rouge">-O3</code> can speed up code by an order of magnitude.</p>
+  </li>
+  <li>
+    <p>Your test files are named as described and no other project file names
+begin with test. Up to 10 test files may be submitted.</p>
+  </li>
+  <li>
+    <p>The total size of your program and test files does not exceed 2MB.</p>
+  </li>
+  <li>
+    <p>You don’t have any unnecessary files (including temporary files created
+by your text editor and compiler, etc) or subdirectories in your submit
+directory (e.g., the .git folder used by git source code management).</p>
+  </li>
+  <li>
+    <p>Your code compiles and runs correctly using the g++ compiler. This is
+available on the CAEN Linux systems (that you can access via
+<a href="https://eecs281staff.github.io/p2-stocks/login.engin.umich.edu">login.engin.umich.edu</a>. Even if everything seems
+to work on another operating system or with different versions of GCC,
+the course staff will not support anything other than GCC running on CAEN
+Linux.</p>
+  </li>
+</ul>
+
+<p><strong>For Part A</strong> (stock market simulation), turn in all of the
+following files:</p>
+
+<ul>
+  <li>All your .h(pp) and or .cpp files for the project (NOT including your
+priority queue implementations)</li>
+  <li>Your Makefile</li>
+  <li>Your test files</li>
+</ul>
+
+<p><strong>For Part B</strong> (priority queues), turn in all of the following files:</p>
+
+<ul>
+  <li>Your priority queue implementations: SortedPQ.h, BinaryPQ.h, PairingPQ.h</li>
+  <li>Your <code class="language-plaintext highlighter-rouge">Makefile</code> (actually optional, it includes itself, but we’ll replace
+this with our <code class="language-plaintext highlighter-rouge">Makefile</code>)</li>
+</ul>
+
+<p>If <strong>any</strong> of your submitted priority queue files do not compile, <strong>no</strong>
+unit testing (Part B) can be performed.</p>
+
+<p>You must prepare a compressed tar archive (.tar.gz file) of all of your
+files to submit to the autograder. One way to do this is to have all of
+your files for submission (and nothing else) in one directory. Our Makefile
+provides the command <code class="language-plaintext highlighter-rouge">make fullsubmit</code>. Alternately you can go into this
+directory and run this command:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-18" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-18-LR1"><td id="primer-spec-code-block-18-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="" class="primer-spec-code-block-line-code"><span><span class="gp">dos2unix *;</span><span class="w"> </span></span><span id="primer-spec-code-block-18-LC1"><span class="nb">tar</span> <span class="nt">-czf</span> ./submit.tar.gz <span class="k">*</span>.cpp <span class="k">*</span>.h <span class="k">*</span>.hpp Makefile <span class="nb">test</span><span class="k">*</span>.txt</span></td></tr></tbody></table><!----></div></div></div>
+
+<p>This will prepare a suitable file in your working directory.</p>
+
+<p>Submit your project files directly to the 281 autograder at:</p>
+
+<p><a href="https://eecs281ag.eecs.umich.edu//">https://eecs281ag.eecs.umich.edu/</a>.  You
+may submit up to two times per calendar day, per part (A or B; more per day
+in Spring). If you use a late day to extend one part, the other part is
+automatically extended also. For this purpose, days begin and end at
+midnight (Ann Arbor local time). <strong>We will use your best submission for
+final grading.</strong> If you would instead like us to use your LAST submission,
+see the autograder FAQ page, or
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSe8BxRNnZKgRI4o-V7eG5F6LY_GhhWjMyJW8yKcP4XKVm2JrQ/viewform?usp=sf_link">use this form</a>.</p>
+
+<p><strong>Please make sure that you read all messages shown at the top section of
+your autograder results! These messages often help explain some of the
+issues you are having (such as losing points for having a bad Makefile or
+why you are segfaulting). Also be sure to check whether the autograder
+shows that one of your own test files exposes a bug in your solution.</strong></p>
+
+<h3 id="grading">Grading<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#grading" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<ul>
+  <li>
+    <p>60 pts total for part A (all your code, using the STL, but not using your
+priority queues)</p>
+
+    <ul>
+      <li>45 pts — correctness &amp; performance</li>
+      <li>5 pts — no memory leaks</li>
+      <li>10 pts — student-provided test files to find bugs in our code (and
+yours!)</li>
+    </ul>
+  </li>
+  <li>
+    <p>40 pts total for part B (our main, your priority queues)</p>
+
+    <ul>
+      <li>20 pts — pairing heap correctness &amp; performance</li>
+      <li>5 pts — pairing heap has no memory leaks</li>
+      <li>10 pts — binary heap correctness &amp; performance</li>
+      <li>5 pts — sorted heap correctness &amp; performance</li>
+    </ul>
+  </li>
+</ul>
+
+<p>In your autograder output for Part A, the section named “Scoring student
+test files” will tell you how many bugs exist, how many are needed to start
+earning points, earn full points, and earn an extra submit per day (for
+Part A).</p>
+
+<h2 id="part-b-priority-queues">Part B: Priority Queues<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2-stocks/#part-b-priority-queues" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The <a href="https://eecs281staff.github.io/p2b-priority-queues">Part B Spec</a> is in
+a separate document. The solution to Part B will be submitted separately from
+Part A, and should be developed separately in your development environment,
+with the files from both solutions stored in separate directories.</p>
+
+
+            
+        </main><aside class="primer-spec-sidebar position-fixed top-0 py-5 no-print" aria-label="Contents Sidebar" tabindex="-1"><h2 class="primer-spec-toc-ignore" id="primer-spec-toc-contents"><span class="primer-spec-hoverable "><a href="https://eecs281staff.github.io/p2-stocks/" class="primer-spec-hoverable no-print" aria-label="Part A Specification"><i class="fas fa-home"></i></a></span> Contents<span class="primer-spec-hoverable primer-spec-hoverable-float-right"><button class="btn-link primer-spec-hoverable no-print" aria-label="Close navigation pane"><i class="fas fa-bars"></i></button></span></h2><br><a href="https://eecs281staff.github.io/p2-stocks/hints-and-advice.html" tabindex="-1"><details class=""><summary class="" data-order="1" role="link" tabindex="0">Hints and Advice</summary></details></a><a href="https://eecs281staff.github.io/p2-stocks/files.html" tabindex="-1"><details class=""><summary class="" data-order="5" role="link" tabindex="0">Starter and Sample Files</summary></details></a><a href="https://eecs281staff.github.io/p2-stocks/test-case-legend.html" tabindex="-1"><details class=""><summary class="" data-order="10" role="link" tabindex="0">Test Case Legend</summary></details></a><a href="https://youtu.be/O6huRSBuaVE" tabindex="-1"><details class=""><summary class="primer-spec-toc-sitemap-external" data-order="" role="link" tabindex="0">Part A Explanation Video<i class="fas fa-external-link-alt"></i><span class="sr-only">External Link</span></summary></details></a><a href="https://youtu.be/_T63Cajeyhw" tabindex="-1"><details class=""><summary class="primer-spec-toc-sitemap-external" data-order="" role="link" tabindex="0">Fast Running Median Video<i class="fas fa-external-link-alt"></i><span class="sr-only">External Link</span></summary></details></a><a href="https://youtube.com/@EECS281" tabindex="-1"><details class=""><summary class="primer-spec-toc-sitemap-external" data-order="" role="link" tabindex="0">EECS 281 YouTube Channel<i class="fas fa-external-link-alt"></i><span class="sr-only">External Link</span></summary></details></a><hr><details open="" class="left-space-fix"><summary class="left-space-fix primer-spec-toc-active">Part A Specification</summary><nav class="primer-spec-toc" aria-label="Page contents"><div role="presentation"><ul class="primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#command-line-interface">Command Line Interface</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#market-logic">Market Logic</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#simple-example">Simple Example</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#input">Input</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#input-file-header">Input File Header</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#trade-list-input-mode">Trade List Input Mode</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h3"><a href="https://eecs281staff.github.io/p2-stocks/#tl-input-errors">TL Input Errors</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#pseudorandom-input-mode">Pseudorandom Input Mode</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h3"><a href="https://eecs281staff.github.io/p2-stocks/#using-p2randomh">Using P2random.h</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#spec-example-inputs">Spec Example Inputs</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#output-details">Output Details</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#startup-output">Startup Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#summary-output">Summary Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#verbose-output">Verbose Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#median-output">Median Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#trader-info-output">Trader Info Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#time-travelers-output">Time Travelers Output</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#detailed-algorithm">Detailed Algorithm</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#full-spec-example">Full Spec Example</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#the-stdpriority_queue">The <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code></a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#about-comparators">About Comparators</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#submitting-your-solution">Submitting your solution</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#project-identifier">Project Identifier</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#libraries-and-restrictions">Libraries and Restrictions</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#testing-and-debugging">Testing and Debugging</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#test-file-details">Test File Details</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#submitting-to-the-autograder">Submitting to the Autograder</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2-stocks/#grading">Grading</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2-stocks/#part-b-priority-queues">Part B: Priority Queues</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></div></nav></details></aside><div class="primer-spec-sidebar-resize-handle position-fixed top-0" tabindex="-1" aria-hidden="true"></div></div>
+
+         <!-- .container-lg -->
+
+        
+    
+
+</body></html>

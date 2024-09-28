@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://eecs281staff.github.io/p2b-priority-queues/ -->
+<html lang="en-US" data-theme-mode="dark" style="--primer-spec-rouge-cm-color: #868064; --primer-spec-rouge-cp-color: #aaaaaa; --primer-spec-rouge-c1-color: #868064; --primer-spec-rouge-cs-color: #868064; --primer-spec-rouge-cd-color: #868064; --primer-spec-rouge-c-color: #868064; --primer-spec-rouge-err-color: #960050; --primer-spec-rouge-gd-color: #49483e; --primer-spec-rouge-ge-color: #aaaaaa; --primer-spec-rouge-ge-font-style: italic; --primer-spec-rouge-gr-color: #960050; --primer-spec-rouge-gh-color: #999999; --primer-spec-rouge-gi-color: #49483e; --primer-spec-rouge-go-color: #999999; --primer-spec-rouge-gp-color: #999999; --primer-spec-rouge-gs-font-weight: bold; --primer-spec-rouge-gu-color: #aaaaaa; --primer-spec-rouge-gt-color: #960050; --primer-spec-rouge-kc-color: #66d9ef; --primer-spec-rouge-kd-color: #66d9ef; --primer-spec-rouge-kd-font-style: italic; --primer-spec-rouge-kn-color: #f92672; --primer-spec-rouge-kp-color: #f92672; --primer-spec-rouge-kr-color: #66d9ef; --primer-spec-rouge-kt-color: #66d9ef; --primer-spec-rouge-kt-font-style: italic; --primer-spec-rouge-kv-color: #f92672; --primer-spec-rouge-k-color: #f92672; --primer-spec-rouge-mf-color: #ae81ff; --primer-spec-rouge-mh-color: #ae81ff; --primer-spec-rouge-il-color: #ae81ff; --primer-spec-rouge-mi-color: #ae81ff; --primer-spec-rouge-mo-color: #ae81ff; --primer-spec-rouge-mb-color: #ae81ff; --primer-spec-rouge-mx-color: #ae81ff; --primer-spec-rouge-m-color: #ae81ff; --primer-spec-rouge-sb-color: #e6db74; --primer-spec-rouge-sc-color: #ae81ff; --primer-spec-rouge-sd-color: #e6db74; --primer-spec-rouge-s2-color: #e6db74; --primer-spec-rouge-se-color: #ae81ff; --primer-spec-rouge-sh-color: #e6db74; --primer-spec-rouge-si-color: #e6db74; --primer-spec-rouge-sx-color: #e6db74; --primer-spec-rouge-sr-color: #f6aa11; --primer-spec-rouge-s1-color: #e6db74; --primer-spec-rouge-ss-color: #ae81ff; --primer-spec-rouge-s-color: #e6db74; --primer-spec-rouge-na-color: #a6e22e; --primer-spec-rouge-bp-color: #ffffff; --primer-spec-rouge-nb-color: #f6aa11; --primer-spec-rouge-nc-color: #a6e22e; --primer-spec-rouge-no-color: #66d9ef; --primer-spec-rouge-nd-color: #a6e22e; --primer-spec-rouge-ni-color: #ffffff; --primer-spec-rouge-ne-color: #a6e22e; --primer-spec-rouge-nf-color: #a6e22e; --primer-spec-rouge-nl-color: #ffffff; --primer-spec-rouge-nn-color: #ffffff; --primer-spec-rouge-nt-color: #f92672; --primer-spec-rouge-nx-color: #ffffff; --primer-spec-rouge-vc-color: #ffffff; --primer-spec-rouge-vg-color: #ffffff; --primer-spec-rouge-vi-color: #ffffff; --primer-spec-rouge-nv-color: #ffffff; --primer-spec-rouge-ow-color: #f92672; --primer-spec-rouge-o-color: #ffffff; --primer-spec-rouge-w-color: #ffffff; --primer-spec-rouge-txt-color: #ffffff; --primer-spec-rouge-txt-background-color: rgb(35, 37, 41);"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Project 2b - Priority Queues</title>
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Project 2b - Priority Queues">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://eecs281staff.github.io/p2b-priority-queues/">
+<meta property="og:url" content="https://eecs281staff.github.io/p2b-priority-queues/">
+<meta property="og:site_name" content="Project 2b - Priority Queues">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Project 2b - Priority Queues">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"Project 2b - Priority Queues","name":"Project 2b - Priority Queues","url":"https://eecs281staff.github.io/p2b-priority-queues/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="preload" href="./Project 2b - Priority Queues_files/all.css" as="style" crossorigin="anonymous" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr">
+        <link rel="icon" href="https://eecs281staff.github.io/eecs281.org/assets/images/eecs281favicon.ico">
+        <style class="anchorjs"></style><link rel="stylesheet" href="./Project 2b - Priority Queues_files/primer-spec-base.css">
+
+        <!--
+            This page is formatted using Primer Spec.
+            Would you like to contribute to the theme?
+            Check out: https://github.com/eecs485staff/primer-spec
+        -->
+        <script>
+            window.PrimerSpecConfig = {
+                pdfPath: null, // @managed by build-primer-spec-action
+                siteQualifiedBaseUrl: 'https://eecs281staff.github.io/p2b-priority-queues/',
+                hideSidebarOnLoad: false,
+                disableSidebar: false,
+                defaultSubthemeName: 'default',
+                defaultSubthemeMode: 'system',
+                sitemapEnabled: true,
+                sitemapUrls: [{
+                        url: '/p2b-priority-queues/',
+                        path: 'README.md',title: 'Project 2b - Priority Queues',current: true,
+                    },{
+                        url: '/p2b-priority-queues/files.html',
+                        path: 'files.md',title: 'Starter and Sample Files',sitemapOrder: 5,
+                    },{
+                        url: '/p2b-priority-queues/hints-and-advice.html',
+                        path: 'hints-and-advice.md',title: 'Hints and Advice',sitemapOrder: 1,
+                    },{
+                        url: '/p2b-priority-queues/test-case-legend.html',
+                        path: 'test-case-legend.md',title: 'Test Case Legend',sitemapOrder: 10,
+                    },{
+                        url: '/p2b-priority-queues/assets/v1.10/css/primer-spec-base.css',
+                        path: 'assets/v1.10/css/primer-spec-base.scss',
+                    },{
+                        url: '/p2b-priority-queues/assets/v1.10/css/style.css',
+                        path: 'assets/v1.10/css/style.scss',
+                    },{
+                        url: 'https://youtu.be/kOqzBMvxfuw',
+                        title: 'Project Explanation Video',
+                        external: true,
+                    },{
+                        url: 'http://eecs281staff.github.io/eecs281setup',
+                        title: 'EECS 281 Setup Guides',
+                        external: true,
+                    },],
+                sitemapLabel: null,
+                sitemapSiteTitle: 'Project 2b - Priority Queues',
+                useLegacyCodeBlocks: false,
+                defaultCodeblockVariant: "enhanced",
+                disableJokes: false
+            };
+        </script>
+        <script src="./Project 2b - Priority Queues_files/primer_spec_plugin.min.js" crossorigin="anonymous" defer=""></script>
+        <style>
+            /**
+             * To make MathJax CHTML scroll like other large Primer Spec
+             * code-blocks, we need to set the `overflow` property on
+             * `mjx-container` elements.
+             */
+            mjx-container {
+                overflow: auto;
+                overflow-y: hidden;
+            }
+
+            /**
+             * On mobile (at least on iOS), the 0-line-height style from
+             * MathJax causes rendering issues with inline math. This style
+             * overrides the property. (Needed to add specificity to override.)
+             */
+             mjx-container[jax="CHTML"].MathJax {
+              line-height: inherit;
+            }
+        </style>
+        <script src="./Project 2b - Priority Queues_files/tex-chtml.js" id="MathJax-script" defer=""></script>
+    <link rel="stylesheet" href="./Project 2b - Priority Queues_files/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D45B.TEX-I::before {
+  padding: 0.442em 0.6em 0.011em 0;
+  content: "n";
+}
+
+mjx-c.mjx-c3C::before {
+  padding: 0.54em 0.778em 0.04em 0;
+  content: "<";
+}
+
+mjx-c.mjx-c3D::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "=";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c30::before {
+  padding: 0.666em 0.5em 0.022em 0;
+  content: "0";
+}
+</style></head>
+    <body style="--sidebar-bg-color: #0d1117; --sidebar-heading-text-color: #cccccc; --sidebar-heading-link-color: #cccccc; --sidebar-toc-h1-link-color: #58a6ff; --sidebar-toc-h1-border-color: #555; --sidebar-toc-h2-link-color: #58a6ff; --sidebar-active-toc-section-bg-color: #e4d93f; --sidebar-active-toc-section-link-color: #0d1117; --sidebar-active-toc-h1-section-link-color: #0d1117; --sidebar-active-toc-h2-section-link-color: #0d1117; --sidebar-toc-section-link-color: #cccccc; --sidebar-tt-active-text-color: #0d1117; --sidebar-resize-handle: #333; --main-heading-text-color: #e7ebee; --main-heading-link-color: #58a6ff; --main-link-color: #58a6ff; --hoverable-link-hover-color: #9dd2fb; --main-bg-color: #0d1117; --sidebar-border-color: #21262d; --main-text-color: #c9d1d9; --main-table-bg-color: #0d1117; --main-table-bg-contrast-color: #262d36; --main-table-pre-bg-color: #161b22; --main-table-pre-text-color: white; --main-table-pre-border: 1px solid rgb(60, 62, 66); --tt-bg-color: rgba(240, 246, 252, 0.15); --tt-text-color: #c9d1d9; --tt-border: 0px; --tt-border-radius: 6px; --sidebar-tt-active-bg-color: rgba(0, 0, 0, 0); --main-blockquote-text-color: #8b949e; --main-blockquote-text-border: #3b434b; --main-header-border-bottom-color: #21262d; --main-image-border-color: #21262d; --main-image-border-color-inverted: #eaecef; --primer-spec-callout-neutral-bg-color: rgba(22, 27, 34, 0.8); --primer-spec-callout-neutral-text-color: #c9d1d9; --primer-spec-callout-neutral-border-color: rgb(48, 54, 61); --primer-spec-callout-info-bg-color: rgba(56, 139, 253, 0.15); --primer-spec-callout-info-text-color: #c9d1d9; --primer-spec-callout-info-border-color: rgba(56, 139, 253, 0.4); --primer-spec-callout-info-icon-color: #58a6ff; --primer-spec-callout-warning-bg-color: rgba(187, 128, 9, 0.15); --primer-spec-callout-warning-text-color: #c9d1d9; --primer-spec-callout-warning-border-color: rgba(187, 128, 9, 0.4); --primer-spec-callout-warning-icon-color: #d29922; --primer-spec-callout-danger-bg-color: rgba(248, 81, 73, 0.15); --primer-spec-callout-danger-text-color: #c9d1d9; --primer-spec-callout-danger-border-color: rgba(248, 81, 73, 0.4); --primer-spec-callout-danger-icon-color: #f85149; --primer-spec-callout-success-bg-color: rgba(46, 160, 67, 0.15); --primer-spec-callout-success-text-color: #c9d1d9; --primer-spec-callout-success-border-color: rgba(46, 160, 67, 0.4); --primer-spec-callout-success-icon-color: #3fb950; --code-block-default-color: #c9d1d9; --code-block-border-color: rgb(60, 62, 66); --code-block-header-bg-color: #161b22; --code-block-bg-color: rgb(13, 17, 23); --code-block-line-number-color: #484f58; --code-block-highlight-bg-color: rgba(187, 128, 9, 0.15); --code-block-highlight-shadow-color: rgba(187, 128, 9, 0.4); --code-block-button-color: #c9d1d9; --code-block-button-bg-color: #21262d; --code-block-button-border-color: rgba(240, 246, 252, 0.1); --code-block-button-shadow: 0 0 transparent; --code-block-button-shadow-inset-color: 0 0 transparent; --code-block-button-hover-bg-color: rgb(48, 54, 61); --code-block-button-hover-border-color: rgb(140, 148, 158); --tooltip-background-color: rgb(110, 118, 129); --tooltip-color: white; --kbd-border-color: rgba(110, 118, 129, 0.4);">
+        <div id="primer-spec-top"></div>
+        <div id="primer-spec-app-container" onclick="return true;"><header class="primer-spec-topbar position-fixed width-full top-0 left-0 py-2 no-print"><div class="primer-spec-float-right"><div id="primer-spec-settings-toggle" class="primer-spec-topbar-button"><span class="primer-spec-hoverable "><button class="btn-link primer-spec-hoverable no-print" aria-label="Open settings pane"><i class="fas fa-cog"></i></button></span></div></div></header><main id="primer-spec-preact-main-content" class="container-lg px-3 my-5 markdown-body primer-spec-content-margin-extra">
+            
+
+            <p><img src="./Project 2b - Priority Queues_files/umseal.svg" alt="The Seal of the University of Michigan" align="right" style="padding: 0px" width="170px" height="170px"></p>
+
+<h1 class="primer-spec-toc-ignore" id="project-2b---priority-queues">Project 2B - Priority Queues<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#project-2b---priority-queues" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h1>
+
+<p><strong><em>Use Part A Due Date</em></strong></p>
+
+<h2 id="overview">Overview<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#overview" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>For this part of the project, you will implement your own priority queue
+containers. Using the interface defined in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/Eecs281PQ.hpp"><code class="language-plaintext highlighter-rouge">Eecs281PQ.hpp</code></a> and the
+extendable test module in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/project2b.cpp"><code class="language-plaintext highlighter-rouge">project2b.cpp</code></a>, you can build and test:</p>
+
+<ul>
+  <li>A sorted array priority queue (in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/SortedPQ.hpp"><code class="language-plaintext highlighter-rouge">SortedPQ.hpp</code></a>)</li>
+  <li>A binary heap priority queue (in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/BinaryPQ.hpp"><code class="language-plaintext highlighter-rouge">BinaryPQ.hpp</code></a>)</li>
+  <li>A pairing heap priority queue (in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/PairingPQ.hpp"><code class="language-plaintext highlighter-rouge">PairingPQ.hpp</code></a>)</li>
+</ul>
+
+<p>Each priority queue is given in a partially complete header file and the goal
+is to complete the all the definitions in each file of functions that are
+declared in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/Eecs281PQ.hpp"><code class="language-plaintext highlighter-rouge">Eecs281PQ.hpp</code></a>. All of these files are included in the tarball
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues-files.tgz"><code class="language-plaintext highlighter-rouge">p2b-priority-queues-files.tgz</code></a>, and each file specifies more
+information about its priority queue type, including runtime requirements
+for each method and a general description of the container.</p>
+
+<p>Also provided is a good implementation of a very bad priority queue approach
+called the <strong>“Unordered priority queue”</strong> in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/UnorderedPQ.hpp"><code class="language-plaintext highlighter-rouge">UnorderedPQ.hpp</code></a>, which does
+a linear search for the most extreme element each time it is needed. This PQ
+is not very efficient but it is correct, so you can test your other priority
+queue implementations against it to ensure that your other priority queues
+are returning elements in the correct order.</p>
+
+<p>You are not allowed to modify <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/Eecs281PQ.hpp"><code class="language-plaintext highlighter-rouge">Eecs281PQ.hpp</code></a> in any way. Nor are you
+allowed to change the interface (names, parameters, return types) that we
+give you in any of the provided headers. You are allowed to add your own
+private helper functions and variables to the other header files as needed,
+so long as you still follow the requirements outlined in both the spec and
+the comments in the provided files.</p>
+
+<p>These priority queues are templated, and can take in an optional comparison
+functor type, <code class="language-plaintext highlighter-rouge">COMP</code>. Inside the classes, you can access an instance of
+<code class="language-plaintext highlighter-rouge">COMP</code> with <code class="language-plaintext highlighter-rouge">this-&gt;compare()</code>. All of your priority queues must default to be
+max priority queues. This means that if you use the default comparison
+functor with an integer PQ, <code class="language-plaintext highlighter-rouge">std::less&lt;int&gt;</code>, the PQ will return the
+<em>largest</em> integer when you call <code class="language-plaintext highlighter-rouge">pq.top()</code>. When done correctly, the
+definition of most extreme is entirely dependent on the comparison functor,
+so if <code class="language-plaintext highlighter-rouge">std::greater&lt;int&gt;</code> is used, a min-PQ returning the <em>smallest</em> integer
+should be created.</p>
+
+<p>The definition is as follows:</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">A</code> is any element in the priority queue, and <code class="language-plaintext highlighter-rouge">pq.top()</code> returns the “most
+extreme” element. <code class="language-plaintext highlighter-rouge">this-&gt;compare(top(), A)</code> should always return <code class="language-plaintext highlighter-rouge">false</code> (<code class="language-plaintext highlighter-rouge">A</code>
+is “less extreme” than <code class="language-plaintext highlighter-rouge">pq.top()</code>).</p>
+
+<p>It might seem counterintuitive that <code class="language-plaintext highlighter-rouge">std::less&lt;&gt;</code> yields a max-PQ, but this
+is consistent with the way that the <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code> works (and other
+STL functions that take custom comparators, like <code class="language-plaintext highlighter-rouge">std::sort()</code>).</p>
+
+<p>The autograder will compile your priority queue implementations with a fresh
+copy of <code class="language-plaintext highlighter-rouge">Eecs281PQ.hpp</code> and a driver program that you will not see, to test
+that you have correctly and fully implemented them. To ensure that
+this is possible (and that you do not lose credit for these tests), do not
+define a main function in one of the PQ headers, or any file included in
+your submission.</p>
+
+<h2 id="eecs281pq-interface">Eecs281PQ interface<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#eecs281pq-interface" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<h3 id="member-variables">Member Variables<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#member-variables" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Member Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">COMP_FUNCTOR compare</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// See “Implementing the Priority Queues”</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="member-functions">Member Functions<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#member-functions" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Member Function</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">void push(const TYPE&amp; val)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// inserts a new element into the priority queue</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">const TYPE &amp;top()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// returns the highest priority element in the priority queue</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">void pop()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// removes the highest priority element from the priority queue</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">size_t size()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// returns the size of the priority queue</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">bool empty()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">// returns true if the priority queue is empty, false otherwise</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="unordered-priority-queue">Unordered Priority Queue<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#unordered-priority-queue" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The <em>unordered priority queue</em> implements the priority queue interface by
+maintaining data in an <strong>unordered</strong> <code class="language-plaintext highlighter-rouge">vector&lt;&gt;</code>. This has already been
+implemented for you, and you can use the code to help you understand how to
+use the comparison functor, etc. Complexities and details are in
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/UnorderedPQ.hpp"><code class="language-plaintext highlighter-rouge">UnorderedPQ.hpp</code></a> and <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/UnorderedFastPQ.hpp"><code class="language-plaintext highlighter-rouge">UnorderedFastPQ.hpp</code></a>.</p>
+
+<p>The <em>unordered fast priority queue</em> takes advantage of the fact that common
+priority queue usage involves a call to <code class="language-plaintext highlighter-rouge">.top()</code> followed by a call to
+<code class="language-plaintext highlighter-rouge">.pop()</code>. The “fast” version performs the linear search required by <code class="language-plaintext highlighter-rouge">.top()</code>,
+but stores the location of the most extreme element so a subsequent call to
+<code class="language-plaintext highlighter-rouge">.pop()</code> can access the element in constant time, if the container has not
+been modified in between calls.</p>
+
+<h2 id="sorted-priority-queue">Sorted Priority Queue<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#sorted-priority-queue" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>The <em>sorted priority queue</em> implements the priority queue interface by
+maintaining a <strong>sorted</strong> <code class="language-plaintext highlighter-rouge">vector&lt;&gt;</code>. Complexities and details are in
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/SortedPQ.hpp"><code class="language-plaintext highlighter-rouge">SortedPQ.hpp</code></a>. This should be written almost entirely using the STL. The
+number of lines of code needed to get this working is fairly low, generally
+<mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="0" style="font-size: 119%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45B TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3C"></mjx-c><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mn class="mjx-n" space="4"><mjx-c class="mjx-c31"></mjx-c><mjx-c class="mjx-c30"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>&lt;=</mo><mn>10</mn></math></mjx-assistive-mml></mjx-container>.</p>
+
+<h2 id="binary-heap-priority-queue">Binary Heap Priority Queue<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#binary-heap-priority-queue" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Binary heaps will be covered in lecture. We also highly recommend reviewing
+online resources like
+<a href="https://en.wikipedia.org/wiki/Binary_heap">Binary Heap on Wikipedia</a> or 
+Chapter 6 of the CLRS textbook. Complexities and details are in
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/BinaryPQ.hpp"><code class="language-plaintext highlighter-rouge">BinaryPQ.hpp</code></a>. One issue that you may encounter is that the examples and
+code in the slides use 1-based indexing, but your code must store the values
+in a vector (where indexing starts at 0). There are three possible solutions
+to this problem:</p>
+
+<ol>
+  <li>Add a “dummy” element at index 0, make sure you never allow access to it,
+and make sure that <code class="language-plaintext highlighter-rouge">.size()</code> and <code class="language-plaintext highlighter-rouge">.empty()</code> work properly.</li>
+  <li>Translate the code from 1-based to 0-based. This is the best solution but
+the hardest.</li>
+  <li>Use a function to translate indices for you. Instead of accessing
+<code class="language-plaintext highlighter-rouge">data[i]</code>, use <code class="language-plaintext highlighter-rouge">.getElement(i)</code>. The code for <code class="language-plaintext highlighter-rouge">.getElement()</code> is given
+below (both versions are needed).  Notice that <code class="language-plaintext highlighter-rouge">.getElement()</code> returns
+a VALUE (like a <code class="language-plaintext highlighter-rouge">string</code> or object, whatever is inside the PQ), NOT an
+index.</li>
+</ol>
+
+<div id="get-element-implementations-2" class="primer-spec-code-block"><div id="primer-spec-code-block-2" class="Box mt-3 text-mono"><div class="Box-header py-2 pr-2 d-flex flex-shrink-0 flex-md-row flex-items-center primer-spec-code-block-header"><span class="flex-auto primer-spec-code-block-title" data-anchor-id="get-element-implementations-2">.getElement() implementations<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#get-element-implementations-2" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></span></div><div class="Box-body p-0 primer-spec-code-block-body primer-spec-code-block-header-present"><table class="highlight"><tbody><tr id="primer-spec-code-block-2-LR1"><td id="primer-spec-code-block-2-L1" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="1"></td><td id="primer-spec-code-block-2-LC1" class="primer-spec-code-block-line-code">    // Translate 1-based indexing into a 0-based vector</td></tr><tr id="primer-spec-code-block-2-LR2"><td id="primer-spec-code-block-2-L2" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="2"></td><td id="primer-spec-code-block-2-LC2" class="primer-spec-code-block-line-code">    TYPE &amp;getElement(std::size_t i) {</td></tr><tr id="primer-spec-code-block-2-LR3"><td id="primer-spec-code-block-2-L3" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="3"></td><td id="primer-spec-code-block-2-LC3" class="primer-spec-code-block-line-code">      return data[i - 1];</td></tr><tr id="primer-spec-code-block-2-LR4"><td id="primer-spec-code-block-2-L4" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="4"></td><td id="primer-spec-code-block-2-LC4" class="primer-spec-code-block-line-code">    }  // getElement()</td></tr><tr id="primer-spec-code-block-2-LR5"><td id="primer-spec-code-block-2-L5" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="5"></td><td id="primer-spec-code-block-2-LC5" class="primer-spec-code-block-line-code">
+</td></tr><tr id="primer-spec-code-block-2-LR6"><td id="primer-spec-code-block-2-L6" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="6"></td><td id="primer-spec-code-block-2-LC6" class="primer-spec-code-block-line-code">    const TYPE &amp;getElement(std::size_t i) const {</td></tr><tr id="primer-spec-code-block-2-LR7"><td id="primer-spec-code-block-2-L7" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="7"></td><td id="primer-spec-code-block-2-LC7" class="primer-spec-code-block-line-code">      return data[i - 1];</td></tr><tr id="primer-spec-code-block-2-LR8"><td id="primer-spec-code-block-2-L8" class="primer-spec-code-block-line-number primer-spec-code-block-line-numbers-shown" data-line-number="8"></td><td id="primer-spec-code-block-2-LC8" class="primer-spec-code-block-line-code">    }  // getElement()</td></tr></tbody></table><div class="primer-spec-zeroclipboard-container position-absolute top-0 right-0"><button type="button" class="btn-octicon no-print m-2 p-2 tooltipped tooltipped-no-delay tooltipped-n" tabindex="0" aria-label="Copy"><i class="far fa-copy"></i></button></div></div></div></div>
+
+<h2 id="pairing-heap-priority-queue">Pairing Heap Priority Queue<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#pairing-heap-priority-queue" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Pairing heaps are an advanced heap data structure that can be quite fast. In
+order to implement the pairing heap priority queue, read these two papers
+that describe the data structure:</p>
+
+<ol>
+  <li><a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/pairing-heaps-fredman.pdf">Fredman Paper</a></li>
+  <li><a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/pairing-heaps-sahni.pdf">Sahni Paper</a></li>
+</ol>
+
+<p>Runtime complexity details can be found in <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/PairingPQ.hpp"><code class="language-plaintext highlighter-rouge">PairingPQ.hpp</code></a>. Also included
+are a couple of diagrams that may help you understand the tree structure of
+the pairing heap.</p>
+
+<p>Below is the pairing heap modeled as a tree, in which each node is greater
+than all of its children:</p>
+
+<p><img src="./Project 2b - Priority Queues_files/pairing-heap-logical.png" alt="Logical view of a pairing heap as a tree" title="Pairing Heap Logical View"></p>
+
+<p>To implement this structure, the pairing heap will use child and sibling
+pointers to have a structure like this:</p>
+
+<p><img src="./Project 2b - Priority Queues_files/pairing-heap-physical.png" alt="Physical view of a pairing heap with pointers" title="Pairing Heap Physical View"></p>
+
+<h2 id="implementing-the-priority-queues">Implementing the Priority Queues<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#implementing-the-priority-queues" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>Look through the included header files: you need to add code in
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/SortedPQ.hpp"><code class="language-plaintext highlighter-rouge">SortedPQ.hpp</code></a>, <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/BinaryPQ.hpp"><code class="language-plaintext highlighter-rouge">BinaryPQ.hpp</code></a>, and <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/PairingPQ.hpp"><code class="language-plaintext highlighter-rouge">PairingPQ.hpp</code></a>, and this is the
+order that we would suggest implementing the different priority queues. Each
+of these files has <code class="language-plaintext highlighter-rouge">TODO</code> comments where you need to make changes. We wanted
+to provide you with files that would compile when you receive them, so some
+of the changes involve deleting and/or changing lines that were only placed
+there to make sure that they compile. For example, if a function was
+supposed to return an integer, NOT having a return statement that returns an
+integer would produce a compiler error. Look at <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/UnorderedPQ.hpp"><code class="language-plaintext highlighter-rouge">UnorderedPQ.hpp</code></a> as an
+example, as it’s already completed for you.</p>
+
+<p>When you implement each priority queue, you cannot compare data yourself
+using the <code class="language-plaintext highlighter-rouge">&lt;</code> operator. You can still use <code class="language-plaintext highlighter-rouge">&lt;</code> for comparisons such as a
+vector index to the size of the vector, but you must use the provided
+comparator for comparing the data stored inside your priority queue. Notice
+that <code class="language-plaintext highlighter-rouge">Eecs281PQ</code> contains a member variable named compare of type <code class="language-plaintext highlighter-rouge">COMP</code> (one
+of the templated class types). Although the other classes inherit from
+<code class="language-plaintext highlighter-rouge">Eecs281PQ</code>, you cannot access the compare member directly, you must always
+use <code class="language-plaintext highlighter-rouge">this-&gt;compare</code> (this is due to a template inheriting from a template).
+Notice that in <code class="language-plaintext highlighter-rouge">UnorderedPQ</code> it uses <code class="language-plaintext highlighter-rouge">this-&gt;compare</code> by passing it to the
+<code class="language-plaintext highlighter-rouge">max_element()</code> algorithm to use for comparisons.</p>
+
+<p>When you write the <code class="language-plaintext highlighter-rouge">SortedPQ</code> you cannot use <code class="language-plaintext highlighter-rouge">std::binary_search()</code> from the
+STL, but you wouldn’t want to: it only returns a bool to tell you if
+something is already in the container or not! Instead use the
+<code class="language-plaintext highlighter-rouge">std::lower_bound()</code> algorithm (which returns an iterator), and you can also
+use the <code class="language-plaintext highlighter-rouge">std::sort()</code> algorithm – you don’t have to write your own sorting
+function. You do however have to pass the <code class="language-plaintext highlighter-rouge">this-&gt;compare</code> functor to both
+<code class="language-plaintext highlighter-rouge">std::lower_bound()</code> and <code class="language-plaintext highlighter-rouge">std::sort()</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">BinaryPQ</code> is harder to write, and requires a more detailed and careful
+use of the comparison functor</p>
+
+<h2 id="libraries-and-restrictions">Libraries and Restrictions<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#libraries-and-restrictions" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>For all of the priority queue implementations, you <strong>are</strong> allowed to use
+<code class="language-plaintext highlighter-rouge">std::swap()</code> and <code class="language-plaintext highlighter-rouge">std::size_t</code>, and the <code class="language-plaintext highlighter-rouge">std::less&lt;TYPE&gt;</code> that we specified
+as the default comparator.  For the <code class="language-plaintext highlighter-rouge">SortedPQ</code> you can use <code class="language-plaintext highlighter-rouge">std::sort()</code>
+and <code class="language-plaintext highlighter-rouge">std::lower_bound()</code>.  For both <code class="language-plaintext highlighter-rouge">SortedPQ</code> and <code class="language-plaintext highlighter-rouge">BinaryPQ</code>, you are
+allowed to use <code class="language-plaintext highlighter-rouge">std::vector&lt;&gt;</code>.  For the <code class="language-plaintext highlighter-rouge">PairingPQ</code>, you can use
+<code class="language-plaintext highlighter-rouge">std::queue&lt;&gt;</code> and <code class="language-plaintext highlighter-rouge">std::deque&lt;&gt;</code></p>
+
+<p>For all of the priority queue implementations, you are <strong>not</strong> allowed to
+use <code class="language-plaintext highlighter-rouge">std::priority_queue&lt;&gt;</code>, <code class="language-plaintext highlighter-rouge">std::partition()</code>, <code class="language-plaintext highlighter-rouge">std::partition_copy()</code>,
+<code class="language-plaintext highlighter-rouge">std::partial_sort()</code>, <code class="language-plaintext highlighter-rouge">std::stable_partition()</code>, <code class="language-plaintext highlighter-rouge">std::make_heap()</code>,
+<code class="language-plaintext highlighter-rouge">std::push_heap()</code>, <code class="language-plaintext highlighter-rouge">std::pop_heap()</code>, <code class="language-plaintext highlighter-rouge">std::sort_heap()</code>, <code class="language-plaintext highlighter-rouge">std::qsort()</code>,
+or anything that trivializes the implementation of the binary heap.</p>
+
+<p>You have to be a little careful with the disallowed functions, because the
+program that checks your code doesn’t care about comments.  So if you have
+“sort” or “make_heap” in a comment, your code will still be flagged as
+possibly using one of the disallowed functions.</p>
+
+<h2 id="compiling-and-testing-priority-queues">Compiling and Testing Priority Queues<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="" href="https://eecs281staff.github.io/p2b-priority-queues/#compiling-and-testing-priority-queues" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+
+<p>You are provided with a test file, <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/project2b.cpp"><code class="language-plaintext highlighter-rouge">project2b.cpp</code></a>, which contains examples
+of unit tests you can run on your priority queues to ensure that they are
+correct; however, it is not a complete test of your priority queues; for
+example it does not test <code class="language-plaintext highlighter-rouge">.updatePriorities()</code>. It is especially lacking in
+testing the <code class="language-plaintext highlighter-rouge">PairingPQ</code> class, since it does not have any calls to
+<code class="language-plaintext highlighter-rouge">.addNode()</code> or <code class="language-plaintext highlighter-rouge">.updateElt()</code>. You should add code to this file for
+additional testing.</p>
+
+<p>Using the 281 <a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/Makefile"><code class="language-plaintext highlighter-rouge">Makefile</code></a>, you can compile
+<a href="https://eecs281staff.github.io/p2b-priority-queues/p2b-priority-queues/project2b.cpp"><code class="language-plaintext highlighter-rouge">project2b.cpp</code></a> by simply entering:</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-0" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-0-LR1"><td id="primer-spec-code-block-0-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="" class="primer-spec-code-block-line-code"><span><span class="gp">$</span><span class="w"> </span></span><span id="primer-spec-code-block-0-LC1">make</span></td></tr></tbody></table><!----></div></div></div>
+
+<p>or</p>
+
+<div class="primer-spec-code-block"><div id="primer-spec-code-block-1" class="Box mt-3 text-mono"><!----><div class="Box-body p-0 primer-spec-code-block-body"><table class="highlight"><tbody><tr id="primer-spec-code-block-1-LR1"><td id="primer-spec-code-block-1-L1" class="primer-spec-code-block-line-number" data-line-number="1"></td><td id="" class="primer-spec-code-block-line-code"><span><span class="gp">$</span><span class="w"> </span></span><span id="primer-spec-code-block-1-LC1">make debug</span></td></tr></tbody></table><!----></div></div></div>
+
+<p>You may use your own Makefile, but you will have to make sure it does not try
+to compile your driver program as well as the test program (i.e., use at your
+own risk).</p>
+
+
+
+            
+        </main><aside class="primer-spec-sidebar position-fixed top-0 py-5 no-print" aria-label="Contents Sidebar" tabindex="-1"><h2 class="primer-spec-toc-ignore" id="primer-spec-toc-contents"><span class="primer-spec-hoverable "><a href="https://eecs281staff.github.io/p2b-priority-queues/" class="primer-spec-hoverable no-print" aria-label="Project 2b - Priority Queues"><i class="fas fa-home"></i></a></span> Contents<span class="primer-spec-hoverable primer-spec-hoverable-float-right"><button class="btn-link primer-spec-hoverable no-print" aria-label="Close navigation pane"><i class="fas fa-bars"></i></button></span></h2><br><a href="https://eecs281staff.github.io/p2b-priority-queues/hints-and-advice.html" tabindex="-1"><details class=""><summary class="" data-order="1" role="link" tabindex="0">Hints and Advice</summary></details></a><a href="https://eecs281staff.github.io/p2b-priority-queues/files.html" tabindex="-1"><details class=""><summary class="" data-order="5" role="link" tabindex="0">Starter and Sample Files</summary></details></a><a href="https://eecs281staff.github.io/p2b-priority-queues/test-case-legend.html" tabindex="-1"><details class=""><summary class="" data-order="10" role="link" tabindex="0">Test Case Legend</summary></details></a><a href="https://youtu.be/kOqzBMvxfuw" tabindex="-1"><details class=""><summary class="primer-spec-toc-sitemap-external" data-order="" role="link" tabindex="0">Project Explanation Video<i class="fas fa-external-link-alt"></i><span class="sr-only">External Link</span></summary></details></a><a href="http://eecs281staff.github.io/eecs281setup" tabindex="-1"><details class=""><summary class="primer-spec-toc-sitemap-external" data-order="" role="link" tabindex="0">EECS 281 Setup Guides<i class="fas fa-external-link-alt"></i><span class="sr-only">External Link</span></summary></details></a><hr><details open="" class="left-space-fix"><summary class="left-space-fix primer-spec-toc-active">Project 2b - Priority Queues</summary><nav class="primer-spec-toc" aria-label="Page contents"><div role="presentation"><ul class="primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h1 primer-spec-toc-active"><a href="https://eecs281staff.github.io/p2b-priority-queues/#overview">Overview</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#eecs281pq-interface">Eecs281PQ interface</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2b-priority-queues/#member-variables">Member Variables</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h2"><a href="https://eecs281staff.github.io/p2b-priority-queues/#member-functions">Member Functions</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#unordered-priority-queue">Unordered Priority Queue</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#sorted-priority-queue">Sorted Priority Queue</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#binary-heap-priority-queue">Binary Heap Priority Queue</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#pairing-heap-priority-queue">Pairing Heap Priority Queue</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#implementing-the-priority-queues">Implementing the Priority Queues</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#libraries-and-restrictions">Libraries and Restrictions</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li><li><div class="primer-spec-toc-item primer-spec-toc-h1"><a href="https://eecs281staff.github.io/p2b-priority-queues/#compiling-and-testing-priority-queues">Compiling and Testing Priority Queues</a></div><ul class="primer-spec-toc-section primer-spec-toc-list"></ul></li></ul></div></nav></details></aside><div class="primer-spec-sidebar-resize-handle position-fixed top-0" tabindex="-1" aria-hidden="true"><style>.primer-spec-content-margin-extra {  margin-left: 296px}</style></div></div>
+
+         <!-- .container-lg -->
+
+        
+    
+
+</body></html>
