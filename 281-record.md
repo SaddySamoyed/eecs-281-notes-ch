@@ -280,3 +280,18 @@ $$
 `xeyes` 一个好玩的眼睛追踪器
 
 `chromium-nbrowser` 开源浏览器
+
+
+
+
+
+## Lab 4
+
+### Heap & Heap sort
+
+
+
+
+
+### Union find
+
