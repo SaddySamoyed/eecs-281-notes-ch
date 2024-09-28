@@ -282,6 +282,49 @@ $$
 `chromium-nbrowser` 开源浏览器
 
 
+## Lec 5 - Recursion
+
+### Fourth Condition of Master Thm
+
+我们知道 master thm apply to:
+$$
+T(n) = aT({n \over b}) + f(n) \;\;, f(n) \in \Theta(n^c)
+$$
+直观上 a 越大，b 越小，f(n) 越大则 $T$ 越大. 可以得到:
+
+如果 $a > b^c$，那么  $a,b$ 的组合 dominate， $T(n) \in \Theta(n^{\log_b a}) $
+
+如果 $a = b^c$，那么 $a,b$ 的组合和 $f$ 同时 take dominance，$T(n) \in \Theta(n^c \log n)$
+
+如果 $a < b^c$，那么 $f$ take dominance，$T(n) \in \Theta(n^c)$
+
+
+
+使用的条件比较严格。for ex: $T(n) = T(n-1) + n$ 就无法使用，需要手动归纳，结果是 $\Theta(n^2)$.
+
+
+
+但是如果 $f(n) \in \Theta(n^{\log_b a} \log^k n)$ 时是一个特殊情况，称为 fourth condition，此时可以直接得到 $T(n) \in \Theta(n^{\log_b a} \log^{k+1} n)$.
+
+比如 $T(n) = 2T({n \over 2}) + n \log n$，那么 $T(n) = \Theta(n \log^2 n)$
+
+
+
+#### Algorithm Problem: 2D table search
+
+在一个 row, col 都 ordered 的 2D table 中 找到一个元素：
+
+<img src="note-assets/{5E9B3521-4665-444A-95A3-8DCA56A3A9E2}.png" alt="{5E9B3521-4665-444A-95A3-8DCA56A3A9E2}" style="zoom:75%;" />
+
+普通算法：$O(n^2)$
+
+我们可以使用 Binary Partition 来进行 $O(n)$ 的搜索.
+
+1. 把 table 差不多均分分成四块（多一个行少一列没关系）
+2. binary search 中间列，看要搜索的元素的大小在哪两个元素之间
+3. 可以排除掉四块中的两块。recursion
+
+$T(n) = 2T({n\over 2}) + c \log n = O(n)$
 
 ## Lec 6 - Arrays & Containers
 
@@ -341,4 +384,12 @@ for (int i = 0; i < 5; ++i)
 time / memory 和语义完全一样. 
 
 记得要加 reference for range based.
+
+
+
+
+
+#### Algorithm Problem: Finding the majority element
+
+如果一个 array 中有一个 element 数量超过 50%，可以通过 Moore's voting algorithm 找到它：
 
