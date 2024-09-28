@@ -310,7 +310,7 @@ $$
 
 
 
-#### Algorithm Problem: 2D table search
+#### **Algorithm Problem: 2D table search**
 
 在一个 row, col 都 ordered 的 2D table 中 找到一个元素：
 
@@ -328,7 +328,7 @@ $T(n) = 2T({n\over 2}) + c \log n = O(n)$
 
 ## Lec 6 - Arrays & Containers
 
-#### 2D dynamic array with double ptr
+### 2D dynamic array with double ptr
 
 ```c++
 size_t rows, cols, r, c;
@@ -387,9 +387,155 @@ time / memory 和语义完全一样.
 
 
 
-
-
-#### Algorithm Problem: Finding the majority element
+#### **Algorithm Problem: Finding the majority element**
 
 如果一个 array 中有一个 element 数量超过 50%，可以通过 Moore's voting algorithm 找到它：
+
+Idea: 
+
+- variable `string candidate`, `int count`
+- Traverse the array once:
+  - If  `count` = 0, set `candidate`  to the current element and set `count` to one.
+  - If the current element 是 `candidate`，则 `count++`
+  - If the current element 不是 `candidate`，则 `count--`
+
+这个 算法利用了这个元素数量过半的特点，达到了 $O(n)$ time 和 $O(1)$ space.
+
+```c++
+int majorityElement(const vector<int>& arr) {
+    int n = arr.size();
+    int candidate = -1;
+    int count = 0;
+
+    // Find a candidate
+    for (int num : arr) {
+        if (count == 0) {
+            candidate = num;
+            count = 1;
+        } else if (num == candidate) {
+            count++;
+        } else {
+            count--;
+        }
+    }
+
+    // Validate the candidate
+    count = 0;
+    for (int num : arr) {
+        if (num == candidate) {
+            count++;
+        }
+    }
+
+    // If count is greater than n / 2, return the candidate; otherwise, return -1
+    if (count > n / 2) {
+        return candidate;
+    } else {
+        return -1;
+    }
+}
+```
+
+
+
+如果这个元素的数量并不过半，而是要找到最多的元素，那么只能用 hash map， $O(n)$ time 和 $O(n)$ space.
+
+```c++
+int majorityElement(const vector<int>& arr) {
+    int n = arr.size();
+    unordered_map<int, int> countMap;
+
+    // Traverse the array and count occurrences using the hash map
+    for (int num : arr) {
+        countMap[num]++;
+      
+        // Check if current element count exceeds n / 2
+        if (countMap[num] > n / 2) {
+            return num;
+        }
+    }
+
+    // If no majority element is found, return -1
+    return -1;
+}
+```
+
+
+
+
+
+### Containers
+
+Containers: 
+
+vectors, lists, stack, queue, map, heaps, trees & graphs,...
+
+需要能够 copy/edit/sort/order many objs at once.
+
+containers within containers 用以 implement complex data structures. 比如 Database 也是一种 container.
+
+
+
+**accessing container items 的方法：**
+
+1. sequential
+
+   Find n-th item by 从头开始增加 index n 次达到 n-th item 的位置.
+
+   Used by disk in computers, slow
+
+2. random access
+
+   go directly to n-th item
+
+   Used by main memory in computers (LDUR, SDUR, ...), fast
+
+#### 使用 double ptr instead of random access to traversal
+
+```c++
+const size_t SIZE = 4;
+double src_ar[] {3,5,6,1};
+double dest_ar[SIZE];
+
+// with no ptr
+for (size_t i = 0; i < SIZE; ++i)
+  dest_ar[i] = src_ar[i];
+
+// with double ptr: faster
+double *sptr = srca_ar;
+double *dptr = dest_ar;
+
+while (sptr != src_ar + SIZE)
+  *dptr++ = *sptr++;
+```
+
+好处是使用 1 次 sequntial access 而不是 n 次 random access，速度更快.
+
+random access 的时间消耗相比 dereference 要大。使用 1 次 sequntial access 比 1 次 random access 耗时大，但使用 1 次 sequntial access 比 n 次 random access 耗时显著小。所以如果要 traversal 应该使用 double ptr.
+
+### What to Store/Get in a container
+
+Store:
+
+1. Value: **最常用**. 只有 container 可以 edit，安全. 但是缺点是 copy large objects 行为 costly
+
+2. ptr: copy objects 速度快，但是 unsafe，因为其他 object 也可以修改 container 里面的 objects. 且容易造成 double delete.
+
+   defensive programming tip: 使用 `ptr = nullptr;` after `delete ptr;`
+
+3. reference：无法 delete by reference，不实用.
+
+Get:
+
+1. Value: copy large objects 行为 costly.
+2. Ptr: unsafe， ptr may be invalid
+3. Reference:  **good choice**，尤其是 const ref if 不想 edit.
+
+
+
+
+
+## Lec 7 - STL
+
+
 
