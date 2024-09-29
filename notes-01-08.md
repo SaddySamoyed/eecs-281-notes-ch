@@ -700,8 +700,47 @@ bool Array::insert(size_t index, double val) {
 
 ## Lec 7 - STL
 
+Standard Template Library，is part of `<stdlibc++>`
+
+主要内容包含了：1. container 和 iterators；2. memory allocators；3. utilities and function objects；4. algorithms
+
+STL 包含了 red-black tree 等难 implement 的数据结构和算法；以及 hash table, merge sort 等容易 implement 但很难 implement well 的算法。STL 的 `std::sort` 是一个 worst-case $O(n \log n)$ 的算法，混合了多种排序，比 quicksort 更快.
+
+STL 的 `std::nth_element()` 具有 average-case linear time.
+
+ 提一嘴：`explicit` 和 `mutable` 关键词
+
+`explicit` 专用于 1-parameter ctor，目的是为了防止 accidental conversion from another type.
+
+```c++
+explicit FeetInches(int feet);
+FeetInches a(3); //ok
+FeetInches b = 3; // error
+```
+
+`mutable` member variable 可以被 `const` member function 修改。（allow us to break the rule）
+
+`mutable` 看起来没用，但其实很有用。因为很多 stl 函数会 return const reference，mutable 变量可以 help use these functions In container.
+
+### Types of Iterators
+
+Iterators 是对 Pointer 的 generalization.
+
+Iterator 比 random access 更快. 比如 `*(it++)` 比 `ar[i++]` 更快一点，可以增加 traversal 的速度.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Lec 8 - Heap & Heapsort
-
 
