@@ -728,11 +728,103 @@ Iterators 是对 Pointer 的 generalization.
 
 Iterator 比 random access 更快. 比如 `*(it++)` 比 `ar[i++]` 更快一点，可以增加 traversal 的速度.
 
+iterator 有以下的类型：
+
+1. **Input Iterator**：
+   - *Example*: 从标准输入中读取数据。
+
+     `std::istream_iterator<int>` 可以用于从文件中依次读取整数。
+   
+   ```cpp
+   std::ifstream file("numbers.txt");
+   std::istream_iterator<int> input_it(file), eof;
+   while (input_it != eof) {
+       std::cout << *input_it++ << " ";
+   }
+   ```
+   
+2. **Output Iterator**：
+   - *Example*: 向输出流中写入数据 
+
+     `std::ostream_iterator<int>` 可以用于将整数写到标准输出中。
+   
+   ```cpp
+   std::ostream_iterator<int> output_it(std::cout, " ");
+   *output_it++ = 10;
+   *output_it++ = 20;
+   ```
+   
+3. **Forward Iterator**：
+   
+   - *Example*: 遍历 `std::forward_list`，它支持前向遍历（但不支持反向遍历）。
+   
+   ```cpp
+   std::forward_list<int> fl = {1, 2, 3, 4};
+   for (auto it = fl.begin(); it != fl.end(); ++it) {
+       std::cout << *it << " ";
+   }
+   ```
+   
+4. **Bidirectional Iterator**：
+   
+   - *Example*: 遍历 `std::list`，它支持在链表中前进和后退。
+   
+   ```cpp
+   std::list<int> lst = {1, 2, 3, 4};
+   for (auto it = lst.begin(); it != lst.end(); ++it) {
+       std::cout << *it << " ";
+   }
+   for (auto rit = lst.rbegin(); rit != lst.rend(); ++rit) {
+       std::cout << *rit << " ";
+   }
+   ```
+   
+5. **Random Access Iterator**：
+   - 允许随机访问任意位置的元素，可以使用下标操作符进行访问。
+
+     *Example*: 使用 `std::vector`
+   
+   ```cpp
+   std::vector<int> vec = {10, 20, 30, 40};
+   std::cout << vec[2] << std::endl;  // 访问第三个元素
+   ```
+   
+6. **Reverse Iterator**：
+   
+   反向遍历 `std::vector`，可以使用 `std::reverse_iterator` 或直接使用容器的 `rbegin()` 和 `rend()`。
+   
+   *Example*: 
+   
+   ```cpp
+   std::vector<int> vec = {1, 2, 3, 4};
+   for (auto rit = vec.rbegin(); rit != vec.rend(); ++rit) {
+       std::cout << *rit << " ";  // 输出 4 3 2 1
+   }
+   ```
 
 
 
+#### STL: 每个容器都支持的 iterators
+
+`xxx.begin()`, `xxx.end()`：正常的 forward iterator
+
+`xxx.cbegin()`, `xxx.cend()`：const iterator，不可以修改元素
+
+`xxx.rbegin()`, `xxx.rend()`：reverse iterator
+
+ex:
+```c++
+std::vector<int> vec = {1, 2, 3, 4};
+for (auto rit = vec.rbegin(); rit != vec.rend(); ++rit) {
+    std::cout << *rit << " ";  // 输出 4 3 2 1
+}
+```
 
 
+
+注意：当 implement 
+
+ range-based function
 
 
 
