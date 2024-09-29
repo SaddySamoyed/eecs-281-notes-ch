@@ -1104,4 +1104,55 @@ Heap 的用处是 PQ 以及 Heapsort 等.
 
 
 
+Note:
+
+**Heap 中，任意一个 node 的 parent node 的 index 都可以由该 node 的一半向下取整获得。**
+
+即：
+$$
+i = \lfloor{i_\text{father}}\rfloor
+$$
+**比如 father node 的 index 是 4，那么这个 node 的 Index 只可能是 8 或者 9.**
+
+所以我们可以很简单地获得一个 Node 的 parent 的 index by `i/2`.
+
+这个 property 使得我们可以让 father-son node 的交互是 O(1) 的，因而保持 heap 结构的复杂度理应不高.
+
+
+
+#### Alter element: `fixup()`, `fixdown()` 以保持 Heap 结构
+
+假如我们有一个 node 的值被修改得更高了，那么我们要把它 fix up：和 ancestor nodes 更换值直到 parent 比他大为止.
+
+```c++
+void fixUp(Item heap[]. int k) {
+    while (k > 1 && heap[k/2]<heap[k]) {
+        swap(heap[k], heap[k/2]);
+        k /= 2;
+    }
+}
+```
+
+假如 node 的值被修改得更低了，那么 fix down：和 descendents 比较，交换(左child) 到两个 children 都比他小为止.
+
+```c++
+void fixDown(Iten heap[], int heapsize, int k) {
+    while (2 * k <= heapsize) {
+        int j = 2*k;	// left child index
+        if (j < heapsize && heap[j] < heap[j+1]) //第一个
+            ++j;
+        if (heap[k] >= heap[j])
+            break;
+        swap(heap[k], heap[j]);
+        k = j;	// move down
+    }
+}
+```
+
+
+
+
+
+
+
 保持 heap 结构的原理就是每次删除，修改以及
