@@ -1,3 +1,7 @@
+[TOC]
+
+
+
 # 281-record
 
 ## Lab 1
@@ -1041,7 +1045,7 @@ int main() {
 
 
 
-## Lec 8 - Heap & Heapsort
+## Lec 8 - Heap & PQ & Heapsort
 
 ### tree
 
@@ -1049,21 +1053,55 @@ recall: a tree is a connected graph with no cycle.
 
 一些名词：
 
-root: 根；ancestor: 某个节点是另一个节点的某个 parent of parent of ....；descendent: 某个节点是另一个节点的 child of child of ....；internal node: node with children；leaf node: node without children
+1. ancestor: 某个节点是另一个节点的某个 parent of parent of ....
+2. descendent: 某个节点是另一个节点的 child of child of ....；
+3. 一个 internal node: node with children；
+4. 一个 leaf node: node without children
+5. height(node) = max(height(left_child), height(right_child))
+6. depth(node) = depth(node.parent) + 1;
+
+Note: 任何 subtree 本身也是 tree（recursion结构）
 
 
 
-任何 subtree 本身也是 tree（recursion结构）
-
-
-
-height(node) = max(height(left_child), height(right_child))
-
-depth(node) = depth(node.parent) + 1;
-
-
+#### Complete Binary tree: 可以用 array 表示
 
 Binary tree: 所有 node 的 children 数量 <= 2
 
-Complete Binary tree: 没有只有一个 child 的 Node.
+Complete Binary tree: 除了最后一个 level 外每个 level 都被 filled. 且最后一个 level 从左到右也没有空隙.
 
+<img src="note-assets\{CEB4F7F3-1994-4992-BF82-F0DB8905A991}.png" alt="{CEB4F7F3-1994-4992-BF82-F0DB8905A991}" style="zoom:50%;" />
+
+
+
+Complete 即 tree 中没有 gap.
+
+Complete 的好处是: **任意 complete tree 都可以用 array 表示.**
+
+<img src="note-assets\{8C1035E2-879C-4522-B5FF-C6B5BDAECAFE}.png" alt="{8C1035E2-879C-4522-B5FF-C6B5BDAECAFE}" style="zoom: 33%;" />
+
+#### Heap-ordered tree
+
+一个 tree 被称为 max heap-ordered，如果它的每个 node 的 priority （即 value）都 <= 它的 parent 的 priority.
+
+min heap-order: dually.
+
+**Note: heap-ordered 并不一定 ordered.**
+
+<img src="note-assets\{9A520B51-712E-4164-89C8-C7FC305CBC01}.png" alt="{9A520B51-712E-4164-89C8-C7FC305CBC01}" style="zoom: 33%;" />
+
+
+
+### Heap
+
+Def：一个 heap 是一个 heap-ordered 的 complete binary tree.
+
+满足的是 max heap order 则称为 max heap，否则称为 min heap.
+
+Note: **heap 的 logical structure 是 complete binary tree，但是通常使用 array 来 Implement.**
+
+Heap 的用处是 PQ 以及 Heapsort 等.
+
+
+
+保持 heap 结构的原理就是每次删除，修改以及
