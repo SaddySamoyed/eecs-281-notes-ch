@@ -806,6 +806,8 @@ iterator 有以下的类型：
 
 #### STL: 每个容器都支持的 iterators
 
+**STL operates on iterator range, not container**
+
 `xxx.begin()`, `xxx.end()`：正常的 forward iterator
 
 `xxx.cbegin()`, `xxx.cend()`：const iterator，不可以修改元素
@@ -820,19 +822,248 @@ for (auto rit = vec.rbegin(); rit != vec.rend(); ++rit) {
 }
 ```
 
+使用例：
+
+```c++
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+const size_t N = 100;
+vector<int> v(N, 114514);
+int a[N];
+
+copy(v.begin(), v.end(), a);	//把 v.begin(), v.end() copy 到 a
+copy(a, a+N, v.begin());	//把 a[0] to a[N] copy 到 v
+sort(a, a+N);
+sort(v.begin(), v.end());
+
+vector<int> vreversed(v.rbegin(), v.rend());
+```
+
+### Memory overhead
+
+`vector<>`: Compact memory usage.
+
+`list<>`: Less compact
+
+`unordered_map<>`: High memory usage, a "Memory hog."
+
+如果在一个 vector 里装其他 containers，装的只是它们第一个 object 的 address，也就是 ptr.
+
+```c++
+vector<vector<int>> twoDarray(10);
+// to initialize the elements:
+vector<vector<int>> twoDarrayInied(10, vector<int>(20,114514)));
+```
+
+**甚至可以每个元素是大小不一样的 vector.** (triangular vector)
+
+#### simple syntax for 3 dim vector
+
+c++支持这样的 syntax:
+
+```c++
+vector<vector<vector<T>>> ar3d(a, b, c);
+```
+
+这里的 memory overhead 数量 in terms of pointers 是：3 + 3a + 3ab
+
+### Functor
+
+```c++
+class SortByCoord }
+	const vector<double> &_coords;
+
+public:
+	SortByCoord(const vector<double> &z) : _coords(z) {}
+	bool operator()(size_t i, size_t j) const {
+        return _coords[i] < _coords[j];
+    }	// operator(), 于是 SortByCood 的 instance 可以像一个 function 一样
+};
+
+vector<size_t> idx(100);	// as index
+vector<double> xCoord(100);	// actual container
+for (size_t k = 0; k != 100; ++k) {
+    idx[k] = k;
+    xCoord[k] = rand(); % 1000 / 10.0;
+}
+
+SortByCoord sbx(xCoord);	//sbx 是一个 function object
+sort(begin(idx), end(idx), sbx);
+// sort: 从 idx 的 begin iterator (指向 0)
+//		 到 idx 的 end iterator (指向 99)
+//		 在这个 iterator range(0-99) 之间, 使用 sbx 的 operator() 作为 comp function 进行排序
+```
+
+Note: 对于每个 `it1`, `it2`，`sbx (*it1, *it2)` 返回的结果是 `_coords[*it1] < _coords[*it2]`
+
+因而最后排序的结果是所有在 `begin(idx), end(idx)` 范围内的 iterator `it`,  `sbx(*it, *it+1)` 都是 true 的. 也就等于排序了 `xCoord` .
 
 
-注意：当 implement 
 
- range-based function
+Note: C++ 中 fill 一个 container with 同一个 value，比起 iterate 更快的方法：
+
+```c++
+#include <numeric>
+vector<int> v(100);
+iota(begin(v), end(v), 0);
+```
 
 
 
+### Lambda
+
+一个 lambda expression 是一个这样的形式：
+
+form 1:
+
+```
+[captures list] (parameter list) {function body}
+```
+
+（captures list 意思是 variables from the surrounding scope 中所有对这一条 Lambda 表达式 available 的.）
+
+ex:
+
+```c++
+[] (int n1, int n2) { return abs(n1 - n2) > 5; }
+```
 
 
 
+form 2:
+```c++
+[captures list] (parameter list) -> return_type {function body}
+```
+
+arrow operator 用来 explicitly specify return type.
+
+特别用在 return type 难以 deduce 的情况以及想要特别转换的情况.
+
+ex:
+
+```c++
+[] (double x, double y) -> int {return x + y;}
+```
+
+
+
+#### 使用 lambda 表达式起到 functor 一样的作用
+
+```c++
+struct IsOddPred {
+    bool operator()(int n) {
+        return n%2 == 1;
+    }
+};
+
+int main() {
+    vector<int> v = //...
+    
+    // 使用 functor
+    auto it1 = find_if(begin(v), end(v), IsOddPred());
+    
+    // 使用 lambda in place of functor
+    auto it2 = find_if(begin(v), end(v), [](int n) {return n%2==1});
+}
+```
+
+
+
+#### captures list 的用例
+
+`[foo, bar]` 只 capture 这两个变量
+
+`[&]` capture surrounding scope 中所有的 variables by reference
+
+`[=]` capture surrounding scope 中所有的 variables by value
+
+**`[&, foo]` capture `foo` by value，以及 surrounding scope 中所有其他 variables by reference**
+
+**`[=, &foo]` capture `foo` by ref，以及 surrounding scope 中所有其他 variables by value**
+
+`[this]` capture the current object，如果这个 lambda 是 member function 中 define 的.
+
+
+
+#### Algorithm problem: functor
+
+使用 lambda 和 STL algorithm 来 implement: take in a `threhold` value 和一个 vector of `<Message>`，如果 vector 中某个 Message 的长度大于 threshold 则返回 true
+
+Hint: `std::any_of(it1, it2, pred)` 返回 ture，如果某段 iterator range 里存在某个 `*it` 满足 `pred(*it)`.
+
+```c++
+bool msgPastThreshold(vector<Message> &msg, uint64_t threshold) {
+    return any_of(begin(msg), end(msg), [threshold](const Message &m) {return m.received - m.sent > threshold;})
+}
+```
+
+
+
+### `std::random`
+
+生成一个对一些元素的随机排列:
+
+```c++
+#include <random>
+
+int main() {
+    random_device rd;	// 用于产生随机种子
+    mt19937_64 mt(rd());  // 创建一个 64 位的 Mersenne Twister 随机数生成器 mt，并使用 rd() 生成的种子来初始化
+    
+    int size = 20; 
+	vector<int> values(size); 
+    iota(begin(values), end(values), 0);
+	shuffle(begin(values), end(values), mt);	// shuffle 随机打乱一段 iterator range 内的元素, take in 一个随机数生成器作为参数, 来随机打乱.
+}
+```
+
+
+
+生成随机数：
+```c++
+#include <iostream>
+#include <random>
+
+int main() {
+    // 创建随机设备
+    std::random_device rd;
+    // 随机数引擎
+    std::mt19937 gen(rd());
+    // 创建一个分布来定义生成的浮点数范围（例如 0.0 到 1.0）
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+    // 使用分布(随机引擎)生成分布内的随机数
+    double random_number = dis(gen);
+    return 0;
+}
+```
 
 
 
 ## Lec 8 - Heap & Heapsort
+
+### tree
+
+recall: a tree is a connected graph with no cycle.
+
+一些名词：
+
+root: 根；ancestor: 某个节点是另一个节点的某个 parent of parent of ....；descendent: 某个节点是另一个节点的 child of child of ....；internal node: node with children；leaf node: node without children
+
+
+
+任何 subtree 本身也是 tree（recursion结构）
+
+
+
+height(node) = max(height(left_child), height(right_child))
+
+depth(node) = depth(node.parent) + 1;
+
+
+
+Binary tree: 所有 node 的 children 数量 <= 2
+
+Complete Binary tree: 没有只有一个 child 的 Node.
 
