@@ -1139,9 +1139,9 @@ void fixUp(Item heap[]. int k) {
 void fixDown(Iten heap[], int heapsize, int k) {
     while (2 * k <= heapsize) {
         int j = 2*k;	// left child index
-        if (j < heapsize && heap[j] < heap[j+1]) //第一个
-            ++j;
-        if (heap[k] >= heap[j])
+        if (j < heapsize && heap[j] < heap[j+1])
+            ++j;	// right child greater?
+        if (heap[k] >= heap[j])	// node > max(left, right), heap alreday restored
             break;
         swap(heap[k], heap[j]);
         k = j;	// move down
@@ -1149,10 +1149,117 @@ void fixDown(Iten heap[], int heapsize, int k) {
 }
 ```
 
+fixup, fixdown 是 $O(\log n)$ 的
+
+因以 remove 走 top item 的复杂度是 $O(\log n )$ 的：把它的值换成最低然后 fixdown，最后把 end pop掉就可以，fix 
+
+Insert 一个 item 也是  $O(\log n )$ 的。直接 insert 在 end 上然后 fixup 就好。
+
+inspect top item: $O(1)$ (index 0 就可以)
+
+### Priority Queue
+
+PQ 是一种基于 heap 的 data structure，支持三种运算：
+
+1. `push`，插入元素 with priority
+2. `top`，查看最高 priority 元素
+3. `pop`，移除最高 priority 元素
+
+用处: shortest path, Dijkstra, heapsort, ...
 
 
 
+PQ 的 `push` 就是在 heap 中 insert 新元素。
+
+```c++
+void push(Item newitem) {
+	heap[++heapsize] = newItem;
+  fixUp(heap, heapsize);
+}
+```
 
 
 
-保持 heap 结构的原理就是每次删除，修改以及
+PQ 的 `pop` ：换成最低 priority 元素然后弹走。（PQ 只支持 remove top 元素）
+
+```c++
+void pop() {
+  heap[1] = heap[heapsize--];
+  fixDown(heap, heapsize, 1);
+}
+```
+
+
+
+PQ 也可以通过普通的 unsorted array 和 sorted array 而不是 heapified array 实现，复杂度是：
+
+unsorted array:
+
+1. $O(1)$ insertion （insert end）
+2. $O(n)$ inspect top（排序后最大的里面的最前面
+3. $O(1) / O(n)$ pop（排序后最大的里面的最后面，可以 keep track
+
+sorted array:
+
+1. $O(n)$ insertion （排序）
+2. $O(1)$ inspect top
+3. $O(1)$ pop (移走end)
+
+
+
+### Heapify
+
+Heapify 就是把一个 array / vector 做成一个 heap. space omplexity 为 $O(1)$，不占用额外内存.
+
+选择有两个：
+
+1. bottom to top 进行 fix down repeatedly
+2. top to bottom 进行 fix up repeatedly
+
+top to bottom 进行 fix up: 要遍历完所有元素，每个元素 swap 的次数最多是所在层的数目，越往下越多，因而是 $O(n \log n)$
+
+bottom to top 进行 fix down: 最后一层不用 fix，从导数第二层开始，每一层 k 对于每个上层节点，左右两个 $n1_k$, $n2_k$ 只需要 fix 一个就可以；并且每个元素 swap 的次数从导数第二层的 1 开始，往上一层就+1（同时元素也更少），复杂度的结果是 $O(n)$
+
+<img src="note-assets/Screenshot 2024-09-29 at 12.53.48.png" alt="Screenshot 2024-09-29 at 12.53.48" style="zoom: 33%;" />
+
+直观上很显然 bottom to top 的 complexity 更低。事实也是:
+
+bottom to top fix down: $O(n)$
+
+top to bottom fix up: $O(n \log n)$
+
+
+
+我们我们采取 bottom up 策略。
+
+
+
+### Algorithm: Heapsort
+
+Heapsort 一个 vector a[n]
+
+1. 对 a[1 to n] 进行 heapify
+2. 把 top element 和 tail element 互换
+3. 把换来的 tail element **在 a[1 to n-1] 范围内进行 fixdown**
+4. a[1 to n-1] 现在有 heap structure. 我们在 a[1 to n-1]  上重复这个过程.
+
+<img src="note-assets/notes-01-08.png" alt="Screenshot 2024-09-29 at 12.58.37" style="zoom:33%;" />
+
+这一过程中每次被放到 [n-1] 位置的都是当前最大的，但是又比上一个放进去的小。形成了排序。
+
+time complexity: 执行 n 次 fixdown，$O(n\log n)$，和 merge sort 渐进一样。
+
+
+
+```c++
+void heapsort(Item heap[], int n) {
+  heapify(heap, n);
+  for (int i = n; i >= 2; --i) {
+    swap(heap[i], heap[1]);
+    fixDown(heap, i-1, 1);
+  }
+}
+```
+
+
+
