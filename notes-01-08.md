@@ -702,6 +702,63 @@ bool Array::insert(size_t index, double val) {
 
 会向右 shift 整个 array 一格.
 
+
+
+## Lab 2
+
+#### Algorithm Problem: Find 1/k ^th element of Linked List
+
+策略：双指针。one fast(it+= k), one slow(it++).
+
+O(n)
+
+#### Algorithm Problem: Sort a Stack
+
+策略：使用一个 helper stack. 这个 stack 保持 sorted invariant，栈顶最小
+
+helper stack 和 input stack 之间保持它们元素的总和总是所有元素.
+
+当 `inputStack` 非空时，执行以下步骤：
+
+- 弹出 `inputStack` 的栈顶元素到 `int temp`
+- 将 helperStack 顶部的元素和 temp 比较，如果比 temp 小就弹出放进 input stack 并 count++，直到找到比 temp 大的元素为止，把 temp 弹到这个元素上
+- 根据 count 把临时弹出 Helperstack 的元素都弹回来
+
+```c++
+void sortStack(stack<int>& inputStack) {
+    stack<int> helperStack;
+
+    while (!inputStack.empty()) {
+        // Take the top element from inputStack
+        int temp = inputStack.top();
+        inputStack.pop();
+
+        while (!helperStack.empty() && helperStack.top() > temp) {
+            inputStack.push(helperStack.top());
+            helperStack.pop();
+        }
+
+        helperStack.push(temp);
+    }
+
+    // Move elements back to inputStack
+    while (!helperStack.empty()) {
+        inputStack.push(helperStack.top());
+        helperStack.pop();
+    }
+}
+```
+
+O(n^2)
+
+#### Algorithm Problem: 用两个 stack 写一个 queue
+
+进入 queue: 就是进入 stack；O(1)
+
+出 queue: 把 stack 中所有元素都 pop 到 stack2，然后把头 pop 掉，再 pop 回去；O(n)
+
+
+
 ## Lec 7 - STL
 
 Standard Template Library，is part of `<stdlibc++>`
