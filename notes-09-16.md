@@ -24,28 +24,28 @@ For ordered container:
 
 (add 的复杂度是 $O(1)$, 因为直接加在最后）
 
-|                      | array-based | link-list-based |
-| -------------------- | :---------: | :-------------: |
-| add                  |      1      |        1        |
-| remove(val)          |      n      |        n        |
-| **remove(iterator)** |    **n**    |      **1**      |
-| find(val)            |      n      |        n        |
-| op*                  |      1      |        1        |
-| **op[]**             |    **1**    |      **n**      |
-| **insert**           |    **n**    |      **1**      |
+|                      | array-based |       link-list-based       |
+| -------------------- | :---------: | :-------------------------: |
+| add                  |      1      |              1              |
+| remove(val)          |      n      |              n              |
+| **remove(iterator)** |    **n**    | **n (1 for doubly linked)** |
+| find(val)            |      n      |              n              |
+| op*                  |      1      |              1              |
+| **op[]**             |    **1**    |            **n**            |
+| **insert**           |    **n**    | **n (1 for doubly linked)** |
 
 For sorted:
 
 （add 的复杂度是 n, 因为先要找到应该加入的位置）
 
-|                      | array-based  | link-list-based |
-| -------------------- | :----------: | :-------------: |
-| add                  |      n       |        n        |
-| remove(val)          |      n       |        1        |
-| **remove(iterator)** |    **n**     |      **1**      |
-| **find(val)**        | **$\log n$** |      **n**      |
-| op*                  |      1       |        1        |
-| **op[]**             |    **1**     |      **n**      |
+|                      | array-based  |       link-list-based       |
+| -------------------- | :----------: | :-------------------------: |
+| add                  |      n       |              n              |
+| remove(val)          |      n       |              1              |
+| **remove(iterator)** |    **n**     | **n (1 for doubly linked)** |
+| **find(val)**        | **$\log n$** |            **n**            |
+| op*                  |      1       |              1              |
+| **op[]**             |    **1**     |            **n**            |
 
 从 ordered 到 sorted container，除了 add 变了外唯一的区别是 array_based 的 `find(val)`  复杂度降了，因为可以在 contiguous 的内存上使用 Binary search. 
 
@@ -129,11 +129,52 @@ dually 我们还有 upper_bound 函数.
 
 ### Representing sets
 
-我们可以让一个 container 拥有 set 的性质，if
-
-我们需要 union, intersect, difference 和 symmetric difference
+我们可以让一个 container 拥有 set 的性质：需要 union, intersect, difference 和 symmetric difference
 
 以及添加 element, 去除 element, 判断是否是 element 的运算.
 
 
 
+`std::set_union` 依赖于 sortedness. 对于两个 set （或者任意储存同种数据类型的 container），它可以在某段范围上实现 set union 的效果.
+
+```c++
+template<class ForIterator1, class ForIterator2, class OutIterator, class Compare>
+OutIterator set_union(ForIterator1 first1, ForIterator1 last1,
+                      ForIterator2 first2, ForIterator2 last2,
+                      OutIterator result, Compare compare) {
+    while (first1 != last1 && first2 != last2) {
+        if (compare(*first1, *first2)) {	//compare 返回的是 (x<=y)
+            *result++ = *first1++;  // set1 element less than set2 element
+        } else if (compare(*first2, *first1)) {
+            *result++ = *first2++;  // set2 element less than set1 element
+        } else {	//else: 两个元素相等, both index++
+            *result++ = *first1++;
+            ++first2;
+        }
+    }
+  	// get remainings elements
+    while (first1 != last1)
+        *result++ = *first1++; 
+    while (first2 != last2)
+        *result++ = *first2++; 
+    return result;  // sorted union of set1 and set2
+}
+```
+
+
+
+#### Complexity of set operations
+
+Initialize: $O(1)$ 如果 unsorted；$O(n\log n)$ if sorted（需要排序）;
+
+clear: $O(n)$ 
+
+isMember: $O( \log n)$ ，需要binary search
+
+copy: $O(n)$，即和空集 union
+
+union, intersect：$O(n)$
+
+
+
+#### 
