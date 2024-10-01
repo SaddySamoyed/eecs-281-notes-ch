@@ -55,3 +55,6 @@ A buyer will always try to buy for the lowest price possible, and a seller will 
 If the SELL order arrived first, then the price of the match will be at the price listed by the seller. If the BUY order arrived first, the match price will be the price listed by the buyer.
 
 In the event of a tie (e.g. the two cheapest sellers are offering for the same price), **always match using the order that arrived earliest.**
+
+### CML
+
