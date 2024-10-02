@@ -58,4 +58,32 @@ In the event of a tie (e.g. the two cheapest sellers are offering for the same p
 
 ### CML
 
-四个 optional. v, m, i, t
+四个 no argument: v, m, i, t		
+
+v: 需要 generate verbose output 
+
+m: 需要 generate median output
+
+i: 需要在 output 中包括 trader details
+
+t: 需要生成 time traveller 的 output.
+
+
+
+### Market Logic
+
+market 会受到一系列 Orders. 一个 Order 就是一个 buy/sell 某个 stock 的 shares 的 request. 由下面六个变量组成：
+
+1. timestamp: order 时间
+2. trader ID: 谁发起的
+3. Stock ID: 买卖哪个 stock
+4. Buy/sell ? 
+5. trader 愿意 pay/receive 的 Max/min price per share
+6. quantity of shares
+
+对于每一单，我们都 check 这个 new order 是否 match 某个 previous order
+
+match 条件：
+
+1.  same stock ID，一个 Buy 一个 sell
+2. 
