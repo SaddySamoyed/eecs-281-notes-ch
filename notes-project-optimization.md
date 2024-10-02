@@ -86,4 +86,46 @@ market 会受到一系列 Orders. 一个 Order 就是一个 buy/sell 某个 stoc
 match 条件：
 
 1.  same stock ID，一个 Buy 一个 sell
-2. 
+2.  seller 愿意收的 min price <= buyer 愿意出的 max price （我们使用PQ 来 match 最低的 seller 和最高的 Buyer）
+
+match 后交易价格：
+
+如果是 seller 先到，出价是 seller 列出的 limit (最低价)，因为 buyer 想用最低的钱来买；如果是 buyer 先到，出价是 buyer 列出的 limit (最高价)，因为 seller 看到之后想赚尽可能多的钱
+
+match 并交易完之后，大概率一方的需求没有耗尽，继续留在队伍里
+
+
+
+### Output
+
+Processing orders...
+
+。。。
+
+启动v 则 Trader <BUYING_TRADER_NUM> purchased <NUM_SHARES> shares of Stock <STOCK_NUM> from Trader <SELLING_TRADER_NUM> for $<PRICE>/share
+
+启动 m 则Median match price of Stock <STOCK_ID> at time <TIMESTAMP> is $<MEDPRICE> （**If no trades have been made for a given stock, it does not have a median, and thus nothing should be printed for that stock’s median**）
+
+---Trader Info---
+Trader 0 bought 0 and sold 2 for a net transfer of $166
+
+Trader 1 bought 63 and sold 0 for a net transfer of $-5359
+
+Trader 2 bought 24 and sold 85 for a net transfer of $5193
+
+...
+
+---End of Day---
+Trades Completed: <TRADES_COMPLETED><NEWLINE>
+
+
+
+### 数据结构
+
+```c++
+priority_queue<int, vector<int>, greater<int>> pqMin;`
+```
+
+我们需要一个 Stock class
+
+对于每个 stock 我们都需要一个  buyer PQ，一个 seller PQ
