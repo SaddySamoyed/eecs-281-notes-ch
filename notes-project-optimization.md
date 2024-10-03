@@ -148,9 +148,9 @@ buyer 是按照愿意出的最高价排队的，seller 的价格是愿意卖的�
 
 
 
+match:  buyer: .price >= top.price.
 
-
-buyer: .price >= top.
+seller: price <= top.price
 
 
 
@@ -160,37 +160,28 @@ buyer: .price >= top.
 
 2. match 则交易，不 match 则入队\
 
-   while (match)
+   while (和 top match && current.quantity != 0)
 
-1. while current.quantity !0 
+   {
 
-   { 比较 quantity, 如果 current 的 quantity > top.quantity, 那么 top 被 pop，current 的 quantity -= top.quantity; 
+   ​	比较 quantity, 
 
-   如果 current 的 qua =top. quantity，则 pop top
+   如果 current 的 quantity >= top.quantity, 那么 top 被 pop，current 的 quantity -= top.quantity; 
 
-   如果 current 的 quantity < top.quantity，则 top
+   如果 current 的 quantity < top.quantity，则 current.quantity = 0， top 的 quantity -= current.quantity
 
    }
 
-   
+   如果 current.quantity = 0，continue
 
-   where 
-
-   current 继续检查下一个 top. while 一直查直到 < top.quantity
-
-   否则查看是否小于，小于则 top.quantity -= current.quantity，
-
-
-
-现在问题：
-
-1. buyer 是按照愿意出的最低价排队的，但是PQ 的 API 只有获取 priority 最高的
+   否则 current 入队。
 
 
 
 
 
-我们先做一个 4 个 mode 都不开的，纯 match 到 TL 输入结束的版本。
+我们先做一个 4 个 mode 都不开的。这个今天 finish 掉了
 
-同时也没有 error checking. 
+明天的任务是：finish 掉正式的 version 的初稿，写一点 test case；起步 PQ
 
+以及370的5个 lec.....
