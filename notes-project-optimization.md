@@ -129,3 +129,68 @@ priority_queue<int, vector<int>, greater<int>> pqMin;`
 我们需要一个 Stock class
 
 对于每个 stock 我们都需要一个  buyer PQ，一个 seller PQ
+
+我现在要使用 priority queue 来表示一个 stock 的运行情况。对于一个 stock, 我设置两个 PQ: 一个是 buyer PQ，一个是 seller PQ。于是，每一次我读入一个 Order 时，如果是 buyer 我就把它和 seller PQ 里面的 orders 尝试 match，如果是 seller 我就把它和 buyer PQ 里面的 orders 尝试 match.  
+
+buyer 是按照愿意出的最高价排队的，seller 的价格是愿意卖的最低价。
+
+所以对于一个 seller order，我们只需要看 Price 最高的 buyer 就可以，如果 price 最高的 buyer 的 price 都不合想法，那么下面肯定也不合，直接入队了。所以 buyer PQ 是一个 max heap
+
+对于一个 buyer order，我们只需要看 price 最低的 seller 就可以，如果 price 最低的 seller 的 price 都不够低那么下面就更低。seller PQ 是一个 min heap
+
+**对于一个 match: 不论 current 是 buyer 还是  seller，都是按照 PQ 里 top 弹出来的价格进行交易，为了自身利益最大化。**
+
+
+
+且 Issue 2：怎么确定 PQ 的 priority：在价格相同时，选择 eariler one
+
+这个就是 comparator 的问题。comparator 应该首先考虑价格，不等时再比较时间
+
+
+
+
+
+buyer: .price >= top.
+
+
+
+所以整体逻辑：
+
+1. 查看 PQ top
+
+2. match 则交易，不 match 则入队\
+
+   while (match)
+
+1. while current.quantity !0 
+
+   { 比较 quantity, 如果 current 的 quantity > top.quantity, 那么 top 被 pop，current 的 quantity -= top.quantity; 
+
+   如果 current 的 qua =top. quantity，则 pop top
+
+   如果 current 的 quantity < top.quantity，则 top
+
+   }
+
+   
+
+   where 
+
+   current 继续检查下一个 top. while 一直查直到 < top.quantity
+
+   否则查看是否小于，小于则 top.quantity -= current.quantity，
+
+
+
+现在问题：
+
+1. buyer 是按照愿意出的最低价排队的，但是PQ 的 API 只有获取 priority 最高的
+
+
+
+
+
+我们先做一个 4 个 mode 都不开的，纯 match 到 TL 输入结束的版本。
+
+同时也没有 error checking. 
+
