@@ -216,3 +216,28 @@ add 元素：
 
 现在开始 time traveller
 
+time traveller 的意思是对于每一个 stock，在整个 timestamp 中最大的卖和买之间的差价。每个 stock 的 timetraveller 对应了一个该 stock 的 sell order 和一个 later 的 buy order.
+
+所以这其实是一个很弱鸡的版本，不用考虑数量不用考虑中间其他人买入和补货，只需要找到一单卖和一单买，使得差价最大，subject to 条件 that 卖单比买单早就可以。
+
+所以这其实是个 optimization 问题
+
+
+
+state: initial
+
+首先在出现第一个 sell 时，state 变为: can buy
+
+一直等到第一个 buy，state: complete
+
+complete 状态之后每次读取新 Order 有两个方向
+
+1. 新 Order 是 buy：是否价格更高？是则更新 buy 为新 buy，state 仍然为 complete
+
+2. 新 Order 是 sell 且更低，进入 state: potential
+
+   potential state 保留了原来的 sell 和 buy，但是总是存储一个新的 sell，这个 sell 比原 sell 更低.
+
+   （如果新 order 是 sell 且更高，那么by 贪心原则忽略它）
+
+potential 状态之后，我们有一对 complete （不再变动）的 sell-buy 对，以及一个随时可以更新的更低 sell2；并且，一旦出现某个 buy2 使得（buy2 - sell2）的值比 complete 中存储的 （buy1 - sell2）更高，那么就更新 pair 为这对，回到 state: complete
