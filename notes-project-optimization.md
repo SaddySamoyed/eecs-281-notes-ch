@@ -228,7 +228,7 @@ state: initial
 
 首先在出现第一个 sell 时，state 变为: can buy
 
-一直等到第一个 buy，state: complete
+一直等到第一个 buy，state: complete；等待过程中如果发现价格更低的 sell 也更新 sell 但不更新 state
 
 complete 状态之后每次读取新 Order 有两个方向
 
@@ -241,3 +241,8 @@ complete 状态之后每次读取新 Order 有两个方向
    （如果新 order 是 sell 且更高，那么by 贪心原则忽略它）
 
 potential 状态之后，我们有一对 complete （不再变动）的 sell-buy 对，以及一个随时可以更新的更低 sell2；并且，一旦出现某个 buy2 使得（buy2 - sell2）的值比 complete 中存储的 （buy1 - sell2）更高，那么就更新 pair 为这对，回到 state: complete
+
+
+
+终于过了 spec。。。
+
