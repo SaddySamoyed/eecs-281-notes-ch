@@ -191,19 +191,24 @@ union, intersect：$O(n)$
 
 我用两个 index i = 0,j = n 来追踪首末的位置，每次监测到0就和 v[i] 交换上并且 i++，检测到 2 就和 v[j] 交换并且 j++. 这样最后所有 0 都在前面，所有2都在后面，中间一定都是1
 
+Note: 用来存 lowindex 的变量和用来 iterate 的变量必须区分开，否则有 bug. 所以是三个变量
+
 ```c++
 void sort012(vector<int>& nums) {
-  int size = nums.size();
-  int lowIndex = 0;
-  int highIndex = size - 1;
-  for (int i = 0; i <= highIndex; i++) {
-    if (nums[i] == 0) {
-      swap(nums[i], nums[lowIndex]);
-      lowIndex++;
-    } else if (nums[i] == 2) {
-      swap(nums[i], nums[highIndex]);
-      highIndex--;
+    int low = 0, scan = 0;
+    int high = nums.size() - 1;
+
+    while (scan <= high) {
+        if (nums[scan] == 0) {
+            std::swap(nums[low], nums[scan]);
+            low++;
+            scan++;
+        } else if (nums[scan] == 2) {
+            std::swap(nums[high], nums[scan]);
+            high--;
+        } else {
+            scan++;
+        }
     }
-  }
 }
 ```
