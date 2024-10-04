@@ -222,7 +222,7 @@ time traveller 的意思是对于每一个 stock，在整个 timestamp 中最大
 
 所以这其实是个 optimization 问题
 
-
+   "cwd": "${fileDirname}",
 
 state: initial
 
