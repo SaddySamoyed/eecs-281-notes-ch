@@ -246,3 +246,38 @@ potential 状态之后，我们有一对 complete （不再变动）的 sell-buy
 
 终于过了 spec。。。
 
+
+
+### Debug: 设置 conditional break point
+
+发现了一个好东西。。设置断点之后可以在断点上设置 condition，到达某个条件/count 之后进入断点，这就使得 debug 大型文件和小型文件一样简单了
+
+### Debug: LeakSanitizer does not work under ptrace 
+
+总是会出现这个 bug。查询了发现是 LeakSanitizer 与 debugger（如 `gdb` 或 `strace`）不兼容，很 sad.
+
+根源在于 LeakSanitizer 无法在启用 `ptrace` 的环境下运行，`ptrace` 是 Linux 系统中用于进程间调试的一个机制。
+
+解决方法：要么不使用 LeakSanitizer 要么不使用 gdb。也就是说一次用一个，查两次就好了。
+
+**禁用 LeakSanitizer 或禁用调试器：**
+
+如果只需要 LeakSanitizer 来检测内存泄漏而不需要进行调试，可以直接运行程序而不启动 `gdb`。
+
+```bash
+./your_program
+```
+
+甚至直接：
+
+```sh
+export LSAN_OPTIONS=detect_leaks=0
+```
+
+然后等下再
+
+```sh
+unset LSAN_OPTIONS
+```
+
+就好了。
