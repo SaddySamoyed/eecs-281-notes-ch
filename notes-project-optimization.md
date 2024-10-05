@@ -281,3 +281,61 @@ unset LSAN_OPTIONS
 ```
 
 就好了。
+
+
+
+
+
+现在 large 的普通 output 还有问题。。第一个问题在 981 行，T3 的 order 13 个 stock 7，应该是先向 T9 买 8个再向 T11 买5个，我们这里是直接向 T11 买了 13 个
+
+note: line = 1058. 这里 input 在 1064 行，等于说 offset 是 -6.
+
+查了之后发现我们的 T9 居然在 T11 下面。。
+
+T9 的readinNum = 915，T11 的 readinNum = 943. T9 理应优先。
+
+复盘：我们从 920 行读取了 T9 卖八个 S7，出价80块钱的 order，之后它一直没被买掉，也没有 。所以它理应
+
+948行碰到了出价80的 T11
+
+我们不妨看看 943 行的情况。
+
+确认了，刚刚被放进去的时候它确实是在 T9 下面的。结果到 1058 行它跑到上面去了
+
+readinNum 1050: 这个时候有一单 T5 买 34 个 S7，正好我的 s[7].sell[] 的 第一个是一个 T8卖的 34 个.
+
+nextOrder.quantity 真好等于 topOrder.quantity.
+
+于是 s[7].sell pop 了一个。
+
+然后 943 上来了来到了 0 ？？？？？？？？？？ wtf？？？？同样的 Price 难道不应该优先 fix up 更早的 915 吗？？？？？？？？
+
+我有点恍惚。。。
+
+
+
+我现在出现了这样的情况：
+
+我的 PQ 中，位置 0 的元素的 price 是 41，位置 1 和位置 2 的元素的 Price 都是 80.
+
+但是位置 2 的元素，timeStamp 更大，
+
+现在我 Pop 出 p[0]。根据我的 Comparator 的 implementation，理应原先的 p[1] 被 fix up，但是结果却是 p[2] 被 fix up. 为什么？
+
+
+
+struct CompareSellOrders {
+
+  bool operator()(const Order& o1, const Order& o2) {
+
+​    if (o1.priceWilling == o2.priceWilling) {
+
+​      return o1.timeStamp > o2.timeStamp; // Earlier timestamp has higher priority
+
+​    }
+
+​    return o1.priceWilling > o2.priceWilling; // Lower price has higher priority
+
+  }
+
+};
