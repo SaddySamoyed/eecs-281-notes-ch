@@ -322,20 +322,11 @@ nextOrder.quantity 真好等于 topOrder.quantity.
 
 现在我 Pop 出 p[0]。根据我的 Comparator 的 implementation，理应原先的 p[1] 被 fix up，但是结果却是 p[2] 被 fix up. 为什么？
 
+破案：STL 当然没问题，既然 debug 到这里明确发现这个情况那就是 obviously 只能是 comparator 写错了
+
+发现写错了一个变量。。
 
 
-struct CompareSellOrders {
 
-  bool operator()(const Order& o1, const Order& o2) {
 
-​    if (o1.priceWilling == o2.priceWilling) {
 
-​      return o1.timeStamp > o2.timeStamp; // Earlier timestamp has higher priority
-
-​    }
-
-​    return o1.priceWilling > o2.priceWilling; // Lower price has higher priority
-
-  }
-
-};
