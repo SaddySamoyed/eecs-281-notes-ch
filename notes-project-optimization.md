@@ -328,5 +328,45 @@ nextOrder.quantity 真好等于 topOrder.quantity.
 
 
 
+终于！解决所有 time travller 问题。并且通过我的 P2random 生成的 test case 找到了 一些 bugs. 老P限制了一个 test 只能 30 行，还防了一手我们暴力搜索。。
+
+以及其他报错终于知道了。。原来是我的 Median 忘关了。这波我不开 median 看看输出对不对
 
 
+
+增加了 error checking 之后发现反而有几个莫名其妙 exit(1) 了。 281最人性化的事情是告诉你你自己的 test 的结果跑的对不对，其实写test就能得到官网的test结果。
+
+最后发现是插入 return 和 exit 顺序反了
+
+
+
+### test case 想法
+
+现在 test-2:
+
+3 4 5 10 13 15
+
+test-8:
+
+6 8 11 12
+
+一共10个，还差：1, 2, 7, 9, 14, 16 
+
+
+想法：
+
+1. 自己买自己卖出去的
+2. 同价格时间戳也一样
+3. 同价格时间戳不一样
+4. 买卖恰好合计0，弹出
+5. 买溢出，不上队
+6. 卖溢出，队上消耗两人，最后一人正好耗完
+7. （专门为了 median: 中位数的奇偶和取整
+8. （专门为了 time travel）有一次 potential，potential 掉一买一卖最后成功
+9. （专门为了 trader_info）有正有负
+
+以及 INV 的问题。error checking:
+
+1. timestamp 任何地方都不能小于 0，且非严格递增
+2. trader ID, stock ID 范围
+3. price，quantity 为正（严格
