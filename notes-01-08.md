@@ -1182,7 +1182,7 @@ $$
 假如我们有一个 node 的值被修改得更高了，那么我们要把它 fix up：和 ancestor nodes 更换值直到 parent 比他大为止.
 
 ```c++
-void fixUp(Item heap[]. int k) {
+void fixUp(Item heap[], int k) {
     while (k > 1 && heap[k/2]<heap[k]) {
         swap(heap[k], heap[k/2]);
         k /= 2;
