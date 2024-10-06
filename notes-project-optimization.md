@@ -350,16 +350,21 @@ nextOrder.quantity 真好等于 topOrder.quantity.
 
 ### test case 想法
 
-现在 test-2:
+现在 test-2-m:
 
 3 4 5 10 13 15
 
-test-8:
+test-8-t:
 
 6 8 11 12
 
-一共10个，还差：1, 2, 7, 9, 14, 16 
+test-4-v:
 
+1
+
+一共11个，还差：2, 7, 9, 14, 16 
+
+把別人的 test 改了一頓結果別人找到的 Bug 不见了。。
 
 想法：
 
