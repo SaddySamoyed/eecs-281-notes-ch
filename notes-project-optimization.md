@@ -385,5 +385,42 @@ test-8:
 
 Modify: 
 
-提供了正确的 PQ：unorderedPQ, unorderedFastPQ
+SortedPQ.hpp
+
+BinaryPQ.hpp
+
+ParingPQ.hpp
+
+提供了正确的 PQ：unorderedPQ, unorderedFastPQ. 
+UnorderedFastPQ 也没什么 fast 的地方，，，所谓的 fast 单纯只是在 top 方法时顺便存储了下位置，以便下次 pop 前如果没有改动那么 pop 就是 const time 的
+
+显然 unordered PQ 并不好。我们
+
+我门只能使用 `std::swap()`, `std::size_t` 和 `std::less<TYPE>`
+
+sorted PQ 中多允许使用 `std::sort` 和 `std::lower_bound` 和 vector
+
+BInaryPQ 中多允许使用 和 vector
+
+PairingPQ 中多允许使用 duque 和 queue，但不能作为 private member.
+
+
+
+
+
+### Note: `std::less` 作为 comparator 产生的是 max PQ
+
+一个 counterintuitive 的事情：当我们使用 std::less 而不是 greater 的时候，我们是把大的元素放在前面的。std 其他函数和 ordered ds 也是这样。
+
+std::greater 反而是 min PQ
+
+### Sorted PQ
+
+只用 <= 10 行就可以写完的屑 PQ
+
+维持 sorted 就可以
+
+### Binay (heap) PQ
+
+课上讲的 binary heap PQ.
 
