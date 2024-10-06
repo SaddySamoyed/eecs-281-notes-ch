@@ -282,9 +282,17 @@ unset LSAN_OPTIONS
 
 就好了。
 
+#### 输出更多 verbose output
+
+for debugging:
+
+```sh
+export LSAN_OPTIONS=verbosity=1:log_threads=1
+```
 
 
 
+#### debug log
 
 现在 large 的普通 output 还有问题。。第一个问题在 981 行，T3 的 order 13 个 stock 7，应该是先向 T9 买 8个再向 T11 买5个，我们这里是直接向 T11 买了 13 个
 
@@ -370,3 +378,12 @@ test-8:
 1. timestamp 任何地方都不能小于 0，且非严格递增
 2. trader ID, stock ID 范围
 3. price，quantity 为正（严格
+
+
+
+## Project-2B PQ
+
+Modify: 
+
+提供了正确的 PQ：unorderedPQ, unorderedFastPQ
+
