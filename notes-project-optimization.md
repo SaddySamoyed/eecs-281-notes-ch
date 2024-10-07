@@ -429,3 +429,73 @@ std::greater 反而是 min PQ
 
 课上讲的 binary heap PQ.
 
+唯一需要主义的点是我们的伪代码是 1-based 的，这是为了方便 k / 2 就是 parent. 而实际上我们的代码肯定是 0-based 的. 这个问题的解决方案很简单，就是用一个 getElement 的函数获取 data[k-1] 来代替直接 Indexing vector
+
+
+
+### Paring PQ
+
+要看一篇老论文再 implement 的 PQ。。不想看直接扔给 GPT
+
+
+
+pairing 的 核心是 melt.
+
+melt 两个 Node 就是把其中小的一个作为另一个的 leftmost 子树
+
+Node 有三个关联变了：parent, sibling, child
+
+child 就是 Leftmost 子树的 node 
+
+sibling 是同级别的右边一个 node
+
+
+
+
+
+1. **put操作**：
+   - 要将一个元素加入pairing heap中，首先创建包含该单个元素的新pairing heap，然后将其与已有的pairing heap进行`meld`合并。
+2. 
+
+1. **isEmpty、size和getMax操作**：
+
+   - `isEmpty`、`size`操作通过维护数据结构中的元素数目来完成。
+   - `getMax`操作通过直接返回根节点（最大元素）来完成。
+
+   
+
+2. **put操作**：
+
+   - 要将一个元素加入pairing heap中，首先创建包含该单个元素的新pairing heap，然后将其与已有的pairing heap进行`meld`合并。
+
+3. **increaseKey操作**：
+
+   - 如果某节点的键值增加，可能会违反堆的最大性质，需要采取纠正措施：
+     1. 将包含该节点的子树从原始树中移除。
+     2. 合并剩下的树。
+   - 增加键值时，不会检查是否真的需要调整，而是直接移除并重新合并。
+
+4. **removeMax操作**：
+
+   - 最大元素在根节点处，移除后会产生零个或多个子树。
+   - 在“两遍合并”策略下，先从左到右合并每一对子树，然后从最右侧的树开始，逐一将其他树从右往左合并。
+   - 例如，移除根后得到多个子树，先左到右配对合并，然后右到左合并。
+
+5. **remove操作**：
+
+   - 当要移除的节点是根节点时，按`removeMax`操作处理。
+   - 如果节点不是根节点，移除操作步骤如下：
+     1. 从树中分离包含该节点的子树。
+     2. 删除该节点，并使用“两遍合并”或“多遍合并”策略将其子树合并为单个树。
+     3. 将剩余的树合并为一个树。
+
+6. **实现考虑**：
+
+   - Pairing heap可通过树的二叉树表示法来实现，兄弟节点通过双向链表相连，每个节点有三个指针字段：`previous`、`next`和`child`。
+   - 双向链表使得任意元素的移除可以在`O(1)`时间内完成。
+
+
+
+implement 的时候发现了一件惊人的事情，就是 PQ 原来不是 FIFO 的。。。它等于说是一个弱化版的 ordered container。它的时间复杂度比 ordered PQ 小，但是功能也受到限制。
+
+所以说 priority queue 其实就是弱化版的 ordered set，使用比较简单的时间复杂度来实现每次都 Pop 最高优先级的元素中的一个。
