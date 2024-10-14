@@ -201,6 +201,71 @@ STL sorting based on iterators。我们这里只用 array 和 indices 来举例�
 
 
 
+
+
+### Size 如何影响 sorting 策略
+
+当数据规模较小，可以 fit into memory 时：
+
+1. **Internal Sort（内部排序）**
+
+如果可以“看到所有elements“，即：存在 O(1) random access to any element 的时候，可以采取 internal sort.
+
+- 典型的内部排序算法包括：
+  - 快速排序（Quick Sort）
+  - 堆排序（Heap Sort）
+  - 归并排序（Merge Sort）
+  - 冒泡排序（Bubble Sort）
+
+2. **Indirect Sort（间接排序）**
+
+如果可以“看到所有 items 的 indices”， 也可以采取 indirect sort. 
+
+通过对数据的索引（或者指针）进行排序，而不直接修改原数据的顺序。
+
+- 通常用于**需要保持原始数据不变的场景**，以及 **copying 代价昂贵**的场景（比如图和树，深嵌套型 containers，需要 deep copy 的 containters 等
+
+
+
+当数据规模大到无法 fit into memory 时：
+
+**External Sort（外部排序）**
+
+- 数据被分块存储在外部存储介质（如磁盘）中，部分数据被加载到内存中进行排序。
+- 通常使用**归并排序**或**多路归并**（K-Way Merge）算法来将多个排序好的小数据块合并成一个有序的数据集。
+- 用于处理海量数据，特别是在数据库、分布式系统或数据仓库中处理超大规模数据时。
+
+
+
+#### Exercise: swap
+
+```c++
+template <typename TYPE>
+void swap(TYPE &a, TYPE &b) {
+    TYPE temp = a;
+    a = b;
+    b = temp;
+}
+```
+
+
+
+### Stability
+
+除了 time complexty 的 best/worst case 以及 memory 的考量，我们还需要考虑 stability
+
+Stability 指的是：preservation of relative order of items with duplicate keys. 即**对于 key 相同的元素，sorting 是否会改变其原本的排序方式**
+
+elementary sorts 通常 stable，complex sorts 则不然
+
+**当存在多个 key 时，stability 尤其重要（因为是一个一个 key 排序的，如果在一个 key 上，两个相同 key 的元素的位置失去了原本的结构，可能在这一环里没区别，但是到下一个 Key 的排序就完全不对了。**
+
+
+
+
+
+
+
 ## Lab 5 (Sorting)
 
 #### Algorithm Problem: sort 一个 0,1,2 组成的 vector, O(n) time, O(1) space
