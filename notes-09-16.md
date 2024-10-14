@@ -177,7 +177,7 @@ union, intersect：$O(n)$
 
 
 
-## Lec 10 Sorting
+## Lec 10 Elementary Sorting
 
 Elementary sorts:
 
@@ -263,6 +263,271 @@ elementary sorts 通常 stable，complex sorts 则不然
 
 
 
+
+### Adaptivity 自适应性
+
+**Adaptive（自适应）** 和 **Nonadaptive（非自适应）*表示算法对数据初始顺序的利用程度
+
+
+
+**Adaptive Sort（自适应排序）**
+
+- 自适应排序算法能够根据输入数据的初始顺序调整其行为。如果输入数据已经部分有序或接近有序，自适应排序算法可以更高效地完成排序，减少比较和交换的次数。
+- **特点**：
+  1. **处理接近有序数据较快**：对于部分已经排序的输入，算法的表现更优。
+  2. **动态调整**：在运行时，算法能够动态调整其行为以适应数据的有序程度。
+- **适用场景**：
+  - 输入数据已经部分有序。
+  - 希望充分利用已有的数据顺序。
+
+
+
+**Nonadaptive Sort（非自适应排序）**
+
+不管输入数据的初始顺序如何，总是按照固定的方式进行操作，执行相同的操作步骤
+
+- **特点**：
+  1. **固定的时间复杂度**：时间复杂度与数据的初始顺序无关。
+  2. **通常更加通用**：这种算法适用于任何类型的输入，不依赖数据的初始状态。
+
+- **示例**：
+  - **堆排序（Heap Sort）**：堆排序不管输入数据是否部分有序，总是先构建一个堆，然后进行堆排序操作，时间复杂度为 \(O(n \log n)\)。
+  - **快速排序（Quick Sort）**：经典的快速排序不利用输入数据的初始顺序，即使输入数据已经有序，它的时间复杂度仍然保持 \(O(n \log n)\)（最佳情况下），最坏情况下为 \(O(n^2)\)。
+  - **归并排序（Merge Sort）**：归并排序也是非自适应的，始终按照分治法进行操作，不管输入数据是否已经部分有序。
+
+- **适用场景**：
+  - 输入数据无序，或不关心输入的有序性。
+  - 希望算法有稳定的时间复杂度表现。
+
+
+
+
+
+
+
+### Bubble Sort
+
+bubble sort 的做法是：对于把每个元素 `a[i]` 都替换成 `a[i:end]` 中最小的元素
+
+具体是从 end 往左遍历所有 `a[i::]` 的元素，右边比左边小就交换，这样 greedily 可以得到最后 left 的元素一定是范围内最小的。
+
+```c++
+void bubble(Item a[], size_t left, size_t right) {
+    for (size_t i = left; i < right - 1; i++) { // last element 不用排序
+        for (size_t j = right-1; j > i; j--) {
+            if (a[j] < a[j-1]) {
+                std::swap(a[j], a[j-1]);
+            }
+        }
+    }
+}
+```
+
+
+
+#### adaptive Bubble Sort
+
+Bubble sort 的 adaptive 版本很弱。就是追踪这个 array 是否已经 sorted 了，如果哪个元素之后 array 已经 sorted，那么就 break
+
+对局部的 sorted 部分并不能利用
+
+```c++
+void adaptive_bubble_sort(Item a[], size_t left, size_t right) {
+    for (size_t i = left; i < right - 1; i++) {
+        bool swapped = false;
+        for (size_t j = right - 1; j > i; j--) {
+            if (a[j] < a[j-1]) {
+                std::swap(a[j], a[j-1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) {
+            break;
+        }
+    }
+}
+```
+
+改进了 best case behavior, 只需要 ~n 次 comparisons（第一次之后就 sorted）
+
+
+
+#### Analysis
+
+bubble sort 的优点：
+
+1. stable
+
+缺点：
+
+2. O(n^2) time. 
+
+
+
+### Selection Sort
+
+其实和 bubble sort 一样，只是选出 min element 的方式不一样
+
+```c++
+void selection_sort(Item a[], size_t left, size_t right) {
+    for (size_t i = left; i < right - 1; i++) {
+        size_t min_index = i;
+        for (size_t j = i + 1; j < right; j++) {
+            if (a[j] < a[min_index]) {
+                min_index = j;
+            }
+        }
+        std::swap(a[i], a[min_index]);
+    }
+}
+```
+
+#### adaptive Selection Sort
+
+比 bubble sort 的 adaptive version 更飞舞。就改了一个只在 min_index 不是自己时 swap.
+
+差别是本来在任何 case 都是 n-1 swaps；现在 worst case n-1 swaps, best case 0 swap
+
+但是 comparisons 的数量多了（多出了 n-1 个 if
+
+本来是 $\frac{n^2 -n}{2}$ comps，现在是 $\frac{n^2 -n}{2} + n-1$ comps
+
+```c++
+void adaptive_selection_sort(Item a[], size_t left, size_t right) {
+    for (size_t i = left; i < right - 1; i++) {
+        size_t min_index = i;
+        for (size_t j = i + 1; j < right; j++) {
+            if (a[j] < a[min_index]) {
+                min_index = j;
+            }
+        }
+        if (min_index != i) {
+            std::swap(a[i], a[min_index]);
+        }
+    }
+}
+
+```
+
+
+
+#### Analysis
+
+selection sort  优点：
+
+1. copy items 的 cost 消耗小（每轮至多一次 swap
+
+缺点：
+
+1. O(n^2) time
+
+2. **non stable**
+
+   比如：
+
+   ```
+   [5a, 3, 4, 5b, 2]
+   ```
+
+   排序后：
+
+   ```
+   [2, 3, 4, 5b, 5a]
+   ```
+
+   相对顺序被破坏了
+
+3. adaptive version 没什么用。对于 sorted 和 randomly arranged array 表现相同。
+
+
+
+
+
+
+
+### Insertion Sort
+
+insertion sort 的做法：
+
+把所有items 分成 sorted 和 unsorted 两组
+
+每次从 unsorted 移动一个元素进入 sorted.
+
+repeat 直到 unsorted 空
+
+```c++
+void insertion_sort(Item a[], size_t left, size_t right) {
+    for (size_t i = left + 1; i < right; i++) {
+        // a[left:i] is sorted
+        for (size_t j = i; i > left; --j) {
+            // we expand the sorted region to a[left:i+1], 
+            // by ctnsly move a[i+1] to the right position on the left
+            if (a[j] < a[j-1]) {
+                std::swap(a[j], a[j-1]);
+            }
+        }
+    }
+}
+```
+
+
+
+#### imprved adaptive Insertion Sort
+
+我们把连续的 swap 替换为 move, for 替换为 while，break 移除
+
+```c++
+void improved_insertion_sort(Item a[], size_t left, size_t right) {
+    for (size_t i = right - 1; i > left; --i) { // first find the min item, move to left
+        if (a[i] < a[i-1]) {
+            std::swap(a[i], a[i-1]);
+        }
+    }
+
+    for (size_t i = left + 2; i < right; i++) {
+        // a[left:i-1] is sorted
+        Item v = a[i]; 
+        size_t j = i;
+        // while v in the wrong position j, we let a[j]=a[j-1], 
+        // ready to move v to a[j-1] (when j-1 is the right pos)
+        while (v < a[j-1]) {
+            a[j] = a[j-1];
+            j--;
+        }
+        a[j] = v;
+    }
+}
+```
+
+
+
+#### Analysis
+
+adaptive insertion sort 是优于普通的 insertion sort 的.
+
+并且 insertion sort 的好处就是：**既是 adaptive 又是 stable 的.**
+
+**adaptive insertion sort 是当需要 sort 的数目较小时，最优的 sort 方法（比 bubble, selection 好**
+
+但是仍然 O(n^2)
+
+
+
+### Elementary Sorting 对比分析
+
+定义：一个 inversion 就是 a pair of keys that are out of order (就像 determinant 里的 inversion)
+
+
+
+Property 1: 当 data 有一个 **const upper limit to the number of inversions for each element** (即：partially sorted，没有一个元素存在O(n) 个相关的 inversion) 的时候，**insertion/bubble sort 的 comparisons 和 swaps 数量是 linear 的.**
+
+
+
+Property 2: 当 **{a $\in$ data : a 相关的 inversions 数量 constant} 这个集合大小是 const** 时，**insertion sort 的 comparisons 和 swaps 数量是 linear 的.**
+
+
+
+Property 3: 当
 
 
 
