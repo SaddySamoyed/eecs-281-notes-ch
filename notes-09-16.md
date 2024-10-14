@@ -177,11 +177,27 @@ union, intersect：$O(n)$
 
 
 
-#### 
+## Lec 10 Sorting
+
+Elementary sorts:
+
+1. bubble sort
+2. selection sort
+3. insertion sort
+4. counting sort (限于 int)
+
+High performance sorts:
+
+1. quicksort
+2. mergesort
+3. heapsort
+4. radix sort (限于 int, char*, ...)
 
 
 
+Array 和 Linked lists container 都可以被 sort. 并且同一个 method 对 array/linked list 的 sorting performance 会不一样.
 
+STL sorting based on iterators。我们这里只用 array 和 indices 来举例。
 
 
 
