@@ -531,6 +531,33 @@ Property 3: 当
 
 
 
+
+
+
+
+## Lec 11: Quicksort
+
+Elementary sort 的两个问题：
+
+1. compare every pair of elements
+2. move element one place at a time. 
+
+因而总是 O(n^2) 的
+
+
+
+而 quicksort 运用了 divide and conquer 的方法。
+
+Quicksort 的想法：
+
+1. 用一个元素 `elt` partition the array
+2. divide: 把整个 array 切成大于等于 `elt ` 的元素和小于 `elt` 的元素，放在左右两边
+3. Conquer: recursively do this to LHS 和 RHS 的 subarray
+
+
+
+
+
 ## Lab 5 (Sorting)
 
 #### Algorithm Problem: sort 一个 0,1,2 组成的 vector, O(n) time, O(1) space
