@@ -556,6 +556,309 @@ Quicksort 的想法：
 
 
 
+### partition
+
+我们首先进行最简单的 rightmost partition. 就是拿最后一个元素作为 Pivot
+
+```c++
+size_t partition_right(int a[], size_t left, size_t right) {
+    size_t pivot = --right; // rightmost element as partition   
+    while (true) {
+        // find the first element that is greater than or equal to pivot
+        while (a[left] < a[pivot]) {
+            ++left;
+        }
+        // find the first element that is less than or equal to pivot
+        while (left < right && a[right-1] >= a[pivot]) {
+            --right;
+        }
+        // check: if left >= right, then we are done
+        if (left >= right) {
+            break;
+        }
+        // swap the first element that is greater than or equal to pivot
+        swap(a[left], a[right-1]);
+    }
+    // after doing this, we will get all a[::left-1] elements less than pivot,
+    // and all a[::right-1] elements greater than pivot. 
+    // finally, swap pivot with left
+    swap(a[left], a[pivot]);
+    return left;
+}
+```
+
+#### middle-partition
+
+```c++
+size_t partition_middle(int a[], size_t left, size_t right) {
+    size_t pivot = left + (right - left) / 2; // middle point as partition
+    swap(a[pivot], a[--right]); // move the content of pivot to the end
+    // then everything is the same as partition_right
+    
+    pivot = right;
+    while(true) {
+        while (a[left] < a[pivot]) {
+            left++;
+        }
+        while (left < right && a[right] >= a[pivot]) {
+            right--;
+        }
+        if (left >= right) {
+            break;
+        }
+        swap(a[left], a[right - 1]);
+    }
+    swap(a[left], a[pivot]);
+    return left;
+}
+```
+
+
+
+### quicksort recursion
+
+```c++
+void quicksort(int a[], size_t left, size_t right) {
+    if (left+1 >= right) {
+        return;
+    }
+    size_t pivot_index = partition_middle(a, left, right);
+    quicksort(a, left, pivot_index);  //not tail
+    quicksort(a, pivot_index + 1, right); //tail recursion
+}
+```
+
+
+
+
+
+### Analysis
+
+#### time
+
+Worst case：每次 pivot 都是极端值，把 array 分成 长度为 k-1, 1 和 0 的三部分
+
+那么
+$$
+T(n) = n + T(n-1) + T(0)
+$$
+我们得到 T(n) = O(n^2)
+
+
+
+Best case:
+$$
+T(n) = n + T(n/2) + T(n/2)
+$$
+我们得到 T(n) = O(nlogn)
+
+Average case 也是 T(n) = O(nlogn)
+
+#### memory
+
+第一个 recursive call 不是 tail 的
+
+第二个 recursive call 是 tail 的
+
+所以只需要考虑第一个 recursive call 的 cost
+
+best case: 每次都恰好差不多二分，then O(logn)
+
+worst case: 每次都是极端分割(pivot 左右 0 和 k-1)，then O(n)
+
+
+
+有一个缺点：quicksort 是 not stable 的 (可以使其 stable，但是花费一定 time, memory)
+
+
+
+
+
+#### a little improvement: 先 sort smaller part
+
+由于第一个 call 是 non-tail 的，第二个 call 是 tail 的，我们总是希望第一个 call sort 的部分更大。
+
+所以加一个小判断
+
+```c++
+void quicksort2(int a[], size_t left, size_t right) {
+    if (left+1 >= right) {
+        return;
+    }
+    size_t pivot_index = partition_middle(a, left, right);
+    
+    // sort the smaller partition first
+    if (pivot_index - left < right - pivot_index) {
+        quicksort2(a, left, pivot_index);
+        quicksort2(a, pivot_index + 1, right);
+    } else {
+        quicksort2(a, pivot_index + 1, right);
+        quicksort2(a, left, pivot_index);
+    }
+}
+```
+
+
+
+#### a little improvement on Partition: median sampling
+
+我们可以这样取 pivot：每次都取 left, right 和 middle element 这三个数中的 median(中间的数)作为 pivot，可以避免极端情况
+
+
+
+#### 混合其他 sort 来提高 heapsort 效率
+
+我们可以 reduce the cost of sorting small regions: 当检测到 size 小于某个 constant 时，转为使用 insertion sort，因为对于更小的 arraies，insetion sort 的 cost 更低
+
+当 quicksort 的 recursionDepth 很大的时候，我们可以使用 heapsort
+
+我们可以把这三个 sort 融合起来
+
+```c++
+void quicksortWithHeapsortFallback(int a[], int left, int right, int depth) {
+    if (right - left <= CUTOFF) {
+        insertionSort(a, left, right);  // 小数组使用插入排序
+        return;
+    }
+
+    if (depth > MAX_DEPTH) {
+        heapsort(a, left, right);  // 超过最大深度，使用堆排序
+        return;
+    }
+
+    size_t pivot_index = partition_middle(a, left, right);
+    quicksortWithHeapsortFallback(a, left, pivot_index, depth + 1);
+    quicksortWithHeapsortFallback(a, pivot_index + 1, right, depth + 1);
+}
+```
+
+
+
+
+
+## Lec 12: Mergesort
+
+quicksort: 分割后 sort 两边
+
+mergesort: sort 两边之后 merge
+
+```
+quicksort(array)
+	partition;
+	quicksort(left)
+	quicksort(right)
+
+mergesort(array)
+	merge_sort(left);
+	merge_sort(right);
+	merge(left, right);
+```
+
+
+
+### Ternary Operator
+
+```c++
+c[k] = (a[i] <= b[j]) ? a[i++] : b[j++];
+```
+
+等价于
+
+```c++
+if (a[i] <= b[j]) {
+	c[k] = a[i];
+	++i;
+}
+else {
+	c[k] = b[j];
+	++j;
+}
+```
+
+
+
+
+
+### Merge
+
+```c++
+void mergeAB(Item c[], Item a[], size_t size_a, Item b[], size_t size_b) {
+    size_t i = 0, j = 0;
+    for (size_t k = 0; k < size_a + size_b; k++) {
+        if (i == size_a) {
+            c[k] = b[j++];
+        } else if (j == size_b) {
+            c[k] = a[i++];
+        } else {
+            c[k] = (a[i] < b[j]) ? a[i++] : b[j++];
+        }
+    }
+}
+```
+
+time: $\Theta(\text{sizea + sizeb})$
+
+
+
+#### Modified: merge into itself
+
+把参数里的三个 array 去掉了。这个写法更适合递归
+
+```c++
+void merge(Item a[], size_t left, size_t middle, size_t right) {
+    size_t n = right - left;
+    vector<Item> c(n);
+
+    for (size_t i = left, j = middle, k = 0; k < n; ++k) {
+        if (i == middle) {
+            c[k] = a[j++];
+        } else if (j == right) {
+            c[k] = a[i++];
+        } else {
+            c[k] = (a[i] < a[j]) ? a[i++] : a[j++];
+        }
+    }
+}
+```
+
+
+
+### Top-down merge sort
+
+```c++
+void topDown_Mergesort(Item a[], size_t left, size_t right) {
+    if (right < left + 2) return;
+    size_t middle = left + (right - left) / 2;
+    topDown_Mergesort(a, left, middle);
+    topDown_Mergesort(a, middle, right);
+    merge(a, left, middle, right);
+}
+```
+
+
+
+### Analysis
+
+优点：
+
+1. O(nlogn)
+2. 当 merge 函数 stable 时，mergesort 是 stable 的（std的 `stable_sort<>()`
+3. 并不要求 data 可以 random access，因而
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Lab 5 (Sorting)
@@ -585,3 +888,4 @@ void sort012(vector<int>& nums) {
     }
 }
 ```
+
