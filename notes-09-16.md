@@ -857,6 +857,146 @@ void topDown_Mergesort(Item a[], size_t left, size_t right) {
 
 
 
+## Lec 13 strings and seqs
+
+null-terminated C string:
+
+1. 使用一个 ptr 和一个 null char 作为首尾
+2. **.size 是 O(n) 的**
+3. 使用 ASCII 作为 alphabet
+4. 使用 pointer arithmetic 和 stdlibc functions 进行 operations
+
+Object oriented C++ string:
+
+1. 使用两个 ptr begin(), end() 作为首尾
+2. **.size 是 O(1) 的**
+3. alphabet configurable
+4. 使用 class functions, STL 和 stdlibc++ functions 进行 Operations
+
+
+
+### `std::equal`
+
+用来比较两个 sequences. 
+
+比较 range [first1, last1)
+
+和 [first2, first2 + (last1 - first1))
+
+内是否相同。（即范围就是 first2 - first1）
+
+```c++
+template<class InputIt1, class InputIt2>
+bool equal(InputIt1 first1, InputIt1 last1, InputIt2 first2) {
+    for (; first1 != last1; ++first1, ++first2) {
+        if (*first1 != *first2) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+
+#### Algorithm Problem: `equal()` with customizable `operator==()`
+
+```c++
+template<class InputIt1, class InputIt2, class BinaryPredicate>
+bool equal_custom_operator(InputIt1 first1, InputIt1 last1, 
+InputIt2 first2, BinaryPredicate pred) {
+    for (; first1 != last1; ++first1, ++first2) {
+        if (!pred(*first1, *first2)) {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+
+
+#### example using `equal()`: palindreme
+
+```c++
+bool is_palindrome(const string& s) {
+    return std::equal(s.begin(), s.begin() + s.size() / 2, s.rbegin());
+}
+```
+
+(rbegin 是反向的 iterator, 起始值等于 end, ++ 效果往前)
+
+
+
+### Lexicographic Comparison
+
+lexicographic comparison 比较哦啊的是两个范围内的元素的字典序
+
+我们只需要 < 和 == 就可以 Implement 所有 6 个比较 Operators，并且都只需要另一个 operator 加上 ! 就可以 implement
+
+
+
+比较 string:
+
+```c++
+int compareHelper(const string& s1, const string& s2) {
+  const size_t len1 = s1.length();
+  const size_t len2 = s2.length();
+  for(size_t i = 0; i!=std::min(len1, len2); ++i) {
+    // compare the first different character
+    if(s1[i] < s2[i]) {
+      return -1;
+    } else if(s1[i] > s2[i]) {
+      return 1;
+    }
+  }
+  // if all characters are the same, the shorter string is less
+  if(len1 < len2) {
+    return -1;
+  } else if(len1 > len2) {
+    return 1;
+  }
+  // all the way to here, the strings are equal
+  return 0;
+
+}
+```
+
+
+
+比较任意 iteratable container 里的 sequence:
+
+```c++
+template<class InputIt1, class InputIt2>
+bool lexicographical_compare(InputIt1 first1, InputIt1 last1, 
+                            InputIt2 first2, InputIt2 last2) {
+    while ((first1 != last1) && (first2 != last2)) {
+        if (*first1 < *first2) {
+            return true;
+        }
+        if (*first2 < *first1) {
+            return false;
+        }
+        ++first1;
+        ++first2;
+    }
+    return (first1 == last1) && (first2 != last2);
+}
+```
+
+
+
+#### Algorithm Problem: remove duplicate
+
+如何移除一个 container of strings 里的重复元素
+
+1. std::sort，使得重复元素都相邻
+2. 使用 == 来比较 neighbours，循环
+3. 检查到 duplicate 则移除第一个
+
+
+
+
+
 
 
 
