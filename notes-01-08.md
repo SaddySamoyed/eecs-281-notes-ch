@@ -1255,14 +1255,21 @@ unsorted array:
 1. $O(1)$ insertion （insert end）
 2. $O(n)$ inspect top（排序后最大的里面的最前面
 3. $O(1) / O(n)$ pop（排序后最大的里面的最后面，可以 keep track
+4. O(n) create
 
 sorted array:
 
 1. $O(n)$ insertion （排序）
 2. $O(1)$ inspect top
 3. $O(1)$ pop (移走end)
+4. O(nlogn) create
 
+binary heap:
 
+1. O(n) create
+2. O(log n) push
+3. O(log n) pop
+4. O(1) top
 
 ### Heapify
 
