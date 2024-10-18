@@ -266,7 +266,7 @@ elementary sorts 通常 stable，complex sorts 则不然
 
 ### Adaptivity 自适应性
 
-**Adaptive（自适应）** 和 **Nonadaptive（非自适应）*表示算法对数据初始顺序的利用程度
+**Adaptive（自适应）** 和 **Nonadaptive（非自适应）**表示算法对数据初始顺序的利用程度
 
 
 
@@ -519,19 +519,31 @@ adaptive insertion sort 是优于普通的 insertion sort 的.
 
 
 
-Property 1: 当 data 有一个 **const upper limit to the number of inversions for each element** (即：partially sorted，没有一个元素存在O(n) 个相关的 inversion) 的时候，**insertion/bubble sort 的 comparisons 和 swaps 数量是 linear 的.**
+Property 1: 当 data 有一个 **const upper limit to the number of inversions for each element** (即：partially sorted，没有一个元素存在O(n) 个相关的 inversion) 的时候，**insertion/bubble sort 的 comparisons 和 swaps 数量几乎是 linear 的.**
+
+Property 2: 当 **{a $\in$ data : a 相关的 inversions 数量 constant} 这个集合大小是 const** 时，**insertion sort 的 comparisons 和 swaps 数量几乎是 linear 的.**
+
+Property 3: 当 key 很小时，即便 item 大，selection sort 几乎是 linear 的（comparison 主导，swap cheap，comparison 消耗小的时候很好）
 
 
 
-Property 2: 当 **{a $\in$ data : a 相关的 inversions 数量 constant} 这个集合大小是 const** 时，**insertion sort 的 comparisons 和 swaps 数量是 linear 的.**
+|   sort    |     time     | memory |      stable       |
+| :-------: | :----------: | :----: | :---------------: |
+|  bubble   |     n^2      |   1    |        yes        |
+| selection |  (n^2-n)/2   |   1    |        no         |
+| insertion |     n^2      |   1    |        yes        |
+|   count   |      n       |  n+k   |        yes        |
+|   merge   |   n log n    |   n    | yes(stable merge) |
+|   heap    |   n log n    |   1    |        no         |
+|   quick   | n log n, n^2 | log n  |        no         |
 
+bubble, insertion: efficient when data are closed to final pos
 
+insertion: also efficient when add new item to sorted data
 
-Property 3: 当
+selection: sorted when key is small, especially when items large
 
-
-
-
+std::sort take 两个 iterator 和一个 operator<
 
 
 
@@ -843,7 +855,7 @@ void topDown_Mergesort(Item a[], size_t left, size_t right) {
 
 1. O(nlogn)
 2. 当 merge 函数 stable 时，mergesort 是 stable 的（std的 `stable_sort<>()`
-3. 并不要求 data 可以 random access，因而
+3. 并不要求 data 可以 random access
 
 
 
