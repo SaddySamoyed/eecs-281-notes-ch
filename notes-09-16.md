@@ -1045,4 +1045,51 @@ void sort012(vector<int>& nums) {
 
 
 
-## Lab 6
+## Lab 6 (Maps and sets)
+
+#### Algorithm Problem: two pair sum
+
+Find pair (a,b), (c,d) s.t. a+b= c+d
+
+assumption: 对于每个 (a,b) 至多只有一个 pair 和它 sum 一样。
+
+assumption 使得我们可以使用动态更新 hash table 来解决。我们 i,j 遍历，以 sum 为 key，以 pair 为 value，匹配到相同的就动态更新 value. 
+
+（如果没有 assumption 就不能这么解，因为如果 (1,6) 匹配到了 (2,5)，可能还有 (3,4) 但是我们已经把 7 的 value 更新成 (2,5) 了，会错过 (1,6) 和 (3,4) 的 pair
+
+```c++
+void two_pair_sums(const vector<int>& nums, ostream& os) {
+    unordered_map<int, pair<int, int>> sum_pairs;
+    int n = nums.size();
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            int sum = nums[i] + nums[j];
+
+            // Check if we already have a pair with this sum
+            if (sum_pairs.find(sum) != sum_pairs.end()) {
+                pair<int, int> prev_pair = sum_pairs[sum];
+                
+                // Ensure all elements are distinct
+                if (prev_pair.first != i && prev_pair.second != i && prev_pair.first != j && prev_pair.second != j) {
+                    os << "(" << nums[prev_pair.first] << ", " << nums[prev_pair.second] << ") and ("
+                    << nums[i] << ", " << nums[j] << ")\n";
+                }
+            } else {
+                // Store the current pair
+                sum_pairs[sum] = {i, j};
+            }
+        }
+    }
+}
+
+```
+
+#### Algorithm Problem: find first non-repeated integer
+
+ex: [-234, 1, 2, 10, 1, 2, -234]: 得到 10
+
+solution: 把每个元素设置为 key, 出现次数设置为 value. 
+
+最后遍历 vector，每次把元素作为 key 来在 hash table 里查找，取第一个 value ==1 的 key.
+
