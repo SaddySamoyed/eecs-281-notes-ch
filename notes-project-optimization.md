@@ -507,3 +507,16 @@ sibling 是同级别的右边一个 node
 implement 的时候发现了一件惊人的事情，就是 PQ 原来不是 FIFO 的。。。它等于说是一个弱化版的 ordered container。它的时间复杂度比 ordered PQ 小，但是功能也受到限制。
 
 所以说 priority queue 其实就是弱化版的 ordered set，使用比较简单的时间复杂度来实现每次都 Pop 最高优先级的元素中的一个。
+
+
+
+
+
+
+
+
+
+## Project-3 Bank
+
+
+
