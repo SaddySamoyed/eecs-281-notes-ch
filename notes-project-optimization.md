@@ -514,9 +514,59 @@ implement 的时候发现了一件惊人的事情，就是 PQ 原来不是 FIFO 
 
 
 
-
-
 ## Project-3 Bank
 
+bank wire transfer simulator
 
+
+
+commands:
+
+```
+./bank -vf registration.txt < commands.txt > out.txt
+```
+
+opt1: `--help/-h`，立刻打印 helpmessage 然后 `exit(0)`
+
+opt2: `--file/-f filename` required argument，file in 的 reg file
+
+opt3: `--verbose/-v`，输出增强
+
+registration
+
+
+
+input:
+
+1. `fin` 一个 account file for  user registrations
+
+   `REG_TIMESTAMP|USER_ID|PIN|STARTING_BALANCE`
+
+   > 08:01:01:40:22:34|paoletti|372819|40000
+   > 08:01:04:20:43:55|mmdarden|196204|30000
+   > 08:01:07:94:92:10|mertg|080499|20000
+
+2. `cin` redirected, 一个 command files
+
+    five defined operations that can be performed: 
+
+   **#** (comment) ：`#..`
+
+   **login**：`login <USER_ID> <PIN> <IP>`
+
+   (log)**out**：`out <USER_ID> <IP>`
+
+   **balance**：`balance <USER_ID> <IP>`
+
+   **place** (transaction)：`place <TIMESTAMP> <IP> <SENDER> <RECIPIENT> <AMOUNT> <EXEC_DATE> <o/s>`
+
+
+
+
+
+login: If both match, this user is allowed to start placing transaction requests, and their IP address is saved in a user-specific valid IP list for future processing
+
+logout: If the user has an active session and the IP is an IP the user logged in with before, this logs them out, and removes the IP from the valid IP list for that user. Logged out users cannot place transaction requests from the same IP without logging back in. 
+
+balance: If the user has an active session and the IP is an IP the user logged in with before, this displays their balance as of the most recently known timestamp.
 
