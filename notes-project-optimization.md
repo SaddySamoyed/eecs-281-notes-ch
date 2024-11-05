@@ -548,7 +548,11 @@ input:
 
 2. `cin` redirected, 一个 command files
 
-    five defined operations that can be performed: 
+   command file 由两个部分组成. operations 和 queries.
+
+   
+
+   operations: 每一条都是 five defined operations 中的一个
 
    **#** (comment) ：`#..`
 
@@ -559,6 +563,12 @@ input:
    **balance**：`balance <USER_ID> <IP>`
 
    **place** (transaction)：`place <TIMESTAMP> <IP> <SENDER> <RECIPIENT> <AMOUNT> <EXEC_DATE> <o/s>`
+
+   $$$
+
+   Queries: 每一条都是 4 
+
+   
 
 
 
