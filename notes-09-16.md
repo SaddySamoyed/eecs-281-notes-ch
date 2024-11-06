@@ -1093,3 +1093,163 @@ solution: 把每个元素设置为 key, 出现次数设置为 value.
 
 最后遍历 vector，每次把元素作为 key 来在 hash table 里查找，取第一个 value ==1 的 key.
 
+
+
+
+
+
+
+
+
+## Lec 15: hashing
+
+### dictionary ADT
+
+dictionary: 一个 item 是一个 key-value pair
+
+support 两个 basic op:
+
+1. insert
+2. search(retrieve) an item with a given key
+
+desirable ops (除了 Insert 和 search外)
+
+3. remove item
+
+4. sort
+
+5. select the kth largest item
+
+6. join two dicts
+
+   
+
+主要的用处：
+
+1. check if sth in the set
+2. look up values by keys
+
+
+
+#### Ideas to build a dict
+
+我们使用 std::pair<key, value> 作为一个 item
+
+1. sorted vector: insert O(n)
+
+2. unsorted vectors: search O(n)
+
+3. linked list: Search O(n)
+
+4. BST (比如 std::map 使用 red-black tree)： 
+
+   search 平均 O(logn), worst O(n)
+
+   insert 平均 O(logn), worst O(n)
+
+5. hash table (比如 std::unordered_map<>使用 hash table)
+
+   search 平均 O(1), worst O(n)
+
+   insert 平均 O(1), worst O(n)
+
+
+
+fastest: hash table.
+
+因而通常我们使用 hash table 来 represent dictionary.
+
+
+
+Hash table 的 Idea: 我们并不对 key 进行排序或者查找，而是想办法把 key 以某个函数转化成一个 Int，于是可以使用 arithmetic operations to calculate a table index from a given key
+
+如果这是可行的，那么我们的 insert 与 search 都可以近似 random access 的方式来进行. 于是除了 grow 的时候之外理论上 const time.（为了达到 const time，我们希望函数是 bijective 的；我们很难做到，不过没关系，近似于 injective 也可以，我们可以解决冲突）
+
+<img src="note-assets\{33F1B77F-C82F-47E6-AA4B-014742CCE03B}.png" alt="{33F1B77F-C82F-47E6-AA4B-014742CCE03B}" style="zoom: 50%;" />
+
+
+
+我们需要做这些事情：
+
+1. translation: 把一个 key 翻译为一个 int
+2. compression: limit an int to a valid index
+3. collision resolution: 解决 hash to same table index 的 search keys 的冲突
+
+前两步合称一个 hash function
+
+
+
+### hash function
+
+我们之所以需要 compression 是因为 translation 的范围由 translate function 决定，是固定的而不会随着 table size 变化而变化. 我们需要通过 compression 把这个 hashint 转化成一个 valid table index，from 0 to M
+$$
+h:key \mapsto t(key) \mapsto c(t(key))
+$$
+
+
+Note: `std::hash<>` 只 Provide translation，没有 compression. 如果我们不使用 `std::unordered_map` 而是使用 `std::hash` 那么我们要自己写 compression.
+
+
+
+example:
+
+这个简单的 translate function 把 key 的首字符映射到它的 ascii - 'a'
+
+```c++
+int translate(const char *c) {
+    return (*c - 'a');
+}
+```
+
+
+
+#### translate floatng pts
+
+key in [0,1)
+$$
+h(key) = \lfloor key * M \rfloor
+$$
+key in [s,t)
+$$
+h(key) = \lfloor \frac{key-s}{t-s} * M \rfloor
+$$
+
+
+example: range = [1.38, 6.75), M=13
+$$
+h(3.65) = \lfloor \frac{3.65-1.38}{6.75-1.38} * 13 \rfloor = 5
+$$
+
+
+#### translate int
+
+我们使用 modular 来 translate Int
+$$
+t(key) = key\\
+c(x) = x \mod M\\
+h(key) = key \mod M
+$$
+如果 data randomly distributed，那么这是个很不错的 hash function.
+
+但是如果它们有很多都是 M 的 multiples，那么就不好。
+
+比如我们选取 M = 5.
+
+结果我们的数据是 10, 15, 20, 25
+
+那么 collusions 太多了.
+
+
+
+#### translate string
+
+idea: sum up ascii of chars
+
+但是 Bad: "stop", "post", "tops" 的 hash address 都一样.
+
+太多 collusions.
+
+Idea: order matters. 所以我们可以 take 
+$$
+h(key) = 
+$$
