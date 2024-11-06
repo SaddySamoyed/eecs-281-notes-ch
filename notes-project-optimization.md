@@ -535,10 +535,7 @@ opt3: `--verbose/-v`，输出增强
 registration
 
 
-
-You can assume that there will always be at least one operation command, and the `$$$` line to indicate the break between operations and queries, though there are not required to be any queries.
-
-
+### regfile
 
 1. `fin` 一个 account file for  user registrations
 
@@ -548,88 +545,118 @@ You can assume that there will always be at least one operation command, and the
    > 08:01:04:20:43:55|mmdarden|196204|30000
    > 08:01:07:94:92:10|mertg|080499|20000
 
-2. `cin` redirected, 一个 command files
+
+
+### Operations
+
+2. `cin` redirected, 一个 command files 
 
    command file 由两个部分组成. operations 和 queries.
 
-   
 
-   operations: 每一条都是 five defined operations 中的一个
 
-   **#** (comment) ：`#..`
+operations: 每一条都是 five defined operations 中的一个
 
-   **login**：`login <USER_ID> <PIN> <IP>`
+**#** (comment) ：`#..`
 
-   (log)**out**：`out <USER_ID> <IP>`
+**login**：`login <USER_ID> <PIN> <IP>`
 
-   **balance**：`balance <USER_ID> <IP>`
+(log)**out**：`out <USER_ID> <IP>`
 
-   **place** (transaction)：`place <TIMESTAMP> <IP> <SENDER> <RECIPIENT> <AMOUNT> <EXEC_DATE> <o/s>`
+**balance**：`balance <USER_ID> <IP>`
 
-   $$$
+**place** (transaction)：`place <TIMESTAMP> <IP> <SENDER> <RECIPIENT> <AMOUNT> <EXEC_DATE> <o/s>`
 
-   
+$$$
 
-   timestamp: 每一个时值都可以是 0-99
-   
-   这意味着我们可以把它变成一个 unsigned long long，即 uint64 处理
-   
-   
-   
-   comment: 无视
-   
-   
-   
-   login: 输入 ID, pin，如果两个都 Match 了则 login，login 才能 Place trans
-   
-   login 表示： IP address is saved in a user-specific valid IP list for future processing.
-   
-   如果 verbose 则 print 一条 `User <USER_ID> logged in.`
-   
-   如果不 Match 则print `Login failed for <USER_ID>.`
-   
-   
-   
-   logout: 输入ID，IP
-   
-   如果 user-specific valid IP list 中有这个 IP，则 logout：把这个 IP 移除出 user 的 IP list 中.
-   
-   
-   
-   如果 verbose 则 print 一条 `User <USER_ID> logged out.`
-   
-   如果 user 的 IP list 中找不到这个 IP，那么 `Logout failed for <USER_ID>.`
-   
-   
-   
-   place:
-   主要问题在 execute
-   
-   我们使用一个 pq 来存储所有的 executions.
-   
-   只有 place 这个 Op 是带有 timestamp 的。意味着它代表了我们当前的 timestamp.
-   
-   当我们读取到了比 pq.top <= 的 timestamp 的时候，我们一口气处理当前 pq 里面的 transactions，一直 pop 到 PQ.top 的 timestamp 比当前 place 指令的 timestamp 更大为止。（记得判断是否 empty。empty 则忽略
-   
-   并且，一旦我们读取到$$$意味着 ops 读取结束，我们一口气处理 PQ 里面所有剩下的 trans
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   Queries: 每一条都是 4 
-   
-   
+
+
+timestamp: 每一个时值都可以是 0-99
+
+这意味着我们可以把它变成一个 unsigned long long，即 uint64 处理
+
+
+
+comment: 无视
+
+
+
+login: 输入 ID, pin，如果两个都 Match 了则 login，login 才能 Place trans
+
+login 表示： IP address is saved in a user-specific valid IP list for future processing.
+
+如果 verbose 则 print 一条 `User <USER_ID> logged in.`
+
+如果不 Match 则print `Login failed for <USER_ID>.`
+
+
+
+logout: 输入ID，IP
+
+如果 user-specific valid IP list 中有这个 IP，则 logout：把这个 IP 移除出 user 的 IP list 中.
+
+如果 verbose 则 print 一条 `User <USER_ID> logged out.`
+
+如果 user 的 IP list 中找不到这个 IP，那么 `Logout failed for <USER_ID>.`
+
+
+
+
+
+
+
+balance: 报 balance. 时间点选在最新的一条 Place.
+
+但是不能靠我的pq.top 来查询。因为可能已经全部处理完了。所以我的 bank 里要留一个最近一条 trans 的时间。 uint64
+
+这里还有一个事情是 fraud 检测。fraud 就是 IP list 非空但是却没有当前IP
+
+
+
+
+
+
+
+place:
+主要问题在 execute
+
+我们使用一个 pq 来存储所有的 executions.
+
+只有 place 这个 Op 是带有 timestamp 的。意味着它代表了我们当前的 timestamp.
+
+当我们读取到了比 pq.top <= 的 timestamp 的时候，我们一口气处理当前 pq 里面的 transactions，一直 pop 到 PQ.top 的 timestamp 比当前 place 指令的 timestamp 更大为止。（记得判断是否 empty。empty 则忽略
+
+并且，一旦我们读取到$$$意味着 ops 读取结束，我们一口气处理 PQ 里面所有剩下的 trans
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Queries
+
+
+
+We've noticed that the H4v test case is giving some students unexpected issues with memory. One of the major reasons for this is rather subtle and unintended because we didn't test all possible containers for storing incoming/outgoing transactions for users. If you're using deques or queues (queue is implemented with deque) to store the incoming/outgoing transactions for each user, we strongly recommend that you use a different container. The alternative containers that you can use are vectors or linked lists.
+
+We're not 100% sure why this is the case yet, but we apologize for the difficulties this may have caused you!
+
+
+
+
+
+
+
+Queries: 每一条都是 4 
+
+
 
 
 
