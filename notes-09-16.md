@@ -1251,5 +1251,5 @@ idea: sum up ascii of chars
 
 Idea: order matters. 所以我们可以 take 
 $$
-h(key) = 
+h(key) =
 $$

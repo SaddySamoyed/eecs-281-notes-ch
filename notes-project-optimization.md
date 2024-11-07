@@ -618,6 +618,7 @@ balance: 报 balance. 时间点选在最新的一条 Place.
 
 
 place:
+
 主要问题在 execute
 
 我们使用一个 pq 来存储所有的 executions.
@@ -628,13 +629,27 @@ place:
 
 并且，一旦我们读取到$$$意味着 ops 读取结束，我们一口气处理 PQ 里面所有剩下的 trans
 
+以上是 execute 的东西. 在 Place 的函数体的内部首先要做这件事情。
 
 
 
+下面是  check error:
 
+1. invalid ID
 
+2. not logged in
 
+3. same sender/rec
 
+4. timestamp >= current time
+
+5. within 3 days (<=3000000)
+
+   
+
+以下是几个问题：
+
+1. 如果这次 trans 无效，那么是否还要++ 时间？是否还要执行交易？
 
 
 
@@ -654,7 +669,39 @@ We're not 100% sure why this is the case yet, but we apologize for the difficult
 
 
 
-Queries: 每一条都是 4 
+Queries: 一共四种
+
+1. list transactions
+
+   列举 一段时间之内 execute 的所有 transactions
+
+2. bank revenue
+
+   列举一段时间内的 Bank revenue 
+
+3. customer history
+
+   customer History: customer 自己的 incoming 和 outgoing transactions 
+
+   各至多 Latest 十条。用一个 vector 存。
+
+4. summarize day
+
+   summarize 一条之内的所有 transactions
+
+
+
+所以是这样的一个事情：我们不得不记录历史的 transactions. 并且，我们需要能够找到时间（在哪一天开始）对应的 trans. 
+
+因而我们需要的是一个 vector：每次 PQ 弹出一个 transaction，都往 vector 里面塞一个。这样就可以 binary search transaction. 
+
+而对于每个 account，为了统计 Incoming 和 outcoming 的 transactions，我们最好设置一个 queue，并 track size，到了 10 之后开始. 但是貌似 queue 会超
+
+
+
+对于 PQ 中的 transactions: 一定是按时间戳严格排序的。对于失败的交易：
+
+you should discard the transaction: it will not appear in either user’s completed transaction, and no balances would change.
 
 
 
@@ -664,112 +711,17 @@ Queries: 每一条都是 4
 
 
 
-工程处理：
+### 工程进度
 
 1. 写 opt （ok！
 2. 写 read regfile （ok！
-3. 写 read operations
-4. 
+3. 写 read operations（ok！
+4. 重写比较 transaction，加上 ID 的比较。当前 ID 还没有加入 struct 里
+5. dd
 
 
 
-
-
-login: If both match, this user is allowed to start placing transaction requests, and their IP address is saved in a user-specific valid IP list for future processing
-
-logout: If the user has an active session and the IP is an IP the user logged in with before, this logs them out, and removes the IP from the valid IP list for that user. Logged out users cannot place transaction requests from the same IP without logging back in. 
-
-balance: If the user has an active session and the IP is an IP the user logged in with before, this displays their balance as of the most recently known timestamp.
-
-
-
-
-
-Time
-
-here’s another way of thinking about them. Much like the metric system has a new name for a unit once you hit 1,000 of the original one, here in 281bank each higher magnitude component is simply equal to 100 of the previous one.
-
-
-
-IP Addresses
-
-It consists of four numbers each ranging from 0 to 255 (equivalent to 00-FF in hexadecimal), separated by periods. As such, 55.55.55.55 is a valid IP address, but 55.555.55.55 is not. Additionally, your program must be able to distinguish between different IP valid addresses with the same digits, such as 12.34.56.78 versus 123.45.67.8 or 111.11.11.11 versus 11.11.11.111. How you choose to store IP addresses is up to you—there is more than one way to efficiently account for these things!
-
-
-
-Reading From Files
-
-During the course of this project, you may find yourself using the `<fstream>` library. It’s important to note that when writing your code, you should stick to only allowing yourself to do the specific things you need to do. Much like how declaring something `const` stops you from modifying it when you didn’t mean to, you should use read-only streams when you only intend to read from a stream rather than output to it in any way. This prevents the issue of trying to modify a file you aren’t allowed to on the Autograder.
-
-
-
-**Project Sketch for 281Bank**
-
-### Project Overview
-281Bank involves creating a banking simulator that maintains account balances, handles transactions, and allows queries through various commands. The project will simulate real-time gross settlement banking, using appropriate data structures for managing users, transactions, and command processing.
-
-### System Components
-
-1. **Account Registration Management**:
-   - **Data Structures**: Use a `HashMap` (`std::unordered_map`) to store customer data, where the keys are unique `USER_ID` values. Each entry will include user-specific data: `PIN`, starting balance, registration timestamp, and valid IP addresses.
-   - **Operations**: Register users and update the balance whenever transactions occur. Handle customer logins, verify credentials, and manage sessions.
-
-2. **Session Management**:
-   - **Data Structures**: Use a combination of `HashMap` and a `Set` to track active sessions for each user. Store `IP` addresses associated with logged-in sessions using a `Set` to efficiently manage IP-based login checks.
-   - **IP Address Storage**: Represent IP addresses as strings for simplicity, or split into a struct containing four integers. This allows for easier parsing and validation of each segment (range 0-255).
-
-3. **Transaction Processing System**:
-   - **Data Structures**:
-     - Use a `priority_queue` to store and schedule transactions based on their **execution timestamps**.
-     - Use a `queue` to maintain a list of transactions in the order they are placed, and a `HashMap` for tracking transactions by unique IDs.
-   - **Transaction Management**: Store data about each transaction, such as `SENDER`, `RECIPIENT`, `AMOUNT`, and `EXECUTION DATE`. Transactions must be ordered by timestamp to ensure the correct sequence for future executions.
-   - **Fraud Detection**: Utilize a `Set` of valid IP addresses for each user, ensuring that transactions originating from invalid IPs are flagged as fraudulent.
-
-4. **Command Handling System**:
-   - **Data Structures**: Use a `queue` to manage commands, ensuring they are executed in the order they are received.
-   - **Commands to Implement**:
-     - `# (Comment)`: Discard any lines starting with `#`.
-     - `login <USER_ID> <PIN> <IP>`: Verify credentials and add a new session for that user.
-     - `out <USER_ID> <IP>`: Log the user out of the active session.
-     - `balance <USER_ID> <IP>`: Retrieve and display the user's balance.
-     - `place <TIMESTAMP> <IP> <SENDER> <RECIPIENT> <AMOUNT> <EXEC_DATE> <o/s>`: Place a transaction in the queue to be processed in the future.
-
-5. **Queries and Reports**:
-   - **Transaction Listing**: List transactions between two given timestamps.
-   - **Revenue Calculation**: Calculate the bank's revenue between two given timestamps by summing up the collected fees.
-   - **Customer History**: Display a customer's transaction history, both incoming and outgoing.
-   - **Daily Summary**: Provide a summary of all transactions executed within a particular day.
-
-6. **Error Handling**:
-   - **Invalid Commands**: Implement checks for invalid commands, such as incorrect `USER_ID`, invalid `IP`, or transactions that do not follow the rules defined in the spec.
-   - **File Reading**: Use `<fstream>` to read files in read-only mode to prevent accidental modifications during testing.
-
-### Data Structure Composition
-- **Account Data**: Composed using `HashMap`, where each user has a struct that holds details such as `PIN`, balance, registration timestamp, and a set of valid IPs.
-- **Transaction Data**: Stored in a priority queue to ensure that transactions are executed in the correct order. Each transaction includes details such as sender, recipient, amount, and execution date.
-
-### Tips for Implementation
-- **Time Representation**: Represent timestamps in a custom struct or an integer type to allow easy comparison of different components. Keep in mind the custom rules of 281Bank time system, where each component follows the metric-like structure (base 100).
-- **IP Address Handling**: Consider breaking down IP addresses into four separate integer values to allow easy validation and comparison, or use a formatted string that can be parsed.
-- **File Operations**: Use read-only streams for file input to ensure compliance with Autograder requirements. Manage registration and command files with `<fstream>` in read mode, using checks for correct file opening.
-
-### Additional Considerations
-- **Performance**: Ensure that the selected data structures are efficient for expected operations. `std::unordered_map` is optimal for user lookups, while `priority_queue` ensures efficient ordering for transaction execution.
-- **Memory Management**: Avoid memory leaks by utilizing RAII (Resource Acquisition Is Initialization) principles and testing thoroughly with tools like `valgrind`.
-
-### Flow Diagram (High-Level Outline)
-1. **Initialization**: Load account registrations from the provided file.
-2. **Command Processing**:
-   - Read user commands (login, logout, place transaction).
-   - Perform validations and execute operations.
-3. **Transaction Execution**: Process transactions based on timestamps, respecting future execution times.
-4. **Query Handling**: Execute queries after all transactions are processed, generating required reports.
-
-
-
-
-
-
+目前工程初稿完成。
 
 
 
