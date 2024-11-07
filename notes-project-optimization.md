@@ -725,5 +725,108 @@ you should discard the transaction: it will not appear in either user’s comple
 
 
 
+### Debug
 
+目前理论完成了 regfile 以前的 debug
+
+spec: 问题在第二次 place order 的时候 execute 前一次 order 上. 
+
+1. 顺序反了。应该先 execute 再 Place
+2. transID 有问题。没有++
+
+第一个好解决。第二个问题在于：我们的 ID generate 是 Based on history size 的，但是 history 并不是 Place 后放入而是执行之后放入。这样做是为了 history 是按照时间排序的。因而有问题。
+
+现在尝试：加入 tracking 变量。ok
+
+
+
+目前 spec 的 readOp 过了。可喜可贺
+
+现在开始搞 spec 的 query
+
+query l: spec ok
+
+query r: 发现问题，我的extractPair 把 Int 变成时间有问题。最后 vector 少了一个 entry. resize vector 就完事了
+
+ok
+
+query h: 发现用户的 transaction Count 和 outgoCount 是个很离谱的数字。我探一下是为啥。应该是 lib2 的问题。transationCount 和 Outgo都是在 execute 一条结束的时候更新的。是否初始值没有设置？
+
+第二个错误：把 transaction 在 history 里的位置导入 account 的 transaction 10 条记录的时候忘记 size-1了.
+
+qeury s: spec ok
+
+
+
+####  post spec
+
+1. error checking: 就两个。place timestamp 比上个小；place exe 比 timestamp 早。ok
+
+2. test cases:
+
+   idea:
+
+   每个 print 的情况都要 test.
+
+   除了 query 外每种都测试了。
+
+   
+
+   
+
+   
+
+   
+
+### 提交记录
+
+#### record 1
+
+给出了 test2 的结果。test2 第十行错了， balance 多了 10. 应该是 separate 的时候分手续费 += 搞反了。
+
+test 2 resolved.
+
+#### record 2
+
+test 3. 只有一个 insufficient fund 有问题。
+
+test 3 resolved.
+
+### record 3
+
+已经红温。三次就提了一个 test
+
+但是 student tests 终于过了. 有了一次额外提交机会
+
+test 5 resolved.
+
+1. 这个多余的 at 是很多 test 的问题。solved.
+
+2. 另外还有一个问题：很多个文件第一行的 As o.... 我们输出是 Logo... 
+
+   应该是 Login 的问题。小事。发现这个指令是 "As of timestamp, user... has a balance"... 
+
+   而我们输出的是 Logout 的verbose. 破案了是忘记写 verbose 了.
+
+   solved
+
+3. error checking exit(1) 有一个没 check 到.
+
+   两个cerr都写了。这个问题应该是 currentime 没更新好？不可能
+
+   应该是 file open 的 error check 以及读取的 error check
+
+4. 唯一一个 sig fault.
+
+   ```sh
+   Test case H3v: Failed
+       Runtime (sec): 0.004/0.006 
+       Memory (kb): 3192/4857 
+   The program was stopped with signal SIGSEGV ---
+   Feedback from valgrind (if you don't see line numbers, be sure your Makefile 'all' target creates ./bank_valgrind):
+    Invalid read of size 8
+       at 0x40D37B: Bank::readQuery() (lib3-query.cpp:192)
+       by 0x40AC93: main (bank.cpp:10)
+     Address 0x5b46f00 is 32 bytes inside an unallocated block of size 4,092,160 in arena "client"
+   ```
 
