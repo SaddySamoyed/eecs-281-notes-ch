@@ -792,7 +792,7 @@ test 3. 只有一个 insufficient fund 有问题。
 
 test 3 resolved.
 
-### record 3
+#### record 3
 
 已经红温。三次就提了一个 test
 
@@ -830,3 +830,16 @@ test 5 resolved.
      Address 0x5b46f00 is 32 bytes inside an unallocated block of size 4,092,160 in arena "client"
    ```
 
+
+
+#### record 4
+
+11/9. 可喜可贺终于写完了。差优化没做，以及一个 error checking.
+
+空间优化仅剩一点。
+
+时间优化大概就是那几个 search 的缘故。
+
+把 Linear search 改成 Binary search（lower_bound）就行。
+
+error checking 再看。
