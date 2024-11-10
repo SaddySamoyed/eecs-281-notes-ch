@@ -842,4 +842,61 @@ test 5 resolved.
 
 把 Linear search 改成 Binary search（lower_bound）就行。
 
-error checking 再看。
+1. error checking: 发现是因为 update current time 写在了检查 current time 之前所以怎么都是对的。已解决。
+
+
+
+### Optimization
+
+#### Binary Search Lower Bound
+
+既然 History 里面的时间肯定是按顺序排序的，我们可以用 binary searach 来查找
+
+lower bound 找到第一个 >= n 的位置。upper bound 是第一个 >n 的位置.
+
+于是 binary search 替掉了 linear search. 
+
+```c++
+bool compareExecDate(const Transaction& transaction, unsigned long long t1) {
+    return transaction.execDate < t1;
+}
+
+auto lowerBound = std::lower_bound(transactionHistory.begin(), transactionHistory.end(), t1, compareExecDate);
+```
+
+现在这个 query 已经优化得不能再优化了，看看 readOp 有什么可优化的
+
+
+
+#### `std::ios_base::sync_with_stdio(false);`
+
+又忘了加上了。。。
+
+Time optimized over
+
+（虽然满了但其实还有可优化的：
+
+#### `getline` 改成直接 `cin`
+
+感觉被 p1 不要直接 cin 误导了，，那个是因为输入格式没法直接粗暴 loop，如果直接 cin 还要做别的处理。实际上一般肯定是直接 cin 快
+
+now I have a long line of commands to read in. Each command has some int, string and char variables, parted by space
+I have two ways to do it. 
+
+The first is to getline(cin, line) to get a string called line.
+And I put a stringstream called ss. I do `ss.str(line)` and ss >> ... my variables
+The other way is to directly cin
+
+显然最后 >> 移动的东西是一样多的. 而 getline 的方法比 cin 多了一个读行到\n 以及一个 ss.str 的时间. 以及多了一个 getline 的内存和 ss 的内存（可忽略
+
+
+
+#### 把 loop 内 declare 的变量尽量都放 loop 外
+
+有一个 Transaction 变量是在 getline 过程中每次 Loop 都 declare 一次（在 while 外过 scope 被 deallocate）
+
+于是假设 loop 了 10000 次，于是就比起在 loop 外 declare 要多了 9999 次的 allocate 和 deallocate 的时间.
+
+每次 declare 这个 variable 它都被 allocate 到 stack 上，但是之后也会 deallocate. 所deallocate 会直接抵消掉 allocate 的时候 stack pointer 的增长。因而对 memory 影响不大。
+
+时间上，对于复杂的 class, struct，我们每次生成都要调用构造函数，destroy 都要调用 dtor. 所会造成额外的开销，并且随循环次数大量积累. 对于简单的 types 比如 build-in 的 int, char 等等， 影响不大
