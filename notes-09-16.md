@@ -1099,8 +1099,6 @@ solution: 把每个元素设置为 key, 出现次数设置为 value.
 
 
 
-
-
 ## Lec 15: hashing
 
 ### dictionary ADT
@@ -1250,6 +1248,52 @@ idea: sum up ascii of chars
 太多 collusions.
 
 Idea: order matters. 所以我们可以 take 
-$$
-h(key) =
-$$
+
+<img src="note-assets\{79C7EA6A-F46B-4030-AF8C-CE95FD1B2E58}.png" alt="{79C7EA6A-F46B-4030-AF8C-CE95FD1B2E58}" style="zoom:50%;" />
+
+基于长度。每次读到新的位，前面的位的 hash value 就乘以 10.
+
+这样确保了：1. 长度短的比长度长的要尽量 hash int 更大；2. 越前面的字符权重越大
+
+
+
+
+
+### Compression
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lec 16: Hash Collision Resolution
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lab 7 Hashing
+
+
+
+
+
