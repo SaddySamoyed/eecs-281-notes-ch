@@ -31,6 +31,7 @@ DFS the graph.
 // complexity: O(V + E)
 bool is_graph_cyclic(const vector<vector<int>> &adj_list) {
     unordered_set<int> visited;
+
     // Since the graph is connected, we only need to start from one node (e.g., node 0 or 1)
     return hasCycleDFS(0, -1, adj_list, visited);
 }
