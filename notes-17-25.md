@@ -219,11 +219,205 @@ void levelorder(Node *p) {
 
 ## Lec 18 (BST & AVL tree)
 
+BST 是一个 Binary tree, 并满足：
+
+**任意一个 node 都比它的 left subtree 中的所有 nodes 要大，比它的 right subtree 中的所有 nodes 要 <=（可以有 duplicate** 
+
+
+
+<img src="note-assets/Screenshot 2024-11-17 at 21.52.02.png" alt="Screenshot 2024-11-17 at 21.52.02" style="zoom:50%;" />
+
+
+
+THM：inorder traverse 一个 BST 获得一个 non-decreasing seq.
+
+Which means: 我们可以 do binary search / upper/lower_bound on BST. 
+
+并且这个 binary search 由于树的结构，比 array 上的更简单
+
+
+
+### binary search on BST
+
+```c++
+Node *tree_search(Node *x, KEY k) {
+  while (x != nullptr && k!= x->key) {
+    if (k < x-> key) x = x-> left;
+    else x = x-> right;
+  }
+  return x;
+}
+```
+
+得到的是一个自顶向下的 path.
+
+O(logn) average.
+
+worst case: 退化成链表的 BST. 一个 stick. 只有这种极端情况有 O(n).
 
 
 
 
 
+
+
+### `insert` in BST
+
+和 search 相似.
+
+找到 upper bound 和 lower bound，在中间插入.
+
+<img src="note-assets/Screenshot 2024-11-17 at 22.00.41.png" alt="Screenshot 2024-11-17 at 22.00.41" style="zoom:50%;" />
+
+注意：我们需要一个没有唯一答案的 deterministic policy 来处理 duplicate. 放在左边还是右边？取决于我们对
+
+v ? current then search left
+
+v ?  current then search right 
+
+的处理. STL 使用 <, >=
+
+（也可以使用 <=, >
+
+
+
+```c++
+void BST_insert(Node *&x, KEY k) {
+  if (x == nullptr)
+    x = new Node(k);
+  else if (k < x-> key)
+    BST_insert(x->left, k);
+  else 
+    BST_insert(x->right, k);
+}
+```
+
+不论是插入还是搜索，处理 binary tree 的核心在于 rebase root，对左子树和右子树分别处理.
+
+
+
+Complexity:
+
+对于 well-balanced BST，O(log n)
+
+对于 stick, 退化成链表的 BST，worst case，O(n)
+
+average O(log n)
+
+
+
+实际上对于任意一组数据，都存在一个排列方式能触发 worst case（比如 sorted 的）
+
+实际上触发 worst case 居然挺容易的。
+
+这也是为什么我们需要一个可以 self balance 的 binary tree. 等下讲
+
+
+
+#### exercise: find min
+
+找到 leftmost 即可
+
+```c++
+Node *tree_min(Node *x) {
+  if (x == nullptr)
+    return nullptr;
+ 	while (x->left)
+    x = x->left;
+  return x;
+}
+```
+
+Average: O(log n)
+
+Worst: O(n)
+
+
+
+### `remove` in BST
+
+Cases:
+
+1. no children (trivial)
+2. no left child
+3. no right child
+4. has two children
+
+**case 2,3 即：replace the current node by its left/right child.** 也是等于 trivial 的. 
+
+
+
+case 4 有一点难度.
+
+#### when `v` has both children
+
+observe: left subtree 中所有的元素，都比 right subtree 要小！
+
+**所以：我们把 right subtree 中最小的一个元素（一定是 leaf）拿出来 replace `v` 就可以了**
+
+称这个
+
+<img src="note-assets/Screenshot 2024-11-17 at 22.22.04.png" alt="Screenshot 2024-11-17 at 22.22.04" style="zoom:50%;" />
+
+```c++
+template <class T>
+void BinaryTree<T>::remove(Node *&tree, const T &val) {
+	Node *nodeToDelete = tree;
+  Node *inorderSuccessor;
+  
+  // first find the position containing the value to remove
+  if (!tree) return;
+  else if (val < tree->value) remove(tree->left, val);
+  else if (val > tree->value) remove(tree->right, val);
+  
+  // do remove
+  else {
+    // two trivial cases
+    if (tree->left == nullptr) {
+      tree = tree->right;
+      delete nodeToDelete;
+    }
+    if (tree->right == nullptr) {
+      tree = tree->left;
+  		delete nodeToDelete;
+    }
+    // real shit
+    else {
+      inorderSuccessor = tree->right;
+      //find the inorderSuccessor
+      while (inorderSuccessor->left != nullptr){
+        inorderSuccessor = inorderSuccessor->left;
+      }
+      // replace the value of the node with the value of the succssor
+      nodeToDelete->value = inorderSuccessor->value;
+      // do one more round, just to remove the original inorderSuccessor
+      remove(tree->right, inorderSuccessor->value);
+    }
+  }
+}
+```
+
+仍然是 average O(logn)，worst O(n).
+
+
+
+
+
+
+
+### AVL tree
+
+BST 不足之处在于 worst case 总是 O(n) 的. 当数据插入的顺序不巧比较 sorted 时，我们会得到一个几乎退化成链表的 BST，使得所有行为都接近 O(n). 我们希望有一个能自动 balance 自己的 BST.
+
+所以就有了 AVL tree.
+
+
+
+AVL tree 是一种 self-balancing BST. Self-balancing 的意思是 AVL tree 有 **Height Balance Property: 对于任意 internal node，它的左右 subtrees 的 height 差别 <=1**
+
+这个性质的实现是它依靠 rotation 来 correct imbalance.
+
+Height Balance Property 使得 AVL tree 的 search, insert, remove 达到 **worst case O(logn)**
 
 
 
