@@ -409,7 +409,7 @@ void BinaryTree<T>::remove(Node *&tree, const T &val) {
 
 BST 不足之处在于 worst case 总是 O(n) 的. 当数据插入的顺序不巧比较 sorted 时，我们会得到一个几乎退化成链表的 BST，使得所有行为都接近 O(n). 我们希望有一个能自动 balance 自己的 BST.
 
-所以就有了 AVL tree.
+所以就有了 AVL tree. 名字来自发明者
 
 
 
@@ -418,6 +418,108 @@ AVL tree 是一种 self-balancing BST. Self-balancing 的意思是 AVL tree 有 
 这个性质的实现是它依靠 rotation 来 correct imbalance.
 
 Height Balance Property 使得 AVL tree 的 search, insert, remove 达到 **worst case O(logn)**
+
+<img src="note-assets/Screenshot 2024-11-17 at 23.33.07.png" alt="Screenshot 2024-11-17 at 23.33.07" style="zoom: 50%;" />
+
+虽然这很显然，但是我们也可以证明它:
+
+不妨考虑 AVL 树的最极端情况：任意左右树 height 都相差了 1
+
+Let $n(h)$ 表示 height $h$ 的 tree 的 ndoes 数量：
+
+Then
+$$
+n(h) = 1 + n(h-1) + n(h-2)
+$$
+for all h >= 2
+
+因而
+$$
+n(h) > 2 \times n(h-2)
+$$
+By induction
+$$
+n(h) > 2^i \times n(h-2i)
+$$
+因而 
+$$
+h < 2 \log n(h) + 2 = \Theta(\log n)
+$$
+
+
+### AVL: insert
+
+AVL tree 的 search 和 sort 就是普通的 BST.
+
+它维持 Height Balance Property 的方法是 insertion 时维持. (以及 remove)
+
+基本 idea: 先正常 insert，然后 rearrange tree to balance height
+
+
+
+
+
+#### compute `balance`
+
+AVL tree 中的每个元素都 record 其 height.
+
+计算一个 node 的 balance factor:
+
+```c++
+balance(n) = height(n->left) - height(n->right)
+```
+
+balance = 0, 1, -1 的都是 AVL-balanced node.
+
+|balance| > 1: out of balance
+
+
+
+<img src="note-assets/Screenshot 2024-11-17 at 23.48.22.png" alt="Screenshot 2024-11-17 at 23.48.22" style="zoom: 33%;" />
+
+
+
+
+
+#### rotation
+
+rotation 是一个 local change involving 三个 subtree ptrs 和两个 nodes.
+
+
+
+right rotation:
+
+让 left child $L$ and left subtree of $L$ 提到 root 上, 再把原本的 root $V$ 作为它的 right subtree，wtih $L$ 原本的 right subtree 成为 $V$ 的 left subtree
+
+left rotation:
+
+把 right child $R$ and right subtree of $R$ 提到 root 上，再把原本的 root $V$ 作为它的 left subtree，with $R$ 原本的 left subtree 成为 $V$ 的 right subtree
+
+(dually)
+
+容易验证，这保持了 BST 结构.
+
+<img src="note-assets/Screenshot 2024-11-18 at 00.00.51.png" alt="Screenshot 2024-11-18 at 00.00.51" style="zoom:50%;" />
+
+
+
+我们发现，一次 rotation 并不能保证解决一切问题.
+
+example:
+
+<img src="note-assets/Screenshot 2024-11-18 at 00.16.29.png" alt="Screenshot 2024-11-18 at 00.16.29" style="zoom: 50%;" />
+
+
+
+#### four cases
+
+
+
+
+
+
+
+
 
 
 
