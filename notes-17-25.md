@@ -513,6 +513,18 @@ example:
 
 #### four cases
 
+冷静分析：
+
+ AVL tree，在插入一个节点前一定保持平衡，
+
+插入一个节点后，检查这个节点的 ancestor 的 ancestor 的 balance factor: **AVL tree 变得不平衡 当且仅当 这个parent 的 parent 的 balance factor 绝对值变得大于 1 了**
+
+因为除了这一枝外的其他枝的 balance factor 都不会变，只有这一枝会改变。**也就是新节点到 root 的这一个 path 上的节点。只有这些节点有可能会变化以超过1，并且变得都一样。**
+
+这个时候，我们可以找到第一个 unbalance 的节点。
+
+这个节点至多是它的 parent 的 parent.
+
 
 
 
