@@ -501,31 +501,128 @@ left rotation:
 
 <img src="note-assets/Screenshot 2024-11-18 at 00.00.51.png" alt="Screenshot 2024-11-18 at 00.00.51" style="zoom:50%;" />
 
+```c++
+AVL::Node* AVL::rotate_left(AVL::Node* node) {
+    Node *rightchild = node->right;
+    Node *rightleftchild = rightchild->left;
+    node->right->left = node;
+    node->right = rightleftchild;
+    fixHeightBelow(rightchild);
+    return rightchild;
+}
+
+AVL::Node* AVL::rotate_right(AVL::Node* node) {
+    Node *leftchild = node->left;
+    Node *leftrightchild = leftchild->right;
+    node->left->right = node;
+    node->left = leftrightchild;
+    fixHeightBelow(leftchild);
+    return leftchild;
+}
+```
 
 
-我们发现，一次 rotation 并不能保证解决一切问题.
-
-example:
-
-<img src="note-assets/Screenshot 2024-11-18 at 00.16.29.png" alt="Screenshot 2024-11-18 at 00.16.29" style="zoom: 50%;" />
 
 
 
-#### four cases
+#### how to keep balance in AVL
+
+到底应该以哪个 Node 为 root 来 rotate 左右 subtree 呢？
 
 冷静分析：
 
  AVL tree，在插入一个节点前一定保持平衡，
 
-插入一个节点后，检查这个节点的 ancestor 的 ancestor 的 balance factor: **AVL tree 变得不平衡 当且仅当 这个parent 的 parent 的 balance factor 绝对值变得大于 1 了**
+插入一个节点后，它下面的 subtree 的任意节点 balance factor 一定不变，而它的 siblings 以及它们的 subtree 的任意节点的 balance factor 也一定不变。换言之，**balance factor 可能改变以至于不 balance 的只有它到 root 的这段 path 上的节点.** 并且显然，balance 的绝对值至多为 2.
 
-因为除了这一枝外的其他枝的 balance factor 都不会变，只有这一枝会改变。**也就是新节点到 root 的这一个 path 上的节点。只有这些节点有可能会变化以超过1，并且变得都一样。**
+一旦检测到 balance 绝对值为 2，设想这个时候，我们**找到第一个 unbalance 的节点 $V$ ：它的 left, right subtree 不平衡，高度差距 =2. ** 这其中蕴含了一个推论，就是**它的两个 subtree 中至少有一边一定 >= 两层.**
 
-这个时候，我们可以找到第一个 unbalance 的节点。
+并且，由于之前所有的 node 的 balance factor 绝对值都 <=1，我们知道**这两个 subtree 中长的一边的左右 subtree ($V$ 的subsubtree) 的左右一定从等高变成了不等高，否则之前就不会平衡.** 
 
-这个节点至多是它的 parent 的 parent.
+所以，这里一定出现了三个高度：
+
+1. $V$ 的短子树，最短
+2. $V$ 的长子树的一边子树，其中间
+3. $V$ 的长子树的另一边子树，最长
+
+并且注意到，**$V$ 的长子树的两边子树高度差距正好为 1，否则在插入前就不平衡；而 $V$ 的长子树的长子树和 $V$ 的短子树的高度差距正好为 2，导致了这个 imbalance.**
+
+所以只要把这三个树的顺序换一换就好了
 
 
+
+#### Four cases of balance = 2 problem
+
+example:
+
+<img src="note-assets/Screenshot 2024-11-18 at 00.16.29.png" alt="Screenshot 2024-11-18 at 00.16.29" style="zoom: 50%;" />
+
+我们发现，一次 rotation 并不能保证解决一切问题. 但是所幸，两次可以解决一切问题。因为一共只有 4 个情况。
+
+我们称为 left left, right right, left right, right left case
+
+LL, RR 最简单. 旋转一次如图.
+
+<img src="note-assets/Screenshot 2024-11-18 at 23.53.13.png" alt="Screenshot 2024-11-18 at 23.53.13" style="zoom:67%;" />
+
+<img src="note-assets/Screenshot 2024-11-18 at 23.53.04.png" alt="Screenshot 2024-11-18 at 23.53.04" style="zoom:67%;" />
+
+
+
+LR, RL 旋转两次. (第一次先转换成 LL, RR.)
+
+<img src="note-assets/Screenshot 2024-11-18 at 23.54.08.png" alt="Screenshot 2024-11-18 at 23.54.08" style="zoom:80%;" />
+
+
+
+
+
+具体的代码：
+
+我们根本不需要在 imbalance 被发现时遍历树来找到第一个 imbalanced node，而是通过 recursion 找到应该插入的点时自动检测 imbalance，而后直接查询是四个情况中的哪一个. 
+
+recursion 是自顶向下的，但是 stack 是自底向上一个一个完成的。insert 的复杂度等于 search，因为它等于我们 search 并在每个 stack 都完成一次 fix_height 和可能 rotate. 这两个行为是 O(1) 的.
+
+search 是 O(log n) 的, insert 等于执行 O(log n) 个 O(1) behavior，是 O(log n) 的.
+
+```c++
+AVL::Node* AVL::insert_node(AVL::Node* node, int datum) {
+    if (node == nullptr) {
+        // at a leaf position in the tree, so create a new node
+        return new Node{ datum, 1, nullptr, nullptr }; // it has height 1
+    }
+  
+    if (datum < node->datum) {
+        node->left = insert_node(node->left, datum);
+        node->fix_height(); // remember to fix the height of a node after modifying its children
+
+       // Left Left Case
+        if (node->balance()>1 && node->left->balance() >=0) return rotate_right(node);
+        // Right Right Case
+        if (node->balance()<-1 && node->right->balance()<=0) return rotate_left(node);
+        // Left Right Case
+        if (node->balance()>1 && node->left->balance()<0) {node->left = rotate_left(node->left);
+            return rotate_right(node);}
+        // Right Left Case
+        if (node->balance()<-1 && node->right->balance()>0) {node->right = rotate_right(node->right); return rotate_left(node);}
+    }
+    else {
+        node->right = insert_node(node->right, datum);
+        node->fix_height(); // remember to fix the height of a node after modifying its children
+
+        // Left Left Case
+        if (node->balance()>1 && node->left->balance() >=0) return rotate_right(node);
+        // Right Right Case
+        if (node->balance()<-1 && node->right->balance()<=0) return rotate_left(node);
+        // Left Right Case
+        if (node->balance()>1 && node->left->balance()<0) {node->left = rotate_left(node->left);
+            return rotate_right(node);}
+        // Right Left Case
+        if (node->balance()<-1 && node->right->balance()>0) {node->right = rotate_right(node->right); return rotate_left(node);}
+    }
+    return node;
+}
+```
 
 
 
