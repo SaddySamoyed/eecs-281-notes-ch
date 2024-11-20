@@ -1,0 +1,11 @@
+Start in level 0, row 2, column 3
+//level 0
+.Hww
+...n
+E..n
+#..#
+//level 1
+....
+#...
+E#..
+#...

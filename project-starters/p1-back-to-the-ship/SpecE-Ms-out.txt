@@ -1,0 +1,11 @@
+Start in level 1, row 3, column 0
+//level 0
+swww
+s...
+s...
+H...
+//level 1
+...0
+...n
+...n
+eeen
