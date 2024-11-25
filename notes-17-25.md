@@ -684,9 +684,15 @@ adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
 
 
 
-![Screenshot 2024-11-24 at 23.00.43](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-11-24 at 23.00.43.png)
+<img src="note-assets/Screenshot 2024-11-24 at 23.00.43.png" alt="Screenshot 2024-11-24 at 23.00.43" style="zoom:50%;" />
 
-![Screenshot 2024-11-24 at 23.03.12](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-11-24 at 23.03.12.png)
+<img src="note-assets/Screenshot 2024-11-24 at 23.03.12.png" alt="Screenshot 2024-11-24 at 23.03.12" style="zoom:50%;" />
+
+
+
+
+
+
 
 
 
@@ -777,4 +783,6 @@ int main() {
 }
 
 ```
+
+
 
