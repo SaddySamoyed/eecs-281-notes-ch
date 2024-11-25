@@ -640,6 +640,70 @@ AVL::Node* AVL::insert_node(AVL::Node* node, int datum) {
 
 
 
+## Lec 19 (Graphs)
+
+graph.  set of a vertices collection and an edges collection.
+
+simple / non-simple ？
+
+(non-simple: 可以有同一个顶点到自己的 edge)
+
+directed / undirected  ？
+
+(directed 的表示方式是一条 edge 的第一个第二个顶点表示顺序)
+
+weighted / unweighted ？
+
+(weighted 的表示方式是 edge 加一个组成部分)
+
+
+
+
+
+### Complete / Dense / Sparse graph
+
+Complete graph: 每个节点都和其他所有节点 connect，一共有 |V| * |V-1| / 2 等于 |V|*2 - 2|V| + 1 个 edges
+
+Dense graph 和 sparse graph 不是严格的数学概念。
+
+Dense graph 表示 |E| 和 |V|^2 大小差距较小的 graph. Sparse graph 表示 |E| 和 |V|^2 大小差距较大的 graph.
+
+<img src="note-assets/Screenshot 2024-11-24 at 22.55.37.png" alt="Screenshot 2024-11-24 at 22.55.37" style="zoom:50%;" />
+
+
+
+区分 dense graph 和 sparse graph 的目的是：**我们通常用 adjacency matrix 来表示 dense graph，用 adjacency list 来表示 sparse graph.** 
+
+adjacency matrix 展现出的是 |V|^2 个 entry，表示每个点和每个点，包括自己和自己之间（容许non-simple）有没有边；可以接受 directed graph，用横竖来表示方向；可以接受 weighted graph，使用其变体 distance matrix. adjacency matrix 的 cost 也大，如果是一个 sparse graph 的话则大部分 entry 都是 0 （distance matrix 的话是 infty）
+
+
+
+adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
+
+
+
+
+
+![Screenshot 2024-11-24 at 23.00.43](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-11-24 at 23.00.43.png)
+
+![Screenshot 2024-11-24 at 23.03.12](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-11-24 at 23.03.12.png)
+
+
+
+## Lec 20 (MST)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Lab 09 (Graphs)
 
 
