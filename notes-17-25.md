@@ -698,7 +698,16 @@ adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
 
 ## Lec 20 (MST)
 
-一个 graph 的一个 minimal spaning tree 就是
+一个 **weighted undirected connected graph** 的一个 **spanning tree** 就是它的一个 subgraph，其 connect 所有点并且无 cycle（即是一个 tree）
+
+minimal spaning tree 就是它的所有 spanning tree 中总 weights 和最小的 （可以有多个
+
+### properties of MST
+
+1. 一个 graph 的所有 MST 中，都有一个共同的 unique shortest edge
+2. 
+
+
 
 
 
