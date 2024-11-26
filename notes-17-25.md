@@ -698,6 +698,12 @@ adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
 
 ## Lec 20 (MST)
 
+一个 graph 的一个 minimal spaning tree 就是
+
+
+
+
+
 
 
 
@@ -783,6 +789,94 @@ int main() {
 }
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lec 21 (Algorithm Family)
+
+
+
+
+
+
+
+
+
+## Lec 22 (Backtracking, branch and bound, TSP)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lec 23 (DP)
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lec 24 (Knapsack and Dijkstra's algorithm)
+
+
+
+
+
+
+
+
+
+
+
+## Lab 10 (DP)
+
+
+
+
+
+
+
+
+
+
+
+## Lec 25 (Computational geometry)
+
+
 
 
 
