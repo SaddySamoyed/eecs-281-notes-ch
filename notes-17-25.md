@@ -700,7 +700,9 @@ Complete graph: 每个节点都和其他所有节点 connect，一共有 |V| * |
 
 Dense graph 和 sparse graph 不是严格的数学概念。
 
-Dense graph 表示 |E| 和 |V|^2 大小差距较小的 graph. Sparse graph 表示 |E| 和 |V|^2 大小差距较大的 graph.
+Dense graph 表示 |E| 和 |V|^2 大小差距较小的 graph. Sparse graph 表示 |E| 和 |V|^2 大小差距较大的 graph (|E| 和 |V| 差不多大).
+
+显然所有 tree 都是 sparse 的，因为 |E| = |V| - 1
 
 <img src="note-assets/Screenshot 2024-11-24 at 22.55.37.png" alt="Screenshot 2024-11-24 at 22.55.37" style="zoom: 33%;" />
 
@@ -712,17 +714,119 @@ adjacency matrix 展现出的是 |V|^2 个 entry，表示每个点和每个点�
 
 
 
-adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
+### Representing a graph: Adjacency matrix
 
+Adjacency matrix 适合用来表示比较 dense 的 graph.（对于 unweighted graph，0 表示无 edge，1表示有 egde；对于 weighted graph，infty 表示无 edge，每个 entry 上表示 edge value）
 
+Space: |V|^2 
+
+查看两个顶点是否有边：O(1)
+
+修改和删除边：O(1)
+
+遍历某个顶点的所有 neighbor: O(|V|)
+
+遍历整个图：O(|V|^2)
 
 
 
 <img src="note-assets/Screenshot 2024-11-24 at 23.00.43.png" alt="Screenshot 2024-11-24 at 23.00.43" style="zoom: 33%;" />
 
-<img src="note-assets/Screenshot 2024-11-24 at 23.03.12.png" alt="Screenshot 2024-11-24 at 23.03.12" style="zoom: 33%;" />
+<img src="note-assets/Screenshot 2024-11-26 at 20.39.33.png" alt="Screenshot 2024-11-26 at 20.39.33" style="zoom: 33%;" />
+
+#### 在 C++ 中表示 infty
+
+```c++
+#include <limits>
+double infty = numeric_limit<double>::infinity();
+```
+
+它和有限非 0 数的任何操作都得到自己
+
+如果使用 VS 的集成编译系统，那么它除以自己得到 1，乘以 0 得到 0，减去自己得到 0
+
+如果自己使用 g++ 编译，那么这三个行为都得到 nan (not a number).
 
 
+
+### Representing a graph: Adjacency list
+
+Adjacency list 适合用来表示比较 sparse 的 graph.
+
+它的做法就是建立一个 vector of vectors，第一层数量等于 |V|，每个 vector 都是一个 vertex 的 vertex list
+
+于是：假设 edges 是随机分布的，**每个 vertex 的 vertex list 长度是 O(E/V)**
+
+space 是: O(1+|E|/|V|) for each vertex，**O(|V|+|E|)** 总共（这是显然的因为一共的 entries 数量就是 |E|）
+
+**找到一个 edge 的 time：O(|E| / |V|)**
+
+
+
+#### Adajacency list 表示 directed, weighted graph
+
+用 adjacency list 表示 directed graph：很简单，对于 undirected graph，每条边都会在两个顶点的 vertex list 中各出现一次；而对于 directed graph，每条边只会出现在起点的 vertex list.
+
+表示 **unweighted graph：每个 vertex list 是 a list of vertices**；表示 **weighted graph：每个 vertex list 是 a list of pairs，一个 pair 是一个 vertex 和一个表示 weight 的数.**
+
+
+
+
+
+#### 常见的 Complexity Analysis
+
+1. 查看两点间是否有边
+
+   Matrix: 全部 O(1)，直接 random access
+
+   List: worst O(|V|)，best O(1)，average O(1 + |E| / |V|)，即遍历一个 list
+
+2. 查找离一个点最近的一个点
+
+   Matrix：全部 O(|V|)，找一行
+
+   List：worst O(|V|)，best O(1)，average O(1 + |E| / |V|)，即遍历一个 list
+
+
+
+这些是最基本的操作。而我们在图上还有一些常用操作：比如查找最短路径，这是我们在图上最常用的操作
+
+有三个方法：
+
+1. **DFS：只适用于 trees！**在 general 的 graph 上回由于 multiple paths 出现问题
+2. **BFS：只适用于 unweighted graph**
+3. **Dijstra：广泛适用于 weighted graph**
+
+
+
+### DFS 找最短路: 只适用于 tree 性质的图
+
+伪代码：
+
+```
+DFS(G):
+	mark the root as visited
+	push root to stack
+	while (stack not empty):
+		get and pop top
+    for each child of top:
+    	if child visited:
+    		mark visited
+    		push child to top of stack
+    		if child is the goal
+    			return success
+  return failure
+```
+
+
+
+
+
+### BFS 找最短路: 只适用于 unweighted graph
+
+
+
+### Dijstra 找最短路
 
 
 
@@ -736,13 +840,9 @@ adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
 
 minimal spaning tree 就是它的所有 spanning tree 中总 weights 和最小的 （可以有多个
 
-### properties of MST
-
-
-
 ### Cut Property
 
-Cut Property: **任意地切分一个图（把顶点分为两个集合，其 disjoint union 是整个 V），在 cross 两个顶点集的所有边上，如果其中一条严格小于其他所有边，那么这条边一roof: 个切分，并取它的 crossing edges 中的最短一边。
+Cut Property: **任意地切分一个图（把顶点分为两个集合，其 disjoint union 是整个 V），在 cross 两个顶点集的所有边上，如果其中一条严格小于其他所有边，那么这条边一roof: 个切分，并取它的 crossing edges 中的最短一边。**
 
 假设存在一个 MST，称为 T，不包含这条边 e：
 
