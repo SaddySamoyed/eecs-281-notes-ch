@@ -10,12 +10,46 @@
 
 ## Lec 17 (Trees)
 
+### Def && Property of trees
+
 两个 equivalent def of trees:
 
 1. 无 cycle 的 connected graph
 2. 一个 graph，其中任意两个 node 之间的 paths 都存在唯一的 shortest one. （这个定义和 1 等价，因为这当且仅当没有 cycle. 如果有 cycle, 那么 cycle 之间一定存在两个点，有多个 path 都是 shortest 的）
 
+Properties:
 
+1. **如果一个 tree 有 n 个顶点，那么它一定有 n-1 个 edges.**
+   $$
+   |E_{tree}| = |V_{tree}| -1
+   $$
+   这个性质是源于：tree 是一个连通图。
+
+   by induction. 
+
+   base case: 单点图；
+
+   如果要加入一个顶点，那么必须把它连接到当前的图上。所以必须添加 edge.
+
+   但是，由于当前的图是 connected 的，一旦这个新顶点连接了超过一个其他顶点，那么它就会形成 cycle，因为它连接的两个顶点也相互连接了。
+
+   所以，tree 中任意一个新加入的顶点都只带来一条边。
+
+   并且，这条性质还可以用来 decide tree: 
+
+   **一个有 |V|-1 条边的连通图一定是 tree.**
+
+   **其实这三条性质：边数n-1，连通，无环中只要有两条就可以推导出另一条并表明这是一个树**
+
+2. **只要往 tree 中加入任意一条新的边，就会形成 cycle**
+
+   也是 by 连通图的定义
+
+3. **只要在 tree 中去掉任意一条边，就会 disconnect**
+
+4. 每个 tree 都是二分图. （图是二分图当且仅当不包含奇数长度的环
+
+   
 
 
 
@@ -668,7 +702,7 @@ Dense graph 和 sparse graph 不是严格的数学概念。
 
 Dense graph 表示 |E| 和 |V|^2 大小差距较小的 graph. Sparse graph 表示 |E| 和 |V|^2 大小差距较大的 graph.
 
-<img src="note-assets/Screenshot 2024-11-24 at 22.55.37.png" alt="Screenshot 2024-11-24 at 22.55.37" style="zoom:50%;" />
+<img src="note-assets/Screenshot 2024-11-24 at 22.55.37.png" alt="Screenshot 2024-11-24 at 22.55.37" style="zoom: 33%;" />
 
 
 
@@ -684,9 +718,9 @@ adjacency list 可以充分且 low cost 地表示 sparse graph. 这是一个
 
 
 
-<img src="note-assets/Screenshot 2024-11-24 at 23.00.43.png" alt="Screenshot 2024-11-24 at 23.00.43" style="zoom:50%;" />
+<img src="note-assets/Screenshot 2024-11-24 at 23.00.43.png" alt="Screenshot 2024-11-24 at 23.00.43" style="zoom: 33%;" />
 
-<img src="note-assets/Screenshot 2024-11-24 at 23.03.12.png" alt="Screenshot 2024-11-24 at 23.03.12" style="zoom:50%;" />
+<img src="note-assets/Screenshot 2024-11-24 at 23.03.12.png" alt="Screenshot 2024-11-24 at 23.03.12" style="zoom: 33%;" />
 
 
 
@@ -704,14 +738,103 @@ minimal spaning tree 就是它的所有 spanning tree 中总 weights 和最小�
 
 ### properties of MST
 
-1. 一个 graph 的所有 MST 中，都有一个共同的 unique shortest edge
-2. 
+
+
+### Cut Property
+
+Cut Property: **任意地切分一个图（把顶点分为两个集合，其 disjoint union 是整个 V），在 cross 两个顶点集的所有边上，如果其中一条严格小于其他所有边，那么这条边一roof: 个切分，并取它的 crossing edges 中的最短一边。
+
+假设存在一个 MST，称为 T，不包含这条边 e：
+
+由于 T 是 connected 的，这些边中至少有一条，称为 e' ，在 T 中
+
+by 连通图的性质，**这两个顶点集组成的两个子图都是连通图，所以去掉 e' 加入 e 后仍然是连通的**
+
+于是有
+$$
+w(T   \backslash \{e\} \; \cup \{e'\}) < w(T)
+$$
+和 T 是 MST 矛盾了 
+
+#### Corollary: shortest edge for one vertex must be in all MST; in some if unstrict
+
+对于任意一个 edge，我们都可以把它和其他所有顶点分为两个 subgraph（单点集和其他所有点的子图）
+
+所以 by cut property，任意一个顶点 associated 的所有 edges 中如果存在严格最短的，那么这条 edge 一定在所有 MST 中
+
+类似逻辑可证明：**任意一个顶点 associated 的所有 edges 中如果存在多个最短的，那么它们都各自在某个 MST 中.**
+
+
+
+
+
+（Trivial Collary: Cycle Property
+
+于图中的任意 cycle，如果其中的一条边比 cycle 中的其他边都严格长，那么它一定不在任何 MST 中。This is trivially true.）
+
+
+
+### Prim's Algorithm: Using Cut Property
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+### Minimum-cost egde property
+
+如果 graph 中 minimum cost 的 edge 是 Unique 的，那么它一定在任何 MST 中
+
+proof: 假设存在一个 MST 没有这一边，那么把它放进 T 中 形成一个循环，去掉任意一个其他边仍然是一个 tree
+
+
+
+#### Corollary: sorting property
+
+对一个 connected graph 的所有边长**进行排序，前 k 个不形成 cycle 的 edges 一定是某个 MST 的 subgraph**。
+
+（因而，前 |V| -1 个不形成 cycle 的 edges 一定一个 MST.）
+
+proof: 
+
+Proof by induction.
+
+Base case: k = 0. 
+
+Inductive step: 假设 $e_1, ..., e_{k-1}$ 是某个 MST $T$ 的 subgraph，并且 e_k 是接下来的最小且和 $e_1, ..., e_{k-1}$ 不形成 cycle
+
+那么我们看向 $T$：把  $e_k$ 加入到 $T$ 中形成了一个 cycle，于是把其中一个边去掉又是一个 tree. 由于有其他边长都大于等于 $e_k$，那么一定可以用 $e_k$ 来替换这个边
+
+
+
+实际上我们可以这么想：
+
+一个 spanning tree 是由一个点作为起点，每加入一条边就是新加入一个顶点。加入 $|V|-1$ 次就结束了
+
+因而当我们固定起点，其实**每个新加入的顶点都 associate 了它被加入时的边。**
+
+MST 就是让加入每个顶点时它 associate 的边尽量最短
+
+我们**选择一个加入后不形成 cycle 的边，其实就是加入一个新的顶点。**
+
+我们把所有边都排序好，**选择前 $|V|-1$ 个最短的不形成 cycle 的边，就是加入 $|V|-1 $ 个其他顶点，并且确保它们的 weights 总和达到最小**. 任何其他选择都只不过是换一换两个点加入的顺序和它们加入时 associate 的边，但是这个选择一定不会比我们通过排序获得的选择更好。
+
+
+
+### Krustal's Algorithm: Using sorting property
+
+
+
+ 
 
 
 
