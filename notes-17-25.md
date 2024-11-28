@@ -1477,15 +1477,64 @@ MST 就是让加入每个顶点时它 associate 的边尽量最短
 
 
 
-### Krustal's Algorithm: Using sorting property
+### Kruskal's Algorithm: Using sorting property
 
-Krustal's algorithm 就是 sorting property 的直接 application.
+Kruskal's algorithm 就是 sorting property 的直接 application.
 
 算法：我们 sort edges，然后 loop through all edges，跳过形成 cycle 的. Idea 十分简单
+
+#### 如何检测是否有 cycle
+
+sorting 很简单，而检测有无 cycle 则需要思考
+
+Idea：**当我们想添加一条边的时候，它会形成一个 cycle 当且仅当它的两个顶点已经 connected**
+
+所以：我们用一个 union-find set 来 keep track of connectivity.
+
+用两个顶点属于同一个集合来表示 connected，每当放一个新的 edge 等待判断的时候，我们首先查看它们是否在同一个集合
+
+进入 MST 的时候，我们就把它们的顶点 union. （设置其中一个的 parent 为另一个）
+
+当一个 edge 的两个端点都在同一个集合的时候，
+
+
 
 
 
 ```c++
+// Union-Find Disjoint Set data structure
+struct DisjointSet {
+    vector<int> parent, rank;
+    DisjointSet(int n) : parent(n), rank(n, 0) {
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int u) {
+        if (u != parent[u]) {
+            parent[u] = find(parent[u]);
+        }
+        return parent[u];
+    }
+
+    void unite(int u, int v) {
+        int rootU = find(u);
+        int rootV = find(v);
+        if (rootU != rootV) {
+            if (rank[rootU] < rank[rootV]) {
+                parent[rootU] = rootV;
+            } else if (rank[rootU] > rank[rootV]) {
+                parent[rootV] = rootU;
+            } else {
+                parent[rootV] = rootU;
+                rank[rootU]++;
+            }
+        }
+    }
+};
+
+
 void kruskalMST(vector<Edge> &edges, int V) {
     sort(edges.begin(), edges.end(), compareEdges);
 
