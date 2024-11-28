@@ -1245,9 +1245,7 @@ $$
 
 
 
-
-
-（Trivial Collary: Cycle Property
+（And Another Trivial Collary: Cycle Property
 
 于图中的任意 cycle，如果其中的一条边比 cycle 中的其他边都严格长，那么它一定不在任何 MST 中。This is trivially true.）
 
@@ -1255,15 +1253,185 @@ $$
 
 ### Prim's Algorithm: Using Cut Property
 
+记录三个 vector，每个都 of |V| size
+
+1. visited vector：每个 node v 是否被 visited
+2. minimal edge weight vector: 每个 node v 的 minimal edge weight
+3. parent vector: 每个 node v 的 parent
+
+
+
+#### Correctness 分析
+
+流程：
+
+1. 设置所有的 visited 是 false（not visited）；设置 minimal edge weight vector 全部是 infty；设置 parent vector 全部是 -1（no parent）
+
+   我们**用 k_v 来把整个图分割成两个集合**，于是就可以运用 cut property（Corollary: shortest edge for one vertex must be in all MST; in some if unstrict）
+
+   minimal weight edges vector 用来保存所有 nodes 在作为 outie set 元素的时候，与 intie set 元素形成的边中最短的一个；于是，遍历整个 outie set，**所有的 minimal weight edges 中最短的一个就是 outie set 和 intie set 边缘上最短的边！**
+
+2. **loop |V| 次，每次选择 intie set 和 outie set 边缘上最短的一个 edge，把它连接的 outie node 加入 intie set 中，这样就无 cycle 地添加了 |V-1| 条 edges，根据连通图的性质，最后一定会得到一个 spanning tree！**
+
+   每一次我们把一个 node 加入 intie set，我们就更新它所有 neighbors 的边的长度，放入 minimal weight edges vector
+
+   这样，我们就总是能 keep track of intie 和 outie 边缘处的边，因为一旦一个 node 变成 intie，它和它周围的 outies 的边就立刻被更新
+
+通过 corollary of cut property，我们可以证明**每次携带一条边加入新 node 后，生成的都是某个 MST 的一个 subtree**，于是 by 联通图的性质，最后生成的一定是一个完整的 MST!
+
+
+
+#### 不使用 heap 的朴素 prim 
+
+```c++
+void primMST(vector<vector<pair<int, int>>> &graph, int V) {
+    vector<int> key(V, INT_MAX);   // To store the minimum weight for each vertex
+    vector<bool> inMST(V, false);   // To check if a vertex is included in the MST
+    vector<int> parent(V, -1);      // To store the parent of each vertex in the MST
+
+    key[0] = 0;   // Start from vertex 0
+    for (int count = 0; count < V - 1; count++) {
+        int minKey = INT_MAX, u;
+
+        // Find the minimum key vertex not included in the MST
+        for (int v = 0; v < V; v++) {
+            if (!inMST[v] && key[v] < minKey) {
+                minKey = key[v];
+                u = v;
+            }
+        }
+
+        inMST[u] = true; // Include the vertex in the MST
+
+        // Update key value and parent for adjacent vertices
+        for (auto &edge : graph[u]) {
+            int v = edge.first;
+            int weight = edge.second;
+            if (!inMST[v] && weight < key[v]) {
+                key[v] = weight;
+                parent[v] = u;
+            }
+        }
+    }
+
+    // Print the MST
+    cout << "Prim's MST:\n";
+    for (int i = 1; i < V; i++) {
+        cout << parent[i] << " - " << i << "\n";
+    }
+}
+```
+
+
+
+过一个流程：
+
+1. 更新第一个 node 进入 intie.
+
+   更新它三个 neighbors 的 minimal edges
+
+<img src="note-assets/Screenshot 2024-11-28 at 05.18.13.png" alt="Screenshot 2024-11-28 at 05.18.13" style="zoom:50%;" />
+
+2. 进入下一循环，遍历 outie 发现这个时候 intie, outie 的cut 上最短边来自 d
+
+   于是把 d 放进 intie，更新 d 周围的 minimal edges.
+
+   有四条，**其中一条是和 a 的，发现 a 在 intie 里（True），于是这条不更新**；**其余三条，d 造成的新边都要比老边短，于是更新**
+
+<img src="note-assets/Screenshot 2024-11-28 at 05.19.41.png" alt="Screenshot 2024-11-28 at 05.19.41" style="zoom:50%;" />
+
+3. 下一循环，发现 outies 里最短边来自 e
+
+   更新
+
+   <img src="note-assets/Screenshot 2024-11-28 at 05.23.52.png" alt="Screenshot 2024-11-28 at 05.23.52" style="zoom:50%;" />
+
+4. 更新，下一个最低来自 f
+
+<img src="note-assets/Screenshot 2024-11-28 at 05.24.18.png" alt="Screenshot 2024-11-28 at 05.24.18" style="zoom:50%;" />
+
+5. <img src="note-assets/Screenshot 2024-11-28 at 05.25.14.png" alt="Screenshot 2024-11-28 at 05.25.14" style="zoom:50%;" />
+6. <img src="note-assets/Screenshot 2024-11-28 at 05.25.34.png" alt="Screenshot 2024-11-28 at 05.25.34" style="zoom:50%;" />
+
+这是一个贪心算法，核心在于每次更新 indie，indie 里所有的 nodes 的三个值都不用再变了，是局部最优。
 
 
 
 
 
+#### 使用 heap 的 Prim
+
+和 Dijkstra 一样，我们既然每次都要找到 outies 的 minimal edges 里面的最小值，不如起一个 PQ，总能提高运行效率
+
+PQ：每次更新 minimal edges，我们都把更新好的 <node, min_edge_val> 放进 PQ.
+
+这个 implementation 比 Dijkstra 更简单，因为我们处理丢进 PQ 但中途被放进 intie 的 nodes 的方法也很简单：每次从 PQ 中弹出 top 元素，检查它是不是 outie 元素，是的话就正常操作，不是就忽略。
 
 
 
+```c++
+void primMSTHeap(vector<vector<pair<int, int>>> &graph, int V) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    vector<int> key(V, INT_MAX); 
+    vector<bool> inMST(V, false); 
+    vector<int> parent(V, -1);
+    key[0] = 0;
+  
+    pq.push({0, 0});  // (weight, vertex)
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        pq.pop();
 
+        if (inMST[u]) continue;	// ignore if already intie
+        inMST[u] = true; // Include the vertex in the MST
+
+        // Update key value and parent for adjacent vertices
+        for (auto &edge : graph[u]) {
+            int v = edge.first;
+            int weight = edge.second;
+            if (!inMST[v] && weight < key[v]) {
+                key[v] = weight;
+                parent[v] = u;
+                pq.push({key[v], v});
+            }
+        }
+    }
+
+    // Print the MST
+    cout << "Prim's MST using Heap:\n";
+    for (int i = 1; i < V; i++) {
+        cout << parent[i] << " - " << i << "\n";
+    }
+}
+```
+
+
+
+#### Complexity 分析
+
+1. 不使用 heap 的朴素实现
+
+   loop: |V|
+
+   每个 loop 内，loop 一层 outie 来选择 minimal edge：|V|；更新 neighbors 的 min edges: O(1 + |E|/|V|)
+
+   因而是 $O(|V|^2 + |E|)$
+
+2. 使用 heap 的实现：
+
+   While pq nonempty：loop 是 O(|E|) 的
+
+   ​     PQ.Getmin: O(log |E|)
+
+   ​     在 loop 内遍历更新 neighbors 的 min edges：O(1 + |E|/|V|)；
+
+   ​            对于每个 neighbor 都 insert PQ: O(log|E|)
+
+   因而是 $O(|E| log|E|) $
+
+
+
+所以使用 heap 未必更快。可以明确的是：**在 graph 比较 sparse 的情况下，使用 heap 更快**
 
 
 
@@ -1311,7 +1479,37 @@ MST 就是让加入每个顶点时它 associate 的边尽量最短
 
 ### Krustal's Algorithm: Using sorting property
 
- 
+Krustal's algorithm 就是 sorting property 的直接 application.
+
+算法：我们 sort edges，然后 loop through all edges，跳过形成 cycle 的. Idea 十分简单
+
+
+
+```c++
+void kruskalMST(vector<Edge> &edges, int V) {
+    sort(edges.begin(), edges.end(), compareEdges);
+
+    DisjointSet ds(V);
+    vector<Edge> mst;
+
+    for (auto &edge : edges) {
+        if (ds.find(edge.src) != ds.find(edge.dest)) {
+            mst.push_back(edge);
+            ds.unite(edge.src, edge.dest);
+        }
+    }
+
+    // Print the MST
+    cout << "Kruskal's MST:\n";
+    for (auto &edge : mst) {
+        cout << edge.src << " - " << edge.dest << "\n";
+    }
+}
+```
+
+
+
+
 
 
 
