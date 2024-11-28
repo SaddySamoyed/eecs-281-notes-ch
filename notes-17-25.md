@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 ## Lec 17 (Trees)
 
 ### Def && Property of trees
@@ -1081,13 +1071,19 @@ void dijkstraWithoutPQ(int n, int source, vector<vector<pair<int, int>>> &graph)
 
 复杂度显然是：O(|V|^2 + |E|) 
 
+|E| 是更新节点距离的总共消耗，|V|^2 则是遍历所有 vertices list
+
 
 
 #### Dijkstra with PQ
 
 由于我们每次都要选取非 infty 的 unvisited 中最短的一个来作为 visited，我们不如建立一个 PQ.
 
-注意到：实际上我们
+这样只需要 O(log|V|) 就可以找到最短的
+
+注意到：实际上我们并不需要一个 visited vector 来追踪哪些访问过了哪些没有。使用 PQ 的情况下，我们持续地把新的待开发 neighbors 的 node 放入其中，只要 PQ 还没空就一直按照我们的期望跑下去。**如果 PQ 空了，那就说明所有联通 source 的节点都找到了最短路。如果还有节点没有找到，要么它不联通 source，否则一定会在某个 visited node 的轮次内找到更短的路径，从而被放进 PQ。这是我们证明过的。**
+
+因而这个版本的 Dijkstra 非常简洁。
 
 ```c++
 // 使用优先队列的 Dijkstra 算法
@@ -1124,11 +1120,9 @@ void dijkstraWithPQ(int n, int source, vector<vector<pair<int, int>>> &graph) {
 
 
 
-
-
 #### Backtracking Dijkstra finding path
 
-这是一个带 backtracking 的 Dijkstra，可以
+这是一个带 backtracking 的 Dijkstra，通过添加一个 prev vector 来追踪具体路径
 
 ```c++
 // 使用优先队列的 Dijkstra 算法，带回溯功能
@@ -1318,6 +1312,12 @@ MST 就是让加入每个顶点时它 associate 的边尽量最短
 ### Krustal's Algorithm: Using sorting property
 
  
+
+
+
+
+
+
 
 
 
