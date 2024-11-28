@@ -177,6 +177,204 @@ union, intersect：$O(n)$
 
 
 
+STL 的 ordered_set 是基于 red-black tree 的，unordered_set 是基于 hash table 的
+
+
+
+
+
+### Representing disjoint set: Union-Find
+
+之前我们表示的是把一个 set 作为一个 container，支持 set 和 set 之间的运算
+
+但是如果我们想要一个 set of disjoint sets：所有元素构成一个大集合，并且这个大集合分成一些小集合的 disjoint unions，我们随时都可以 union 小集合，这种数据结构称为 union-find set
+
+实现方法：我们给每个集合选择一个 "Representative"，用它来表示这个集合
+
+一开始，每个元素各自代表自己的单点集，representative 就是自己
+
+每次我们做 union 两个集合（即两个元素所在的集合），我们就找到这两个元素的 representative，并把其中一个 representative 作为另一个的 representative
+
+于是，**当我们查询 representative 的时候，我们通过递归查找 representative 的 representative，一直查到 representative 等于自己的元素：这个元素是这个集合最终的 representative。**
+
+#### naive union-find set
+
+```c++
+		int find(int x) {
+      int root = x;
+      // find until root, the charateristic is it represents itself
+      while (parent[x] != x) {
+        root = parent[x];
+      	x = parent[x];
+      }
+      return x;
+    }
+
+    void unionSets(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        parent[rootY] = rootX;
+    }
+
+		// 判断两个节点是否属于同一集合，即 root 是否相同
+    bool isConnected(int x, int y) {
+        return find(x) == find(y);
+    }
+```
+
+
+
+#### path compression && rank: 优化 union-find set
+
+我们发现，如果我们把两个元素所在的集合 union 的时候，嵌套太多层
+
+（ex：a，b，c，d，e 五个元素，我们合并 ab，bc，cd，de，于是 e 的 parent 为 d，d 的 parent 为 c，c 的 parent 为 b，b 的 parent 为 a.）
+
+最终，find root 的行为是 **O(n) worst case** 的，我们无法避免这种极端的深层嵌套发生。
+
+
+
+我们可以优化这个行为：
+
+实际上，**可以把每个集合都看作一个树，representative 等于自己的元素就是这个 tree 的 root.**
+
+union 的行为，实际上就是合并两棵树：把一棵树作为另一棵的 root 的 subtree
+
+<img src="note-assets/image-20241128170227000.png" alt="image-20241128170227000" style="zoom: 33%;" />
+
+
+
+find 的行为实际上向上找 root，**操作次数等于这个节点的树高。**
+
+所以**优化 union-find set 实际上就是优化每个树(集合)的树高**
+
+
+
+
+
+也就是优化在 union 时，树的平衡程度
+
+
+
+我们提出两个优化：
+
+1. **rank optimization**：控制 union 行为时，两个树谁作为另一个的子树
+
+   我们希望，**尽量让新的树平衡，不要出现过高的子树，在合并时用宽度来代替深度，因为 union find set 中宽度没有代价**
+
+   因而，我们总是希望把高度更高的树作为 root，更低的树作为它的 subtree. 这样，新的树高就被二者中高的一棵树给 bounded 了. 
+
+   **这样的话，当且仅当两棵树高度相同时，新的树高才会是 max(height(left), height(right)) + 1；其他情况新的树高都等于 max(height(left), height(right))**
+
+   实现方法也很简单：**我们用一个 rank 来表示每个 root 的树高.**
+
+   ```c++
+   class UnionFind {
+   private:
+       vector<int> parent;  // 存储每个节点的父节点
+       vector<int> rank;    // 用于按秩优化 
+   		
+     	// 合并操作，按秩优化
+       void unionSets(int x, int y) {
+           int rootX = find(x);
+           int rootY = find(y);
+   
+           if (rootX != rootY) {
+               if (rank[rootX] > rank[rootY]) {
+                   parent[rootY] = rootX;
+               } else if (rank[rootX] < rank[rootY]) {
+                   parent[rootX] = rootY;
+               } else {
+                   parent[rootY] = rootX;
+                   rank[rootX] += 1;  // 如果秩相同，提升 rootX 的秩
+               }
+           }
+       }
+   };
+   ```
+
+   并且在 union 的行为上，持续 keep track of 每个 root 元素的树高
+
+   
+
+2. **path compression:**  我们在 find 行为时，**递归地把当前元素到它所在集合的 root 元素 的路径上每个元素的 parent 都改变成 root，让它们的所在高度都变成 2.**
+
+   ```c++
+   		// 查找操作，带路径压缩
+       int find(int x) {
+           if (parent[x] != x) {
+               parent[x] = find(parent[x]);  // 递归查找根节点并路径压缩
+           }
+           return parent[x];
+       }
+   
+   ```
+
+   
+
+整体：
+
+```c++
+class UnionFind {
+private:
+    vector<int> parent;  // 存储每个节点的父节点
+    vector<int> rank;    // 用于按秩优化
+
+public:
+    // 构造函数，初始化 n 个节点
+    UnionFind(int size) {
+        parent.resize(size);
+        rank.resize(size, 0);  // 初始秩为 0
+        for (int i = 0; i < size; ++i) {
+            parent[i] = i;  // 每个节点的初始父节点是自己
+        }
+    }
+
+    // 查找操作，带路径压缩
+    int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]);  // 递归查找根节点并路径压缩
+        }
+        return parent[x];
+    }
+
+    // 合并操作，按秩优化
+    void unionSets(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX != rootY) {
+            if (rank[rootX] > rank[rootY]) {
+                parent[rootY] = rootX;
+            } else if (rank[rootX] < rank[rootY]) {
+                parent[rootX] = rootY;
+            } else {
+                parent[rootY] = rootX;
+                rank[rootX] += 1;  // 如果秩相同，提升 rootX 的秩
+            }
+        }
+    }
+
+    // 判断两个节点是否属于同一集合
+    bool isConnected(int x, int y) {
+        return find(x) == find(y);
+    }
+};
+
+```
+
+
+
+#### 复杂度分析
+
+**不带优化**：**union 和 find 都是 O(n)**
+
+**带 path compression 和 rank 优化**：**union 和 find 平均 $O(\alpha(n))$**，这是一个 inverse-Ackerman 函数，增长非常缓慢，**可以看作 constant** 
+
+这两个优化是非常大的提升。
+
+
+
 ## Lec 10 Elementary Sorting
 
 Elementary sorts:
