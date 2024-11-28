@@ -1489,13 +1489,21 @@ sorting 很简单，而检测有无 cycle 则需要思考
 
 Idea：**当我们想添加一条边的时候，它会形成一个 cycle 当且仅当它的两个顶点已经 connected**
 
-所以：我们用一个 union-find set 来 keep track of connectivity.
+所以：我们用一个 **union-find set 来 keep track of connectivity.**
 
 用两个顶点属于同一个集合来表示 connected，每当放一个新的 edge 等待判断的时候，我们首先查看它们是否在同一个集合
 
-进入 MST 的时候，我们就把它们的顶点 union. （设置其中一个的 parent 为另一个）
+**进入 MST 的时候，我们就把它们的顶点 union**. （设置其中一个的 parent 为另一个）
 
-当一个 edge 的两个端点都在同一个集合的时候，
+note：
+
+
+
+对于所有不在 MST 中的 nodes，它们的 representative 一定是自己，因为没有修改过。每次加入新边，一定是带着一个新元素。
+
+所以如果一条边的两个顶点都在 MST 中，那么
+
+当一个 edge 的两个端点
 
 
 
@@ -1555,10 +1563,6 @@ void kruskalMST(vector<Edge> &edges, int V) {
     }
 }
 ```
-
-
-
-
 
 
 
