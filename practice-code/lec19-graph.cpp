@@ -11,26 +11,42 @@ private:
     int vertices;                         // 顶点数
 
     // DFS 只能确保在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
-    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
-        visited[current] = true;
-        path.push_back(current);
+    int dfs(int start, int target) {
+        int path_length = 0;
+        std::vector<int> path;
+        std::vector<bool> visited(vertices, false);
+        std::stack<int> search;
+        std::vector<int> parent(vertices, -1);
+        search.push(start);
+        visited[start] = true;
 
-        if (current == target) {
-            return true;
-        }
-
-        for (int i = 0; i < vertices; ++i) {
-            if (matrix[current][i] != 0 && !visited[i]) {
-                path_length += matrix[current][i];
-                if (dfs(i, target, visited, path, path_length)) {
-                    return true;
+        while (!search.empty()) {
+            int current = search.top(); search.pop();
+						
+            // found: backtrace
+            if (current == target) {
+                int v = target;
+                path_length = 0;
+                while (v != -1) {
+                    path.push_back(v);
+                    int p = parent[v];
+                    if (p != -1) {
+                        path_length += matrix[p][v];
+                    }
+                    v = p;
                 }
-                path_length -= matrix[current][i];
+                return path_length;
+            }
+
+            for (int i = 0; i < vertices; ++i) {
+                if (matrix[current][i] != 0 && !visited[i]) {
+                    visited[i] = true;
+                    parent[i] = current;
+                    search.push(i);
+                }
             }
         }
-
-        path.pop_back();
-        return false;
+        return -1;
     }
 
     // BFS 找最短路（仅适用于无权图或等权图）
@@ -128,16 +144,7 @@ public:
     }
 
     int DFSShortestPathOnlyForTree(int start, int end) {
-        std::vector<bool> visited(vertices, false);
-        std::vector<int> path;
-        int path_length = 0;
-
-        if (dfs(start, end, visited, path, path_length)) {
-            return path_length;
-        }
-        else {
-            return -1;
-        }
+        return dfs(start, end);
     }
 
     int BFSShortestPathOnlyForUnweighted(int start, int end) {
@@ -157,28 +164,40 @@ private:
     int vertices;                                       // 顶点数
 
     // DFS 只能在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
-    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
+    bool dfs(int current, int target) {
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> path;
+        std::stack<int> search;
+        int path_length = 0;
+        std::vector<int> parent = std::vector<int>(vertices, -1);
         visited[current] = true;
         path.push_back(current);
 
-        if (current == target) {
-            return true;
-        }
-
-        for (const auto &neighbor : adjList[current]) {
-            int next = neighbor.first;
-            int weight = neighbor.second;
-            if (!visited[next]) {
-                path_length += weight;
-                if (dfs(next, target, visited, path, path_length)) {
-                    return true;
+        while (!search.empty()) {
+            int current = search.top(); search.pop();
+            if (current == target) {
+                int v = target;
+                path_length = 0;
+                while (v != -1) {
+                    path.push_back(v);
+                    int p = parent[v];
+                    if (p != -1) {
+                        path_length += 1;
+                    }
+                    v = p;
                 }
-                path_length -= weight;
+                return path_length;
+            }
+
+            for (const auto& [neighbor, weight] : adjList[current]) {
+                if (!visited[neighbor]) {
+                    search.push(neighbor);
+                    visited[neighbor] = true;
+                    parent[neighbor] = current;
+                }
             }
         }
-
-        path.pop_back();
-        return false;
+        return -1;
     }
 
     // BFS 找最短路（仅适用于无权图或等权图）
@@ -265,16 +284,7 @@ public:
     }
     
     int DFSShortestPathOnlyForTree(int start, int end) {
-        std::vector<bool> visited(vertices, false);
-        std::vector<int> path;
-        int path_length = 0;
-
-        if (dfs(start, end, visited, path, path_length)) {
-            return path_length;
-        }
-        else {
-            return -1;
-        }
+        return dfs(start, end);
     }
 
     int BFSShortestPathOnlyForUnweighted(int start, int end) {

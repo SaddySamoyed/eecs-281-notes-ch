@@ -849,54 +849,55 @@ time:
 
 
 
-Remember：存一个  path vector 表示每个 node 的上一个 node 是什么，通过回溯来决定 path 长度，最后它的值等于实际的 path length
+Remember：存一个  parent vector 表示每个 node 的上一个 node 是什么，通过回溯来决定 path 长度
 
 
 
 ```c++
 class GraphMatrix {
-private:
+public:
     std::vector<std::vector<int>> matrix; // 邻接矩阵
     int vertices;                         // 顶点数
 
     // DFS 只能确保在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
-    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
-        visited[current] = true;
-        path.push_back(current);
+    int dfs(int start, int target) {
+     	  int path_length = 0;
+      	std::vector<int> path;
+        std::vector<bool> visited(vertices, false);
+        std::stack<int> search;
+        std::vector<int> parent(vertices, -1);
+        search.push(start);
+        visited[start] = true;
 
-        if (current == target) {
-            return true;
-        }
-
-        for (int i = 0; i < vertices; ++i) {
-            if (matrix[current][i] != 0 && !visited[i]) {
-                path_length += matrix[current][i];
-                if (dfs(i, target, visited, path, path_length)) {
-                    return true;
+        while (!search.empty()) {
+            int current = search.top(); search.pop();
+						
+            // found: backtrace
+            if (current == target) {
+                int v = target;
+                path_length = 0;
+                while (v != -1) {
+                    path.push_back(v);
+                    int p = parent[v];
+                    if (p != -1) {
+                        path_length += matrix[p][v];
+                    }
+                    v = p;
                 }
-              	// 如果这个 subtree 上没有找到: 回溯, 退回 path length
-                path_length -= matrix[current][i];
+                return path_length;
+            }
+
+            for (int i = 0; i < vertices; ++i) {
+                if (matrix[current][i] != 0 && !visited[i]) {
+                    visited[i] = true;
+                    parent[i] = current;
+                    search.push(i);
+                }
             }
         }
-
-        path.pop_back();
-        return false;
+        return -1;
     }
- 
-public:
-  int DFSShortestPathOnlyForTree(int start, int end) {
-        std::vector<bool> visited(vertices, false);
-        std::vector<int> path;
-        int path_length = 0;
-
-        if (dfs(start, end, visited, path, path_length)) {
-            return path_length;
-        }
-        else {
-            return -1;
-        }
-    }
-}
+};
 ```
 
 
@@ -915,13 +916,62 @@ BFS 的流程和 DFS 的流程唯一的差别是用的是 queue 而不是 stack.
 
 BFS 能够在 unweighted graph 上找到最短路的原因就是：以起点为 root，BFS 每遍历一层，离起点的距离就远了一层。所以第一次找到终点，一定是最短的距离
 
+```c++
+		// BFS 找最短路（仅适用于无权图或等权图）
+    int bfs(int start, int end) {
+        std::queue<int> q;
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> distance(vertices, -1);
+        std::vector<int> parent(vertices, -1);
+        q.push(start);
+        visited[start] = true;
+        distance[start] = 0;
+
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+
+            if (current == end) {
+                int pathLength = 0;
+                int node = end;
+                while (node != -1 && node != start) {
+                    node = parent[node];
+                    pathLength+=1;
+                }
+                return pathLength;
+            }
+
+            for (int i = 0; i < vertices; ++i) {
+                if (matrix[current][i] != 0 && !visited[i]) {
+                    q.push(i);
+                    visited[i] = true;
+                    parent[i] = current;
+                    distance[i] = distance[current] + 1;
+                }
+            }
+        }
+        return -1; // 未找到路径
+    }
+```
+
+time: 同 BFS
+
+1. for list: O(1 + |E| / |V|) for each vertex list，因而是 **O(|V| + |E|)** 
+2. for matrix: O(|V|^2)
 
 
 
 
 
+### Dijkstra 找最短路
 
-### Dijstra 找最短路
+DFS 和 BFS 找最短路本质上都是：遍历图，把找到的第一条路作为最短路。
+
+而它们的限制其实就是在什么情况下它们找到的第一条路就是最短路：DFS 是在只有一条路的情况下，BFS 是在权重全部相同的情况下。这些都是极端情况。
+
+找最短路的普遍算法是 Dijstra.
+
+
 
 
 
