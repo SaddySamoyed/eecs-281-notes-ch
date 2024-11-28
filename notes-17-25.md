@@ -738,7 +738,7 @@ Space: |V|^2
 
 ```c++
 #include <limits>
-double infty = numeric_limit<double>::infinity();
+double infty = std::numeric_limits<double>::infinity();
 ```
 
 它和有限非 0 数的任何操作都得到自己
@@ -820,9 +820,104 @@ DFS(G):
 
 
 
+**DFS 只能找到两个顶点之间的一个 path，但是不保证是什么样的 path**
+
+**如果这个图是一个 tree，那么就可以用 DFS 找最短路，因为任意两个节点之间一定只有一条路，这条路就是最短路**
+
+但是一旦不是 tree，那么找到的 path 就不是最短 path.
+
+方法是把其中一个节点作为 root（recall：tree 中任何节点都可以作为 root！）从它起，深度优先遍历它的所有 subtree，也就是整个 graph
+
+
+
+流程：我们放一个 stack，先把作为 root 的起点放进去
+
+while stack 非空：把 top 弹出，top 的所有 neighbor 全部放进 stack
+
+（这样遍历实际上不是一根到底的，而是把 root 所有 children 都放进去，再遍历所有 children 中最右边 children 的所有 chilren，一直遍历到把右节点耗尽，然后从下往上遍历完 root 的最右子树，然后向左传播
+
+time: 
+
+1. for list: O(1 + |E| / |V|) for each vertex list，因而是 **O(|V| + |E|)** 
+2. for matrix: O(|V|^2)
+
+
+
+<img src="note-assets/Screenshot 2024-11-27 at 19.36.12.png" alt="Screenshot 2024-11-27 at 19.36.12" style="zoom:50%;" />
+
+<img src="note-assets/Screenshot 2024-11-27 at 19.36.33.png" alt="Screenshot 2024-11-27 at 19.36.33" style="zoom:50%;" />
+
+
+
+Remember：存一个  path vector 表示每个 node 的上一个 node 是什么，通过回溯来决定 path 长度，最后它的值等于实际的 path length
+
+
+
+```c++
+class GraphMatrix {
+private:
+    std::vector<std::vector<int>> matrix; // 邻接矩阵
+    int vertices;                         // 顶点数
+
+    // DFS 只能确保在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
+    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
+        visited[current] = true;
+        path.push_back(current);
+
+        if (current == target) {
+            return true;
+        }
+
+        for (int i = 0; i < vertices; ++i) {
+            if (matrix[current][i] != 0 && !visited[i]) {
+                path_length += matrix[current][i];
+                if (dfs(i, target, visited, path, path_length)) {
+                    return true;
+                }
+              	// 如果这个 subtree 上没有找到: 回溯, 退回 path length
+                path_length -= matrix[current][i];
+            }
+        }
+
+        path.pop_back();
+        return false;
+    }
+ 
+public:
+  int DFSShortestPathOnlyForTree(int start, int end) {
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> path;
+        int path_length = 0;
+
+        if (dfs(start, end, visited, path, path_length)) {
+            return path_length;
+        }
+        else {
+            return -1;
+        }
+    }
+}
+```
+
+
+
+
+
+
+
 
 
 ### BFS 找最短路: 只适用于 unweighted graph
+
+<img src="note-assets/Screenshot 2024-11-27 at 16.16.02.png" alt="Screenshot 2024-11-27 at 16.16.02" style="zoom: 50%;" />
+
+BFS 的流程和 DFS 的流程唯一的差别是用的是 queue 而不是 stack.
+
+BFS 能够在 unweighted graph 上找到最短路的原因就是：以起点为 root，BFS 每遍历一层，离起点的距离就远了一层。所以第一次找到终点，一定是最短的距离
+
+
+
+
 
 
 

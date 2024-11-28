@@ -1,11 +1,105 @@
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
 #include <list>
+#include <limits>
 
 class GraphMatrix {
 private:
     std::vector<std::vector<int>> matrix; // 邻接矩阵
     int vertices;                         // 顶点数
+
+    // DFS 只能确保在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
+    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
+        visited[current] = true;
+        path.push_back(current);
+
+        if (current == target) {
+            return true;
+        }
+
+        for (int i = 0; i < vertices; ++i) {
+            if (matrix[current][i] != 0 && !visited[i]) {
+                path_length += matrix[current][i];
+                if (dfs(i, target, visited, path, path_length)) {
+                    return true;
+                }
+                path_length -= matrix[current][i];
+            }
+        }
+
+        path.pop_back();
+        return false;
+    }
+
+    // BFS 找最短路（仅适用于无权图或等权图）
+    int bfs(int start, int end) {
+        std::queue<int> q;
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> distance(vertices, -1);
+        std::vector<int> parent(vertices, -1);
+        q.push(start);
+        visited[start] = true;
+        distance[start] = 0;
+
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+
+            if (current == end) {
+                int pathLength = 0;
+                int node = end;
+                while (node != -1 && node != start) {
+                    node = parent[node];
+                    pathLength+=1;
+                }
+                return pathLength;
+            }
+
+            for (int i = 0; i < vertices; ++i) {
+                if (matrix[current][i] != 0 && !visited[i]) {
+                    q.push(i);
+                    visited[i] = true;
+                    parent[i] = current;
+                    distance[i] = distance[current] + 1;
+                }
+            }
+        }
+        return -1; // 未找到路径
+    }
+
+    // Dijkstra 算法
+    std::vector<int> dijkstra(int start) {
+        std::vector<int> dist(vertices, INT_MAX); // 到每个节点的最短距离
+        std::vector<bool> visited(vertices, false); // 是否访问过
+        dist[start] = 0;
+
+        for (int i = 0; i < vertices; ++i) {
+            // 找到当前未访问节点中距离最小的节点
+            int u = -1;
+            for (int j = 0; j < vertices; ++j) {
+                if (!visited[j] && (u == -1 || dist[j] < dist[u])) {
+                    u = j;
+                }
+            }
+
+            if (dist[u] == INT_MAX) break; // 剩余节点不可达
+
+            visited[u] = true;
+
+            // 更新相邻节点的距离
+            for (int v = 0; v < vertices; ++v) {
+                if (matrix[u][v] > 0 && !visited[v]) { // 存在边且未访问
+                    dist[v] = std::min(dist[v], dist[u] + matrix[u][v]);
+                }
+            }
+        }
+
+        return dist;
+    }
+
+    
 
 public:
     // 构造函数
@@ -32,6 +126,28 @@ public:
             std::cout << std::endl;
         }
     }
+
+    int DFSShortestPathOnlyForTree(int start, int end) {
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> path;
+        int path_length = 0;
+
+        if (dfs(start, end, visited, path, path_length)) {
+            return path_length;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    int BFSShortestPathOnlyForUnweighted(int start, int end) {
+        return bfs(start, end);
+    }
+
+    int DijkstraShortestPath(int start, int end) {
+        std::vector<int> dist = dijkstra(start);
+        return dist[end];
+    }
 };
 
 
@@ -39,6 +155,87 @@ class GraphList {
 private:
     std::vector<std::list<std::pair<int, int>>> adjList; // 邻接表
     int vertices;                                       // 顶点数
+
+    // DFS 只能在最短路唯一的情况下找到最短路，其他情况找到的路径不是最短的
+    bool dfs(int current, int target, std::vector<bool> &visited, std::vector<int> &path, int &path_length) {
+        visited[current] = true;
+        path.push_back(current);
+
+        if (current == target) {
+            return true;
+        }
+
+        for (const auto &neighbor : adjList[current]) {
+            int next = neighbor.first;
+            int weight = neighbor.second;
+            if (!visited[next]) {
+                path_length += weight;
+                if (dfs(next, target, visited, path, path_length)) {
+                    return true;
+                }
+                path_length -= weight;
+            }
+        }
+
+        path.pop_back();
+        return false;
+    }
+
+    // BFS 找最短路（仅适用于无权图或等权图）
+    int bfs(int start, int end) {
+        std::queue<int> q;
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> distance(vertices, -1);
+        q.push(start);
+        visited[start] = true;
+        distance[start] = 0;
+
+        while (!q.empty()) {
+            int current = q.front();
+            q.pop();
+
+            if (current == end) {
+                return distance[current];
+            }
+
+            for (const auto& [neighbor, weight] : adjList[current]) {
+                if (!visited[neighbor]) {
+                    q.push(neighbor);
+                    visited[neighbor] = true;
+                    distance[neighbor] = distance[current] + 1;
+                }
+            }
+        }
+        return -1; // 未找到路径
+    }
+
+    // Dijkstra 算法
+    std::vector<int> dijkstra(int start) {
+        std::vector<int> dist(vertices, INT_MAX); // 到每个节点的最短距离
+        dist[start] = 0;
+
+        using Node = std::pair<int, int>; // {距离, 节点}
+        std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq; // 最小堆
+
+        pq.emplace(0, start); // {距离, 起点}
+
+        while (!pq.empty()) {
+            auto [currentDist, u] = pq.top();
+            pq.pop();
+
+            if (currentDist > dist[u]) continue; // 忽略已更新的节点
+
+            // 更新相邻节点的距离
+            for (const auto& [v, weight] : adjList[u]) {
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.emplace(dist[v], v); // 将更新后的距离加入优先队列
+                }
+            }
+        }
+
+        return dist;
+    }
 
 public:
     // 构造函数
@@ -66,6 +263,28 @@ public:
             std::cout << std::endl;
         }
     }
+    
+    int DFSShortestPathOnlyForTree(int start, int end) {
+        std::vector<bool> visited(vertices, false);
+        std::vector<int> path;
+        int path_length = 0;
+
+        if (dfs(start, end, visited, path, path_length)) {
+            return path_length;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    int BFSShortestPathOnlyForUnweighted(int start, int end) {
+        return bfs(start, end);
+    }
+
+    int DijkstraShortestPath(int start, int end) {
+        std::vector<int> dist = dijkstra(start);
+        return dist[end];
+    }
 };
 
 
@@ -82,7 +301,12 @@ int main() {
     std::cout << "Graph represented by matrix:" << std::endl;
     graph.printMatrix();
 
+    std::cout << "DFS shortest path: " << graph.DFSShortestPathOnlyForTree(0, 2) << std::endl;
+    std::cout << "BFS shortest path: " << graph.BFSShortestPathOnlyForUnweighted(0, 2) << std::endl;
+    std::cout << "Dijkstra shortest path: " << graph.DijkstraShortestPath(0, 2) << std::endl;
 
+
+    std::cout << std::endl << std::endl << "Graph represented by list:" << std::endl;
     GraphList graphlist(5); // 5个顶点
     graphlist.addEdge(0, 1, 2);
     graphlist.addEdge(0, 4, 5);
@@ -92,6 +316,11 @@ int main() {
 
     std::cout << "graph represented by list:" << std::endl;
     graphlist.printList();
+    std::cout << "DFS shortest path: " << graph.DFSShortestPathOnlyForTree(0, 2) << std::endl;
+    std::cout << "BFS shortest path: " << graph.BFSShortestPathOnlyForUnweighted(0, 2) << std::endl;
+    std::cout << "Dijkstra shortest path: " << graph.DijkstraShortestPath(0, 2) << std::endl;
+
 
     return 0;
 }
+
