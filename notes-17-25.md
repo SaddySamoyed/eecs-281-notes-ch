@@ -969,7 +969,247 @@ DFS 和 BFS 找最短路本质上都是：遍历图，把找到的第一条路�
 
 而它们的限制其实就是在什么情况下它们找到的第一条路就是最短路：DFS 是在只有一条路的情况下，BFS 是在权重全部相同的情况下。这些都是极端情况。
 
-找最短路的普遍算法是 Dijstra.
+找 single source 最短路的普遍算法是 Dijstra.
+
+Dijstra 可以找到：对于单个 source，其他所有的 nodes 到这个 source 的最短距离
+
+
+
+思路：
+
+1. 记一个 distance vector，表示所有 nodes 到 source 的距离
+
+   初始化：dist[source] = 0，dist[其他] = infty
+
+2. 记一个 visited vector，表示哪些端点还没有被 visit 过（visit 指作为主顶点更新和它所有 neighbors 的 min distance）
+
+   一直到所有端点都被 visit 完之前，持续 **visit 当前没有被 visit 过的顶点中 dist 最小的一个，称之为 $u$** ，访问它的所有 neighbors，尝试更新 $u$ 的每个 neighbor $v$ 的 dist 值：经过 $u$ 是否能让它的距离变短？
+   $$
+   dist[v] = min(dist[v], dist[u] + l(u,v))
+   $$
+
+这是一个 greedy 的算法。
+
+```
+Dijkstra(G, s)
+  for all u ∈ V \ {s}, d(u) = ∞
+  d(s) = 0
+  R = {}
+  while R 6= V
+  	pick u not in R with smallest d(u)
+  	R = R ∪ {u}
+  	for all vertices v adjacent to u
+  		if d(v) > d(u) + l(u, v)
+  			d(v) = d(u) + l(u, v)
+```
+
+
+
+#### Proof: Invariant Hypothesis of Dijkstra
+
+Claim:  **每次循环后，如果不是所有的 unvisited nodes 的 dist 都是无穷，那么 unvisited nodes 中 dist 最短的那个一定是最终形态；**
+
+（**因而，我们每次都选择当前 dist 最短的 unvisited node 来 visit，最后一定可以得到所有 nodes 和 source 都是最短距离**）
+
+
+
+Base case: source 距离自己的路径长度是 0.
+
+Inductive step: 假设现在所有 visited 的 nodes 的 dist 已经是最终形态，且当前存在dist 非 infty 的 nodes；WTS：目前 unvisited 的 nodes 中当前 dist 最短的 node $u$ 是最终形态
+
+Pf: suppose for contradiction 它不是最终形态
+
+**那么之后存在一条路径达到它，这条路径的距离比更新它的时候检查的所有 neighbors 中转达到它更加短**
+
+关键事实：**这条路径在到达 $u$ 前，要么全部都是当前的 visited nodes，要么存在当前的 unvisited nodes**
+
+case（1）上一个节点是当前的 visited node：由于 visited nodes 的 dist 已经全部 finalize 了，在访问这些 nodes 的过程中已经把它们的 neighbors，包括 $u$ 在内，更新到了当前 visited nodes 能够涵盖的最小。既然这条路所有的 nodes 都 visited 过了，那么这个 path 的长度就是当前的 dist(u). 所以矛盾
+
+case（2）路径上存在至少一个 unvisited node：令 **$v$ 为这条路径上第一个 unvisited node.** 
+
+注意：**决定选择 $u$ 作为准备 visit 的 node 的时候，也查看了 $v$！由于我们选择了 $u$，这个时候从 visit 过的确认是最短路径的任何节点，到其他 unvisited 节点，到 $v$ 要比到 $u$ 更远！** 
+
+那么由于每个 edge 长度都是非负的，从 $v$ 到 $u$ 的这段路径非负，
+
+已知最终的 dist(u) = 当前的 dist(v) + v到u的某段路径，而当前的 dist(v) 又比当前的 dist(u) 大，当前的 dist(u) 比最终的 dist(u) 大。矛盾
+
+
+
+
+
+下面就是上述的 Dijkstra 的  implementation 
+
+#### Naive Dijkstra
+
+```c++
+const int INF = INT_MAX;
+// 不使用优先队列的 Dijkstra 算法
+void dijkstraWithoutPQ(int n, int source, vector<vector<pair<int, int>>> &graph) {
+    vector<int> dist(n, INF);       // 最短距离数组
+    vector<bool> visited(n, false); // 是否访问过
+  
+    dist[source] = 0;
+    for (int i = 0; i < n; ++i) {
+        int u = -1;
+        int minDist = INF;
+        // 找到未访问节点中距离最小的节点
+        for (int j = 0; j < n; ++j) {
+            if (!visited[j] && dist[j] < minDist) {
+                u = j;
+                minDist = dist[j];
+            }
+        }
+        if (u == -1) break; // 所有节点都访问过或者无法到达
+        visited[u] = true;
+
+        // 更新相邻节点的距离
+        for (auto &edge : graph[u]) {
+            int v = edge.first, weight = edge.second;
+            if (!visited[v] && dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+            }
+        }
+    }
+    // 输出结果
+    for (int i = 0; i < n; ++i) {
+        cout << "Distance from source to node " << i << ": ";
+        if (dist[i] == INF) cout << "INF" << endl;
+        else cout << dist[i] << endl;
+    }
+}
+```
+
+复杂度显然是：O(|V|^2 + |E|) 
+
+
+
+#### Dijkstra with PQ
+
+由于我们每次都要选取非 infty 的 unvisited 中最短的一个来作为 visited，我们不如建立一个 PQ.
+
+注意到：实际上我们
+
+```c++
+// 使用优先队列的 Dijkstra 算法
+void dijkstraWithPQ(int n, int source, vector<vector<pair<int, int>>> &graph) {
+    vector<int> dist(n, INF); // 最短距离数组
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+
+    dist[source] = 0;
+    pq.push({0, source}); // {距离, 节点}
+
+    while (!pq.empty()) {
+        auto [curDist, u] = pq.top(); pq.pop();
+        if (curDist > dist[u]) continue; // 当前路径不优，不处理
+        // 更新相邻节点的距离
+        for (auto &edge : graph[u]) {
+            int v = edge.first, weight = edge.second;
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    // 输出结果
+    for (int i = 0; i < n; ++i) {
+        cout << "Distance from source to node " << i << ": ";
+        if (dist[i] == INF) cout << "INF" << endl;
+        else cout << dist[i] << endl;
+    }
+}
+```
+
+
+
+
+
+
+
+#### Backtracking Dijkstra finding path
+
+这是一个带 backtracking 的 Dijkstra，可以
+
+```c++
+// 使用优先队列的 Dijkstra 算法，带回溯功能
+void dijkstraWithPath(int n, int source, vector<vector<pair<int, int>>> &graph) {
+    vector<int> dist(n, INF);          // 最短距离数组
+    vector<int> prev(n, -1);           // 前驱节点数组，用于回溯路径
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+
+    dist[source] = 0;
+    pq.push({0, source}); // {距离, 节点}
+
+    while (!pq.empty()) {
+        auto [curDist, u] = pq.top(); pq.pop();
+
+        if (curDist > dist[u]) continue; // 当前路径不优，不处理
+
+        // 更新相邻节点的距离
+        for (auto &edge : graph[u]) {
+            int v = edge.first, weight = edge.second;
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                prev[v] = u; // 记录前驱节点
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    // 输出结果：最短距离和路径
+    for (int i = 0; i < n; ++i) {
+        cout << "Distance from source to node " << i << ": ";
+        if (dist[i] == INF) {
+            cout << "INF" << endl;
+            continue;
+        }
+        cout << dist[i] << endl;
+
+        // 回溯路径
+        cout << "Path: ";
+        vector<int> path;
+        for (int at = i; at != -1; at = prev[at]) {
+            path.push_back(at);
+        }
+        reverse(path.begin(), path.end()); // 路径需要反转
+        for (size_t j = 0; j < path.size(); ++j) {
+            cout << path[j];
+            if (j < path.size() - 1) cout << " -> ";
+        }
+        cout << endl;
+    }
+}
+```
+
+
+
+测试:
+
+```c++
+int main() {
+    int n = 5;
+    vector<vector<pair<int, int>>> graph(n);
+    graph[0].push_back({1, 10});
+    graph[0].push_back({4, 5});
+    graph[1].push_back({2, 1});
+    graph[1].push_back({4, 2});
+    graph[2].push_back({3, 4});
+    graph[3].push_back({0, 7});
+    graph[3].push_back({2, 6});
+    graph[4].push_back({1, 3});
+    graph[4].push_back({2, 9});
+    graph[4].push_back({3, 2});
+    
+  	std::cout << "Dijkstra without priority queue:" << std::endl;
+    dijkstraWithoutPQ(n, 0, graph);
+    std::cout << std::endl;
+    std::cout << "Dijkstra with priority queue:" << std::endl;
+    dijkstraWithPQ(n, 0, graph);
+    std::cout << std::endl;
+    std::cout << "Dijkstra with priority queue and path:" << std::endl;
+    dijkstraWithPath(n, 0, graph);
+}
+```
 
 
 
@@ -1076,8 +1316,6 @@ MST 就是让加入每个顶点时它 associate 的边尽量最短
 
 
 ### Krustal's Algorithm: Using sorting property
-
-
 
  
 
