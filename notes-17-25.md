@@ -1483,7 +1483,7 @@ Kruskal's algorithm 就是 sorting property 的直接 application.
 
 算法：我们 sort edges，然后 loop through all edges，跳过形成 cycle 的. Idea 十分简单
 
-#### 如何检测是否有 cycle
+#### 如何检测是否有 cycle: union-find set
 
 sorting 很简单，而检测有无 cycle 则需要思考
 
@@ -1495,17 +1495,13 @@ Idea：**当我们想添加一条边的时候，它会形成一个 cycle 当且�
 
 **进入 MST 的时候，我们就把它们的顶点 union**. （设置其中一个的 parent 为另一个）
 
-note：
+note：每次加入新边，一定是带着一个新元素。当所有元素都进入同一个 set，也就意味着 MST 形成。
 
+对于所有不在 MST 中的 nodes，它们的 representative 一定是自己，因为没有修改过。
 
+所以一条边的两个顶点都在 MST subgraph 中，当且仅当它会导致 cycle，当且仅当它的两个顶点被 find 出来发现 root 相同.
 
-对于所有不在 MST 中的 nodes，它们的 representative 一定是自己，因为没有修改过。每次加入新边，一定是带着一个新元素。
-
-所以如果一条边的两个顶点都在 MST 中，那么
-
-当一个 edge 的两个端点
-
-
+这证明了 union-find set 来检测 cycle 的正确性。
 
 
 
@@ -1640,31 +1636,43 @@ int main() {
         cout << "Graph does not contain a cycle" << endl;
     }
 
-}
-
 ```
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Lec 21 (Algorithm Family)
+
+### Brute-Force Algorithm
+
+简称暴力搜索。
+
+例子：Counting Change
+
+我现在有 1, 2, 5, 10 元的硬币一些，请使用最少的硬币，来 sum up to $x$ 元
+
+Brute-Force Algorithm:
+
+对于 $n$ 个 coins，有 $2^n$ 中可能的 subset
+
+把它们全部都列出来，并检查每一种是否 add up to $x$，keep 当前最少的硬币数量
+
+Complexity：$O(n2^n)$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
