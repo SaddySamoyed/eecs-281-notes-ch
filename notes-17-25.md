@@ -1724,13 +1724,263 @@ Complexity: $O(n)$
 
 ## Lec 23 (DP)
 
+通常的 recursive algorithm 是把整个问题 recursively 划分为 independent 的子问题
+
+而 DP 则用来处理可以分成 subproblems，但它们之间却不 independent 的问题
+
+并且，DP 可以 reduce 一个 recursive function 的 runtime（通**过一个 table 储存子问题的 solution**，把时间从 **O(c^n) exponential 降到 O(n^c) polynomial**），是一个**用 memory 来 trade time 的做法**，这种 technique 叫做 **memoization**
+
+### Memoization
+
+Rewrite 一个 recursive function:
+	On Exit:
+
+​		Save inputs and the result
+
+​	On entry: 
+
+​		Check the inputs: whether have seen before
+
+​		if so, then retrieve the result from memo
+
+
+
+### Fibo: naive and DP
+
+```c++
+uint64_t naiveFibo(uint32_t i) {
+    if (i == 1 || i == 0) return i;
+    return naiveFibo(i-1) + naiveFibo(i-2);
+}
+```
+
+O(1.6^n)，exponential
+
+```c++
+uint64_t topDownFibo(uint32_t n) {
+    static uint64_t memo[MAX_FIB + 1] = {0, 1}; //initial value
+    // if n is too large, not in range of service
+    if (n > MAX_FIB) return 0;
+    // if already computed, return the value
+    if (memo[n] > 0 || n==0) return memo[n];
+
+    memo[n] = topDownFibo(n-1) + topDownFibo(n-2);
+    return memo[n];
+}
+```
+
+O(n)，因为每个 entry 至多只会被计算一次
+
+```c++
+uint64_t bottomUpFibo(uint32_t n) {
+    static uint64_t memo[MAX_FIB + 1] = {0, 1}; //initial value
+    for (uint32_t i = 2; i <= n; i++) {
+        memo[i] = memo[i-1] + memo[i-2];
+    }
+    return memo[n];
+}
+```
+
+更明显的 O(n)
+
+
+### Binomial Coefficent DP
+
+$$
+\binom{n}{k}
+ = \frac{n!}{k!(n-k)!}
+$$
+
+按照数学公式直接计算：good idea，complexity 也只有 O(n)，
+
+但是：仅仅 21! 就能 overflow 一个 int64.
+
+阶乘数实在太大了。所以更加好的办法是使用递归公式：
+$$
+\binom{n}{k}  = \binom{n-1}{k-1} + \binom{n-1}{k}
+$$
+（n 个东西里面选 k 个，就等于 
+
+Case 1：第 n 个东西被选中，所以还要在 n-1 个东西里选 k-1 个；
+
+Case 2：第 n 个东西没被选中，所以还要在 n-1 个东西里选 k 个
+
+的情况的相加）
+
+Base case:
+$$
+\binom{n}{0} = \binom{n}{n} = 1  
+$$
+
+
+Recursion 做法：
+
+```c++
+uint64_t binomialCoeffRecursion(uint32_t n, uint32_t k) {
+    if (k == 0 || k == n) return 1;
+    return binomialCoeffRecursion(n-1, k-1) + binomialCoeffRecursion(n-1, k);
+}
+```
+
+exponential.
+
+
+
+Top-Down DP：
+
+```c++
+uint64_t binomialCoeffHelper(uint32_t n, uint32_t k, vector<vector<uint64_t>>& memo) {
+    if (k == 0 || k == n) {
+        memo[k][n] = 1;
+        return 1;
+    }
+    if (memo[k][n] > 0) return memo[k][n];
+    memo[k][n] = binomialCoeffHelper(n-1, k-1, memo) + binomialCoeffHelper(n-1, k, memo);
+    return memo[k][n];
+}
+
+uint64_t binomialCoeffTopDown(uint32_t n, uint32_t k) {
+    vector<vector<uint64_t>> memo(k+1, vector<uint64_t>(n+1, 0));
+    return binomialCoeffHelper(n, k, memo);
+}
+```
+
+
+
+Bottom-Up DP:
+
+```c++
+uint64_t binomialCoeffBottomUp(uint32_t n, uint32_t k) {
+    vector<vector<uint64_t>> memo(k+1, vector<uint64_t>(n+1));
+    for (size_t i = 0; i <= k; i++) {
+        for (size_t j = i; j <= n; j++) {
+            if (i==j || i==0) memo[i][j] = 1;
+            else memo[i][j] = memo[i-1][j-1] + memo[i][j-1];
+        }
+    }
+    return memo[k][n];
+}
+```
+
+O(nk)
+
+
+
+THM: 任何 top-down DP 都可以转化为 bottom-up DP！
+
+但是，bottom-up 不见得总比 top-down 要轻松
 
 
 
 
 
+### Knight Moves DP
+
+knight 也就是象棋里的马，可以往任何方向直走两格之后再转90度走一格。
+
+<img src="note-assets/Screenshot 2024-11-30 at 19.34.44.png" alt="Screenshot 2024-11-30 at 19.34.44" style="zoom:50%;" />
+
+问题：从某个格子 (startX, startY) 出发，走 exactly K 步，有多少种走法可以到另一个格子 (destX, destY)？
+
+Idea: DP！建立一个 3D table，其中第一个维度表示第几步，第二第三维度是整个棋盘
+
+这是一个简单的 DP. 第 N 步的棋盘就是：遍历第 N-1 步的棋盘，所有 >0 (说明第 N-1 步possible 到达这个地方) 的格子的 possible moves.
+$$
+dp[k][x][y]= \sum_{\text{(nx, ny) 是有效位置}}
+
+ dp[k−1][nx][ny]
+$$
+注意 1：第 N-1 步的棋盘上的一格上面的数字多大，say it is M，就表示 **前 N-1 步有 M 种方法在第 N-1 步时到达这个格子**，于是第 N-1 步到第 N 步，这个格子上 8 个方向上的 moves 都有 M 重.（直观）也就是 for all 8 directions，`dp[k][nx][ny] += dp[k - 1][x][y];`
+
+注意 2：超过棋盘边界不算。
+
+```c++
+int knightMoveDP(int plateWidth, int totalMoves, int startX, int startY, int destX, int destY) {
+    // Initialize a 3D DP table with all zeros
+    vector<vector<vector<int>>> dp(totalMoves + 1, vector<vector<int>>(plateWidth, vector<int>(plateWidth, 0)));
+    
+    // Base case: starting position
+    dp[0][startX][startY] = 1;
+
+    // Fill DP table
+    for (int k = 1; k <= totalMoves; ++k) {
+        for (int x = 0; x < plateWidth; ++x) {
+            for (int y = 0; y < plateWidth; ++y) {
+                if (dp[k - 1][x][y] > 0) { // If there are paths to this cell
+                    for (auto move : knightMoves) {
+                        int nx = x + move.first;
+                        int ny = y + move.second;
+                        if (nx >= 0 && nx < plateWidth && ny >= 0 && ny < plateWidth) { // Valid move
+                            dp[k][nx][ny] += dp[k - 1][x][y];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Print the entire chessboard for the K-th step
+    cout << "Chessboard at step " << totalMoves << ":" << endl;
+    for (int x = 0; x < plateWidth; ++x) {
+        for (int y = 0; y < plateWidth; ++y) {
+            cout << dp[totalMoves][x][y] << " ";
+        }
+        cout << endl;
+    }
+
+    // Return the number of paths to (tx, ty) after K moves
+    return dp[totalMoves][destX][destY];
+}
 
 
+/*
+Chessboard at step 4:
+16 0 17 0 18 0 7 0 
+0 10 0 22 0 8 0 7 
+17 0 16 0 23 0 10 0 
+0 22 0 36 0 14 0 9 
+18 0 23 0 18 0 9 0 
+0 8 0 14 0 6 0 4 
+7 0 10 0 9 0 6 0 
+0 7 0 9 0 4 0 0    
+*/  
+```
+
+时间： $O(KN^2)$
+
+
+
+实际运行：每走一步，所有数字的总和大概乘以 8，实际上比 8 小，因为有很多超过边界的。
+
+<img src="note-assets/Screenshot 2024-11-30 at 20.11.33.png" alt="Screenshot 2024-11-30 at 20.11.33" style="zoom: 67%;" />
+
+<img src="note-assets/Screenshot 2024-11-30 at 20.11.51.png" alt="Screenshot 2024-11-30 at 20.11.51" style="zoom:50%;" />
+
+<img src="note-assets/Screenshot 2024-11-30 at 20.12.03.png" alt="Screenshot 2024-11-30 at 20.12.03" style="zoom:50%;" />
+
+<img src="note-assets/Screenshot 2024-11-30 at 20.12.14.png" alt="Screenshot 2024-11-30 at 20.12.14" style="zoom:50%;" />
+
+
+
+### Difference between DP and Divide-and-Conquer
+
+Divide-and-Conquer 即把一个问题分成 non-overlapping 的子问题，通过一个递推式表示 recursion 关系。我们希望最好能把一个问题切分成 equal size 且参数呈倍数关系的子问题，这样我们更加可能用 master theorem 找出复杂度
+
+比如 
+$$
+f(x) = 2f(x/3) + x^2
+$$
+这种递推式.
+
+Divide and Conquer 也分为 Top down 和 Bottom up(combine and conquer)
+
+
+
+
+
+Divide and Conquer：Binary search，quicksort...
+
+Combine and Conquer：merge sort...
 
 
 

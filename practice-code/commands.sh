@@ -6,3 +6,5 @@ g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec19-
 ./lec19-Dijkstra.exe
 g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec20-MST.cpp -o lec20-MST.exe
 ./lec20-MST.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec23-dp.cpp -o lec23-dp.exe
+./lec23-dp.exe
