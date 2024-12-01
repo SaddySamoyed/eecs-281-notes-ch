@@ -1692,27 +1692,51 @@ Complexity: $O(n)$
 
 
 
+## Lec 22 (Backtracking && branch and bound)
+
+我们介绍两种问题：
+
+1. Constraint Satisfaction Problems：给定很多 Constraints，我们是否能 satisfy 它们所有？如何 satisfy？
+
+   可能有多个答案。
+
+   ex: sorting
+
+2. Optimization problems：在 satisfy 所有 constraints 的前提下，我们如何 minimize 一个 objective function？
+
+   
+
+**对于 constraint satisfaction problems，backtracking 通常是好的算法；对于 Optimization problems，branch and bound 通常是好的算法**
 
 
 
+### Backtracking: idea
 
+form 1:
 
+```
+Algorithm checknode(node v)
+	if (promising(v))
+		if (isSol(v))
+			done
+		else
+			for each node u adjacent to v
+				checknode(u)
+```
 
+form 2:
 
+```
+Algorithm checknode(node v)
+	if (isSol(v))
+		done
+	else
+		for each node u adjacent to v
+			if (promising(u))
+				checknode(u)
+```
 
-
-
-
-
-
-
-## Lec 22 (Backtracking, branch and bound, TSP)
-
-
-
-
-
-
+### n-queens: 经典 backtracking problem
 
 
 

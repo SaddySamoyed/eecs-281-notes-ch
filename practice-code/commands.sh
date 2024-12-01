@@ -8,3 +8,5 @@ g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec20-
 ./lec20-MST.exe
 g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec23-dp.cpp -o lec23-dp.exe
 ./lec23-dp.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec22-nQueens.cpp -o lec22-nQueens.exe
+./lec22-nQueens.exe
