@@ -1712,6 +1712,16 @@ Complexity: $O(n)$
 
 ### Backtracking: idea
 
+实际上 backtracking 和暴力搜索很像，不同的点在于：**我们沿着一个 tree 来 preorder traverse 它，每当发现解行不通时，我们就把当前 node 下面的整个 subtree 给剪掉（称为剪枝），然后回溯到它的 parent node，换一个 child node 继续遍历。**
+
+好的剪枝策略可以大大降低时间损耗。
+
+backtracking 的 idea 就是：在庞大的解空间中，通过剪枝来不断削减其大小，最后只需要遍历一小部分 promising 的解，就可以找到所有可能的解
+
+
+
+流程
+
 form 1:
 
 ```
@@ -1729,7 +1739,7 @@ form 2:
 ```
 Algorithm checknode(node v)
 	if (isSol(v))
-		done
+		good, add to solution set
 	else
 		for each node u adjacent to v
 			if (promising(u))
@@ -1738,15 +1748,70 @@ Algorithm checknode(node v)
 
 
 
-backtracking 的 idea 就是：在庞大的解空间中，通过剪枝来不断削减其大小，最后只需要遍历一小部分 promising 的解，就可以找到所有可能的解
-
-
-
-
-
 ### n-queens: 经典 backtracking problem
 
+n-queens 的规则（constraints）：
 
+1. 同行只能有一个 queen
+2. 同列只能有一个 queen
+3. 两个 queen 不能在对角线上
+
+否则就会相互攻击。我们在 n*n 的棋盘上放 n 个 queens，看看有多少种放置方法可以使它们都无法相互攻击。
+
+
+
+Idea：
+
+
+
+```c++
+void NQueens::solve() {
+    putQueen(0);
+}
+
+// promising if would not violate any constraints
+bool NQueens::promising(uint32_t row, uint32_t col) {
+    return   column[col] == AVAILABLE
+        && leftDiagonal[row + col] == AVAILABLE
+        && rightDiagonal[row - col + (size - 1)] == AVAILABLE;
+}  // NQueens::promising()
+
+// Place a queen in row
+// If display == true, display each board as a solution is found
+void NQueens::putQueen(uint32_t row) {
+    // 如果这个时候已经 proceed 到了最后行, 说明这是一个 sol.
+    if (row == size) {++solutions;return;} 
+
+    // Check every column within this row
+    for (size_t col = 0; col < size; ++col) {
+        // Check if proposed placement is promising
+        if (promising(row, col)) {
+            // Make the move, and a recursive call to next move
+            positionInRow[row] = col;
+            column[col] = !AVAILABLE;
+            leftDiagonal[row + col] = !AVAILABLE;
+            rightDiagonal[row - col + (size - 1)] = !AVAILABLE;
+            putQueen(row + 1);
+
+            // Undo this move and thus backtrack
+            column[col] = AVAILABLE;
+            leftDiagonal[row + col] = AVAILABLE;
+            rightDiagonal[row - col + (size - 1)] = AVAILABLE;
+        }  // if
+        ++tried;
+    }  // for
+}  // NQueens::putQueen()
+```
+
+复杂度：$O(n!)$
+
+还是很大，但是比暴力搜索的 $O(n^n)$ 要好；并且由于剪枝的建立，实际情况会比 $O(n!)$ 要好。
+
+
+
+
+
+### Branch and Bound: Backtracking with optimization
 
 
 
