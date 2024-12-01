@@ -1974,13 +1974,33 @@ $$
 
 Divide and Conquer 也分为 Top down 和 Bottom up(combine and conquer)
 
+1. 通常 Divide and Conquer：Binary search，quicksort...
+
+2. Combine and Conquer：merge sort...
+
+```
+// Divide and Conquer(top down)
+quicksort(array)
+	partition;
+	quicksort(left)
+	quicksort(right)
+
+// Combine and Conquer(bottom up)
+mergesort(array)
+	merge_sort(left);
+	merge_sort(right);
+	merge(left, right);
+```
+
+（merge sort 先解决子问题，再 combine 子问题的 solutions；quick sort 先切分成两部分，两部分子问题都解决之后原问题自然解决）
 
 
 
+DP 和 Divide-and-Conquer 的区别在于：
 
-Divide and Conquer：Binary search，quicksort...
+DP 使用几个可能 overlapping 的 subproblems 的答案来解决大问题，并通过表格储存先前的 subproblems 答案；
 
-Combine and Conquer：merge sort...
+Divide and Conquer 不允许 overlapping subproblems，而是把问题分成几个不相关的子问题，逐个解决。
 
 
 
