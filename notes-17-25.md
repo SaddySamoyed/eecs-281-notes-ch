@@ -1736,6 +1736,14 @@ Algorithm checknode(node v)
 				checknode(u)
 ```
 
+
+
+backtracking 的 idea 就是：在庞大的解空间中，通过剪枝来不断削减其大小，最后只需要遍历一小部分 promising 的解，就可以找到所有可能的解
+
+
+
+
+
 ### n-queens: 经典 backtracking problem
 
 

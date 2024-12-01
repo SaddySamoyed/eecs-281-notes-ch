@@ -1,5 +1,3 @@
-// Example of solution to N-Queens problem
-// Dr. David Paoletti
 #include <iostream>
 #include <string>
 #include <vector>
