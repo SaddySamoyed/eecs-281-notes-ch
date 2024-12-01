@@ -10,3 +10,11 @@ g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec23-
 ./lec23-dp.exe
 g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec22-nQueens.cpp -o lec22-nQueens.exe
 ./lec22-nQueens.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec22-TSP.cpp -o lec22-TSP.exe
+./lec22-TSP.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec23-dpTSP.cpp -o lec23-dpTSP.exe
+./lec23-dpTSP.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec24-Floyd.cpp -o lec24-Floyd.exe
+./lec24-Floyd.exe
+g++ -Wall -Werror -pedantic -g --std=c++17 -Wno-sign-compare -Wno-comment lec24-knapsack.cpp -o lec24-knapsack.exe
+./lec24-knapsack.exe

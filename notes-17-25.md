@@ -1819,6 +1819,148 @@ void NQueens::putQueen(uint32_t row) {
 
 
 
+### Solve TSP with Branch and Bound
+
+TSP 问题：给定 n 个城市及它们之间的距离矩阵 dist，找到一条从城市 0 开始，访问所有城市最后回到城市 0 （hamilton cycle）的最短路径。
+
+
+
+```c++
+const int INF = numeric_limits<int>::max();
+struct Node {
+    int level;       // 当前深度
+    int cost;        // 当前路径的代价
+    int bound;       // 当前节点的下界
+    vector<int> path; // 当前路径
+    // PQ 比较函数，小的优先
+    bool operator<(const Node& other) const {
+        return bound > other.bound;
+    }
+};
+
+// 计算给定矩阵的最小边界
+int calculateBound(const vector<vector<int>>& dist, const vector<int>& path, int n) {
+    int bound = 0;
+  
+    // 标记已经访问的城市
+    vector<bool> visited(n, false);
+    for (int city : path) visited[city] = true;
+
+    // 加上路径中已有的代价
+    for (size_t i = 1; i < path.size(); ++i) {
+        bound += dist[path[i - 1]][path[i]];
+    }
+
+    // 为未访问的城市估计下界
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i]) {
+            int minCost = INF;
+            for (int j = 0; j < n; ++j) {
+                if (i != j && !visited[j]) {
+                    minCost = min(minCost, dist[i][j]);
+                }
+            }
+            if (minCost != INF) bound += minCost;
+        }
+    }
+
+    return bound;
+}
+
+// TSP 分支限界主函数
+int tspBranchAndBound(const vector<vector<int>>& dist) {
+    int n = dist.size();
+    priority_queue<Node> pq; // 优先队列，按节点的下界排序
+    int bestCost = INF;      // 当前最优解
+    vector<int> bestPath;    // 最优路径
+
+    // 初始节点
+    Node root;
+    root.level = 0;
+    root.cost = 0;
+    root.path = {0}; // 从城市 0 开始
+    root.bound = calculateBound(dist, root.path, n);
+    pq.push(root);
+
+    // 分支限界搜索
+    while (!pq.empty()) {
+        Node curr = pq.top();
+        pq.pop();
+
+        // 如果当前节点的下界大于最优解，剪枝
+        if (curr.bound >= bestCost) continue;
+
+        // 如果当前路径包含所有城市并回到起点
+        if (curr.level == n - 1) {
+            // 计算完整路径的代价
+            int totalCost = curr.cost + dist[curr.path.back()][0];
+            if (totalCost < bestCost) {
+                bestCost = totalCost;
+                bestPath = curr.path;
+                bestPath.push_back(0); // 回到起点
+            }
+            continue;
+        }
+
+        // 生成子节点
+        for (int i = 0; i < n; ++i) {
+            if (find(curr.path.begin(), curr.path.end(), i) == curr.path.end()) {
+                Node child;
+                child.level = curr.level + 1;
+                child.path = curr.path;
+                child.path.push_back(i);
+                child.cost = curr.cost + dist[curr.path.back()][i];
+                child.bound = child.cost + calculateBound(dist, child.path, n);
+
+                // 如果下界小于当前最优解，加入优先队列
+                if (child.bound < bestCost) {
+                    pq.push(child);
+                }
+            }
+        }
+    }
+
+    // 输出最优路径
+    cout << "最优路径: ";
+    for (int city : bestPath) {
+        cout << city << " ";
+    }
+    cout << endl;
+
+    return bestCost;
+}
+
+
+int main() {
+    // 示例：距离矩阵
+    vector<vector<int>> dist = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+
+    int result2 = tspBranchAndBound(dist);
+    cout << "Shortest path by branch and bound: " << result2 << endl;
+
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Lec 23 (DP)
 
 通常的 recursive algorithm 是把整个问题 recursively 划分为 independent 的子问题
@@ -2059,6 +2201,51 @@ Chessboard at step 4:
 
 
 
+### Solve TSP with DP
+
+TSP 问题：给定 n 个城市及它们之间的距离矩阵 dist，找到一条从城市 0 开始，访问所有城市最后回到城市 0 （hamilton cycle）的最短路径。
+
+````c++
+
+// TSP 动态规划解法
+int tsp(int n, const vector<vector<int>>& cost) {
+    // dp[mask][i] 表示从起点 0 出发，经过 mask 表示的所有城市，最后停留在城市 i 的最短路径长度
+    vector<vector<int>> dp(1 << n, vector<int>(n, INT_MAX));
+    
+    // 初始状态，从起点 0 出发，路径长度为 0
+    dp[1][0] = 0;
+
+    // 遍历所有状态 mask
+    for (int mask = 1; mask < (1 << n); ++mask) {
+        for (int i = 0; i < n; ++i) {
+            // 如果城市 i 不在当前 mask 中，跳过
+            if (!(mask & (1 << i))) continue;
+
+            // 尝试从集合 mask 中的其他城市转移到 i
+            for (int j = 0; j < n; ++j) {
+                if (j != i && (mask & (1 << j)) && dp[mask ^ (1 << i)][j] != INT_MAX) {
+                    dp[mask][i] = min(dp[mask][i], dp[mask ^ (1 << i)][j] + cost[j][i]);
+                }
+            }
+        }
+    }
+
+    // 最后计算从每个终点返回起点的最短路径
+    int result = INT_MAX;
+    for (int i = 1; i < n; ++i) {
+        if (dp[(1 << n) - 1][i] != INT_MAX) {
+            result = min(result, dp[(1 << n) - 1][i] + cost[i][0]);
+        }
+    }
+
+    return result;
+}
+````
+
+
+
+
+
 ### Difference between DP and Divide-and-Conquer
 
 Divide-and-Conquer 即把一个问题分成 non-overlapping 的子问题，通过一个递推式表示 recursion 关系。我们希望最好能把一个问题切分成 equal size 且参数呈倍数关系的子问题，这样我们更加可能用 master theorem 找出复杂度
@@ -2103,7 +2290,115 @@ Divide and Conquer 不允许 overlapping subproblems，而是把问题分成几�
 
 
 
-## Lec 24 (Knapsack and Dijkstra's algorithm)
+## Lec 24 (Knapsack and Floyd's algorithm)
+
+### 0-1 knapsack
+
+```c++
+// 0-1 Knapsack Function
+int knapsack(const vector<int>& weights, const vector<int>& values, int W) {
+    int n = weights.size();
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+    for (int i = 1; i <= n; ++i) {
+        for (int w = 0; w <= W; ++w) {
+            if (weights[i - 1] <= w) {
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+
+    return dp[n][W];
+}
+
+int main() {
+    // Input: weights, values, and max capacity of knapsack
+    vector<int> weights = {2, 3, 4, 5};
+    vector<int> values = {3, 4, 5, 6};
+    int W = 8;
+
+    int max_value = knapsack(weights, values, W);
+    cout << "Maximum value that can be obtained: " << max_value << endl;
+
+    return 0;
+}
+//Maximum value that can be obtained: 10
+```
+
+
+
+
+
+
+
+
+
+
+
+### Floyd's algorithm
+
+```c++
+const int INF = INT_MAX;
+
+void floydWarshall(vector<vector<int>>& graph) {
+    int V = graph.size();
+    vector<vector<int>> dist = graph;
+
+    // 三重循环
+    for (int k = 0; k < V; ++k) {
+        for (int i = 0; i < V; ++i) {
+            for (int j = 0; j < V; ++j) {
+                // 如果通过 k 能连接 i 和 j，并且减少路径距离
+                if (dist[i][k] != INF && dist[k][j] != INF &&
+                    dist[i][j] > dist[i][k] + dist[k][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+
+    // 输出结果
+    cout << "Shortest distances between every pair of vertices:\n";
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            if (dist[i][j] == INF) {
+                cout << "INF ";
+            } else {
+                cout << dist[i][j] << " ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    // 输入：邻接矩阵表示的图 (无穷大用 INF 表示)
+    vector<vector<int>> graph = {
+        {0, 3, INF, 7},
+        {8, 0, 2, INF},
+        {5, INF, 0, 1},
+        {2, INF, INF, 0}
+    };
+
+    floydWarshall(graph);
+
+    return 0;
+}
+
+/*
+Shortest distances between every pair of vertices:
+0 3 5 6 
+5 0 2 3 
+3 6 0 1 
+2 5 7 0  
+*/
+```
+
+
+
+
 
 
 
