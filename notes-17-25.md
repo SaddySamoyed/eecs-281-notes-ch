@@ -2414,17 +2414,81 @@ Shortest distances between every pair of vertices:
 
 
 
+#### Algorithm Problem: Discount
+
+given a sequence of orders，for each one, either:
+
+1. 25% discount (always have)
+2. 先前 pay full 五次, 得到一次免费（上限为 5，积累超过 5 次则再多次数不算
+
+要求：minimize cost
 
 
 
+Idea: 建立 `memo[6][num_orders]`
+
+每个 entry 表示
+
+状态转移方程:
 
 
 
+for k = 1~5:
+
+第 n 个 order 结束攒了 k 个 fullpay 点数的情况的最优解 = 
+
+Min(第 n-1 个 order 结束攒了 k-1 个 fullpay 点数时的钱 + 第 n 个 order pay full 的钱攒点数, 
+
+第 n-1 个 order 结束攒了 k 个 fullpay 点数时的钱 + 第 n 个 order 使用 discount 的钱)
 
 
-## Lec 25 (Computational geometry)
+
+for k = 0:
+
+第 n 个 order 结束攒了 k 个 fullpay 点数的情况的最优解 = 
+
+Min(
+
+第 n-1 个 order 结束攒了 0 个 fullpay 点数的钱 + 第 n 个 order 使用 discount 的钱,
+
+第 n-1 个 order 结束攒了 5 个 fullpay 点数的钱 + 第 n 个 order 消耗 5 fullpay 免费
+
+)
 
 
 
+```c++
+// How much you pay for a discounted (25% off) meal.
+cost discounted(cost full_price) {
+    return full_price * 3 / 4;
+}
 
+cost best_price(const std::vector<cost>& prices) {
+    // NOTE: if you use a bottom-up approach, initialize your table with
+    // std::numeric_limits<cost>::max()/4 ... you MUST divide by 4!
+    if (prices.size() == 0) {
+        return 0;
+    }
 
+    std::vector<std::vector<cost>> dp(6, std::vector<cost>(prices.size(), std::numeric_limits<cost>::max()/4));
+    
+    // base case: 第一次没有 punch card
+    dp[0][0] = discounted(prices[0]);
+    dp[1][0] = prices[0];
+
+    for (size_t j = 1; j < prices.size(); ++j) {
+        for (size_t i = 0; i < 6; ++i) {
+            if (i == 0) {
+                // Min(第 j-1 个 order 结束攒了 0 个 fullpay 点数的钱 + 第 j 个 order 使用 discount 的钱,
+                //     第 j-1 个 order 结束攒了 5 个 fullpay 点数的钱 + 第 j 个 order 消耗 5 fullpay 免费)
+                dp[i][j] = std::min(discounted(prices[j]) + dp[0][j-1], dp[5][j-1]);
+            } else {
+                // Min(第 j-1 个 order 结束攒了 i-1 个 fullpay 点数时的钱 + 第 j 个 order pay full 的钱攒点数, 
+                //     第 j-1 个 order 结束攒了 i 个 fullpay 点数时的钱   + 第 j 个 order 使用 discount 的钱)
+                dp[i][j] = std::min(prices[j] + dp[i-1][j-1], discounted(prices[j]) + dp[i][j-1]);
+            }
+        }
+    }
+    return dp[0][prices.size() - 1];
+}
+```
