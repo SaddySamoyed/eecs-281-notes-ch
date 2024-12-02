@@ -1,3 +1,4 @@
+// Project Identifier: D7E20F91029D0CB08715A2C54A782E0E8DF829BF
 #include "deals.h"
 #include <iostream>
 #include <vector>
