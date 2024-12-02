@@ -900,3 +900,50 @@ The other way is to directly cin
 每次 declare 这个 variable 它都被 allocate 到 stack 上，但是之后也会 deallocate. 所deallocate 会直接抵消掉 allocate 的时候 stack pointer 的增长。因而对 memory 影响不大。
 
 时间上，对于复杂的 class, struct，我们每次生成都要调用构造函数，destroy 都要调用 dtor. 所会造成额外的开销，并且随循环次数大量积累. 对于简单的 types 比如 build-in 的 int, char 等等， 影响不大
+
+
+
+
+
+
+
+## Project-4 Pokeman
+
+这个 Project 最人性化的地方就是三个 parts 全是分开的毫无关系
+
+最不人性化的地方就是其他所有地方。。
+
+
+
+### A: MST
+
+我们输入一堆坐标，在以这些坐标为 Nodes 的全连通图上找 MST
+
+水和陆分开。水和陆不能通行，必须通过边界点
+
+也就是说，我们必须要区分水和陆的点，分别在水和陆上找到 MST
+
+然后再把它们离边界（也就是 x,y 负半轴）上的任意点，最近的两个点分别作为水和陆的 root，连接边界上的点；它们在边界上的对应端点可以相同。
+
+边界上的所有点，其连成一条直线放进 MST 里
+
+
+
+也就是一共有三个部分，
+
+水MST
+
+陆MST
+
+边界：暴力连接
+
+等等也不是这样。。。应当不能这么做，这样未必是 MST.
+
+只要把水陆两端的点之间的距离设置成无限大就可以了
+
+
+
+
+
+由于这是个 connected graph，非常 dense，我们应当使用 non-heap 的 Prim
+
