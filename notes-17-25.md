@@ -2414,7 +2414,7 @@ Shortest distances between every pair of vertices:
 
 
 
-#### Algorithm Problem: Discount
+#### Algorithm Problem: Discount DP
 
 given a sequence of orders，for each one, either:
 
