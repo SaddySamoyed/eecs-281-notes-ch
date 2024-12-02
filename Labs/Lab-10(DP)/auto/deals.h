@@ -53,16 +53,9 @@ cost discounted(cost full_price) {
 // TODO: add any helpers you want here.
 
 cost best_price(const std::vector<cost>& prices) {
-    // TODO: put your code here
     // NOTE: if you use a bottom-up approach, initialize your table with
     // std::numeric_limits<cost>::max()/4 ... you MUST divide by 4!
-
-
-    /* NOTE: This return value will give you additional tips on the AG.
-       It will cost you a submit, but if you are stuck, feel free to use it.
-       We encourage you to attempt the problem on your own before using this
-       as it is good practice for the final exam! */
-    return -281;
+    
 }
 
 #endif
