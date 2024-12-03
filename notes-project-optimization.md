@@ -941,9 +941,179 @@ The other way is to directly cin
 
 只要把水陆两端的点之间的距离设置成无限大就可以了
 
+与其说是完全图，不如说：
 
+水上所有点构成一个完全子图，陆上所有点构成一个完全子图，并且这两部分中每个点都连接 coastal 上每个点
 
-
+于是这其实就是一个正常的 non-heap prim 算法，应用在这个正常的图上，除了我们不需要表示这个图，因为给定两个节点可以自然地计算出它们的边长。
 
 由于这是个 connected graph，非常 dense，我们应当使用 non-heap 的 Prim
 
+1. 读取
+
+   ok. 顺利读取。这个应该还可以在 BC 复用，很爽
+
+2. prim 不用 heap
+
+   第一遍写完有点问题。发现是 update parent 的问题。要确认 weight 比原来小了才更新 parent
+
+   ok。顺利过了除了 4,6 之外的 test
+
+
+
+#### Debug
+
+A4，根据提示，border 的决定有问题。
+
+A6，本来不应该 cerr 的地方 cerr 了，输出了 Cannot construct MST. 这个东西出来表示我应该是检测到了有 land, sea 但是却没有 border. 
+
+好了 A6 的问题发现了。是我 has_land || has_sea 了，应该是两个都有，没有 border 才有问题。
+
+A4 的问题。也发现了。是我对陆地的判定有问题，把一些陆地划分到 border 了。
+
+x > 0, y = 0; y>0, x=0 也是陆地
+
+border： x<0, y=0 ;  x=0, y<0
+
+陆地：x>0 或 y>0 就算在陆地上
+
+海洋：x<0 并且 y<0 才算在海洋上
+
+这次应该过，先不急着交，写完一次近似算法 TSP 和一些 test files 再交吧
+
+
+
+#### test cases A
+
+1. 没有 border 的
+2. 只有一个中心点
+3. 全在海上
+4. 全在陆地
+5. 只有 border
+
+
+
+A 圆满过了
+
+
+
+### B: Approximation Algorithm of TSP
+
+这个非常模糊。。甚至没给出一个标准，让我们随便找一个 approximation algorithm 来完成
+
+理论上不困难。
+
+好的一点在于：B 没有水陆限制。所以直接找一个欧几里得空间上的图上的 TSP 近似算法就好了
+
+直接 GPT prompt!
+
+### Prompt
+
+现在我有一个 2-d Euclidean space, 在这个 space 上画 n 个点，形成一个 n-complete graph. 
+我的需求：找出一个 O(n^2) time 的近似 TSP 算法。
+我现在已经完成了 node, edge struct 以及 Eclidean space 中的 distance 计算机器, 以及完成了 class FASTTSPg 中, 读取 graph nodes 数据的工作！ 你需要在补完 void runFASTTSP() 函数. 当前, 我们已经读取了 int `num_pokemon` 个 nodes，放进了一个 `std::vector<node> nodes (num_pokemon)`.
+
+```c++
+struct node {
+    double x;
+    double y;
+};
+
+struct edge {
+    int left;
+    int right;
+    double weight;
+    edge(int l, int r, const double &w) : left(l), right(r), weight(w) {}
+    edge() : left(-1), right(-1), weight(INF) {}
+};
+
+struct computedistanceNormal { //functor
+    double operator()(const node &a, const node &b) {
+        return sqrt(pow(a.x-b.x, 2) + pow(a.y-b.y, 2));
+    }
+    computedistanceNormal() {}
+};
+
+class FASTTSPgo {
+public:
+FASTTSPgo() {}
+
+// Already Finished!
+void read_nodes(std::vector<node> &nodes, int num_pokemon);
+// TO BE FINISHED!
+void runFASTTSP(){
+    int num_pokemon = 0;
+    std::cin >> num_pokemon;
+    std::vector<node> nodes (num_pokemon); 
+    computedistanceNormal compute_distance;
+    read_nodes(nodes, num_pokemon);
+    // TODO
+    return;
+}
+};
+```
+
+请你最后输出这样的格式:
+total weight
+tour
+
+example: 
+31.64
+0 4 2 3 1
+
+
+
+gpt 给我的答案是：每次都选取最近的点，，感觉其实挺不靠谱，但是交了一次
+
+发现 set_precision 给我害惨，，，幽默了
+
+第二次 set_precision(2) 之后提交。
+
+这蹩脚的算法居然一次过了。。。。
+
+错误的完全没有过。它只是绿了，但是没过。近似程度超了太多了。
+
+
+
+#### Do some research
+
+于是我找到了：
+
+1. https://www.geeksforgeeks.org/approximate-solution-for-travelling-salesman-problem-using-mst/
+
+   这是一个 2-approximation，目前而言是最可行的。只需要 MST 配合上 preorder traverse
+
+2. Christofides–Serdyukov algorithm： 1.5 approximation，但是 O(n^3)。不行
+
+   
+
+（ps：by research，其实没有利用好 Euclidean graph 的性质。BY WikiPedia: the minimum spanning tree of the graph associated with an instance of the Euclidean TSP is a [Euclidean minimum spanning tree](https://en.wikipedia.org/wiki/Euclidean_minimum_spanning_tree), and s**o can be computed in expected *O*(*n* log *n*) time for *n* points** (considerably less than the number of edges). This enables the simple 2-approximation algorithm for TSP with triangle inequality above to operate more quickly. 所以其实我们的 MST 算法超额了，本质上可以在 nlogn 时间找到 MST，）
+
+
+
+#### Trying
+
+1. MST + preorder traversal
+
+   为什么比最粗暴的方法 cost 还高，，我傻了，甚至 80% penalty
+
+   幽默完了
+
+2. 
+
+
+
+
+
+#### test cases B
+
+1. 一个十字图
+2. 
+
+
+
+### C: TSP
+
+C 更加阳间。就是一个完整的 TSP，只不过是在欧式图上
+
+用 BnB 就可以。
