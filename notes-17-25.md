@@ -1951,6 +1951,54 @@ int main() {
 
 
 
+#### Approximation Algorithms
+
+##### nearest neighbor + 2opt 优化
+
+1. nearest neighbor: 从 node 0 开始，每次都选择最近的未访问 neighbor
+
+   这是一个很直白的算法.
+
+   **O(n^2)**
+
+   问题在于：在刚开始的时候, 总权重很小，不亚于正确的 TSP 路径；但是越到后面，已访问的nodes多了，就会出现 nodes 比较近的 neighbors 都已经被访问，只能绕远路的情况。因而比较极端的数据会导致误差很大
+
+2. 2opt:  对于 nearest neighbor 选取好的路径，尝试选取任意两条不相邻的边 AB, CD 看看能否换成 AC, BD，如果能的话，换了之后能否降低总路径。
+
+   while (局部优化无法再提高, 即上一次循环中没有被提高) {
+
+   ​	for (all nodes)
+
+   ​		for(all other nodes)
+
+   ​			...
+
+   ​			// if swap succeed, then 局部优化又一次提高了
+
+   }
+
+   **O(n^3)**
+
+
+
+#### insertion
+
+分为 nearest, furtherest 以及 arbitratary insertion. 但其实都一样，就是每次加入一个点进入当前的 partial tour，
+
+这个点的选取，根据三个策略有不同，但没有明显的优劣之分
+
+这个点的插入就是在 partial tour 中减去一条边 AB，添加两条边 AC, BC. 我们选择它插入 partial tour 的位置使得 这个 AC+BC-BC 最小，也就是它造成的 distance 的增加最小
+
+
+
+1. 首先锁定第一个 node 0 和与它最近/最远/随机的 node i，0 to i to 0 形成一个 partial tour
+
+2. 每次迭代都是一个 partial tour (subTSP cycle), 
+
+   (1) for nearest/furtherest: 随便选一个 partial tour 中的 node 里，看看不在 partial tour 中的 nodes 哪个和它最近/最远，选取这个 node 为下一个访问的点；for arbitrary: 随机选取一个不在 partial tour 中的 node 作为下一个访问的点.
+
+   (2) 遍历 partial tour，找到插入位置
+
 
 
 
