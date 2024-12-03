@@ -941,9 +941,42 @@ The other way is to directly cin
 
 只要把水陆两端的点之间的距离设置成无限大就可以了
 
+与其说是完全图，不如说：
+
+水上所有点构成一个完全子图，陆上所有点构成一个完全子图，并且这两部分中每个点都连接 coastal 上每个点
+
+于是这其实就是一个正常的 non-heap prim 算法，应用在这个正常的图上，除了我们不需要表示这个图，因为给定两个节点可以自然地计算出它们的边长。
+
+
+
+
+
 
 
 
 
 由于这是个 connected graph，非常 dense，我们应当使用 non-heap 的 Prim
 
+
+
+
+
+### B: Approximation Algorithm of TSP
+
+这个非常模糊。。甚至没给出一个标准，让我们随便找一个 approximation algorithm 来完成
+
+理论上不困难。
+
+好的一点在于：B 没有水陆限制。所以直接找一个欧几里得空间上的图上的 TSP 近似算法就好了
+
+
+
+
+
+
+
+### C: T。SP
+
+C 更加阳间。就是一个完整的 TSP，只不过是在欧式图上
+
+用 BnB 就可以。
