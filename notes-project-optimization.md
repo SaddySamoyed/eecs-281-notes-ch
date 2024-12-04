@@ -1085,9 +1085,13 @@ gpt 给我的答案是：每次都选取最近的点，，感觉其实挺不靠�
 
 2. Christofides–Serdyukov algorithm： 1.5 approximation，但是 O(n^3)。不行
 
+3. IA notes里：nearest-neighbor + 2opt. nearest neighbor 就是我的第一想法，2opt 局部再优化。不过 2opt 的复杂度是 n^3
+
+4. IA notes里：三个 insertion, 都是正好 n^2 复杂度
+
    
 
-（ps：by research，其实没有利用好 Euclidean graph 的性质。BY WikiPedia: the minimum spanning tree of the graph associated with an instance of the Euclidean TSP is a [Euclidean minimum spanning tree](https://en.wikipedia.org/wiki/Euclidean_minimum_spanning_tree), and s**o can be computed in expected *O*(*n* log *n*) time for *n* points** (considerably less than the number of edges). This enables the simple 2-approximation algorithm for TSP with triangle inequality above to operate more quickly. 所以其实我们的 MST 算法超额了，本质上可以在 nlogn 时间找到 MST，）
+（ps：by research，其实没有利用好 Euclidean graph 的性质。BY WikiPedia: the minimum spanning tree of the graph associated with an instance of the Euclidean TSP is a [Euclidean minimum spanning tree](https://en.wikipedia.org/wiki/Euclidean_minimum_spanning_tree), and s**o can be computed in expected *O*(*n* log *n*) time for *n* points** (considerably less than the number of edges). This enables the simple 2-approximation algorithm for TSP with triangle inequality above to operate more quickly. 所以其实我们的 MST 算法超额了，本质上可以在 nlogn 时间找到 MST，但是这一条应该和本 project 没关系，它不做这种要求，MST 限制在 n^2 就好）
 
 
 
@@ -1101,7 +1105,11 @@ gpt 给我的答案是：每次都选取最近的点，，感觉其实挺不靠�
 
 2. 还得是 ed. 直接公布答案了，答案就是 IA notes 里面的 arbitrary insertion
 
+3. implement 完了，居然每个 test 都超了 2%. 
 
+   知道原因了。因为没有考虑从 path.back 到 path[0] 的这段路径也可以插入！
+
+   Finished
 
 
 
@@ -1109,8 +1117,19 @@ gpt 给我的答案是：每次都选取最近的点，，感觉其实挺不靠�
 
 #### test cases B
 
-1. 一个十字图
-2. 
+Prompt: 写一些10行以内，能够有效地检验一个 Euclidean TSP algorithm 的正确性的 test files
+
+每一个都是：
+
+N
+
+x_1 y_1
+
+...
+
+x_N y_N
+
+
 
 
 
