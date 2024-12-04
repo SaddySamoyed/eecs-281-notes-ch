@@ -1138,3 +1138,118 @@ x_N y_N
 C 更加阳间。就是一个完整的 TSP，只不过是在欧式图上
 
 用 BnB 就可以。
+
+遇事不决先询问 gpt
+
+
+
+#### Prompt
+
+现在，我想写一个 Euclidean 图上的 TSP 求解，使用 branch and bound 策略。
+
+假设我已经读取了数据，都存储在了 vector<node> nodes 上了，每个 node 包含 double x,y;
+
+并且，我现在也 implement 了一个比较不错的近似算法，在 O(n^2) 时间内返回一个近似的 vector<int> path 和一个近似的 total_weight
+
+请你解释一下我需要做什么？以下是打底的代码
+
+template <typename T>
+void genPerms(vector<T> &path, size_t permLength) {
+  if (permLength == path.size()) {
+  // Do something with the path
+    return;
+  }  // if ..complete path
+
+  if (!promising(path, permLength)) {
+    return;
+  }  // if ..not promising
+
+  for (size_t i = permLength; i < path.size(); ++i) {
+    swap(path[permLength], path[i]);
+    genPerms(path, permLength + 1);
+    swap(path[permLength], path[i]);
+  }  // for ..unpermuted elements
+}  // genPerms()
+
+
+
+GPT 想到的方法是用 MST 来 bound 剩余 nodes 的路径和的 lower bound，因为它一定比剩余 nodes 的最优路径要小。如果 MST 的值+现在的 weight sum 都比目前的 optimal 要大，那么直接剪枝
+
+但是注意到 Ed 上的帖子：
+
+
+
+My part C is over on time, ranging from 1-4x in some test cases. I just optimized my code to used only squared distances, I get my initial bound using fasttsp and then prune by using a bound check with an mst of subset (my perf report says that the mst cost for subset function is taking over half of my time but this makes sense). Any tips for optimizing this further? Could the issue be my fasttsp heuristic? I am currently using arbitrary insertion
+
+Test cases of part C exceed the time limit by a factor ranging from 1.++ to 6/TLE. I'm using part B result as a lower bound, constructing mst using linear search and always return promising when the size of mst is smaller than 5.
+
+属于和我用了一样的策略并且连近似算法也一样。可想我 implement 完了之后很可能也得到这种结果
+
+#### 思路
+
+现在找到了一个满分的 ED post. 总结了以下的优化点：
+
+1. 使用 approximation algorithm 的 weight 作为初始 upper bound，使用 approximation algorithm 的 tour 作为初始路线（Used the tour produced by the arbitrary insertion heuristic as the start of the path before gen_perms() is called.
+2. 不要使用 sqrt 而是使用 iterative method 来计算 MST，或者 Precomputed distances between nodes in a matrix to avoid repeated expensive square root calculations.
+3. 在剩余 nodes 达到 5 个之前，总是通过计算剩余 nodes 的 MST，计算 MST 的总权重+ 当前部分解的权重+ 当前部分解的首尾距离外部最近的两个边，作为 Lower_bound of 这个 branch，也就是它可能达到的最短路径，如果长于目前的最优解，直接 non-promising，剪枝
+4. Keep a running total of the permuted weight to avoid redundant re-summing of the current tour.
+
+
+
+#### debug
+
+1. read_nodes: ok. 
+
+2. approximationTSP: ok.
+
+这个 project 好在对 memory 要求不高. 可以放一个 nxn 矩阵表示图，于是不用重复算边长了. 并且这是个全连通的图，可以不当作欧几里得图来看。
+
+3. 下一个要做的就是：给定 visited vector，求出 unvisited 的 nodes 的 MST.
+
+由于不能更改 visited 的性质，在函数里还要重新建一个 in_MST vector. 不过由于不用回溯找出路径，不需要设置 parent vector.
+
+由于这是一个完全图，所以很方便，找到第一个不是
+
+prompt：
+
+现在我的class OPTTSPgo里面有 int num_pokemon，std::vector<node> nodes;，std::vector<std::vector<double>> graph; 这个 graph 是一个 complete graph
+
+希望你写一个函数：
+
+double calculateMST(const std::vector<bool>& visited) {
+
+}
+
+这个函数 take in 一个 visited vector 作为参数，表示哪些 nodes 0~num_pokemon-1 的 index 中，哪些 index 的 pokeman 已经被 visit 过了. 而你的目的是找出：所有没有被 visited 过的 nodes 构成的 complete graph 的 MST 的大小（不需要知道路径，只需要知道 MST 的总 weights 就可以），请你使用 Prim 算法，加以修改，完成这个函数，
+
+
+
+MST 值一轮一轮确实减下来了。姑且算它对的
+
+但是整体的 generatePermutation 居然卡死了
+
+发现是循环上界的问题。
+
+e,f 过了。
+
+
+
+
+
+
+
+
+
+### Tests cases 
+
+又是 ed 救命，，正好给我补上了 test case 1,2,3 这样就能拉满了
+
+test case 1,2,3 都是 MST
+
+Ed:For bug 1 and 2, i generated values between 0 and 100 and considered shores in both x = 0 and y = 0. I would recommend generating at least 6 coordinates
+
+For bug 3, I used 0,0 as an edge case. I essentially did variations of two numbers to create different coordinates, for example:
+(num1, num2), (num1, -num2),(-num1, -num2) etc.. 
+
+
+
