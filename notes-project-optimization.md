@@ -1256,6 +1256,21 @@ sample c,d,e,f 全过了，但是 autograder 上的 cases 却没过。
 
 
 
+破案：是传参数的时候穿了我的 class member 里的 Best path 带引用，而在我的 genperm 函数内部也是跟 bestPath 比 。最后一直定格在第一次近似的路线（call genperm前）。改成了 Initialize 一个 Path vector 最后把它传给 bestpath 就对了
+
+
+
+现在分数：95.8。
+
+优化点：
+
+1. 在 <5 个 nodes 下不需要找 approximation
+2. 计算 partial weight 的时候可以 keep track
+
+仍然超了 1.5-2 倍
+
+
+
 ### Tests cases 
 
 又是 ed 救命，，正好给我补上了 test case 1,2,3 这样就能拉满了
