@@ -1230,17 +1230,29 @@ MST 值一轮一轮确实减下来了。姑且算它对的
 
 发现是循环上界的问题。
 
-d,e,f 过了。
-
-c 没过。
-
-速度平均都超了一倍，但先不管。
-
-这个很难 debug。它给的 debug output.txt 倒是有用。可以一试
 
 
+sample c,d,e,f 全过了，但是 autograder 上的 cases 却没过。
+
+这是最麻烦的。写了5个 student tests 上交。如果这五个 student tests 也全过了就寄了
+
+没搞 fullsubmit 浪费了一次提交机会。。
 
 
+
+仔细看发现权重是对的。是我找到的权重和我实际的路径不一样。
+
+看到 sample f
+
+正确路径：
+
+328.77
+0 6 1 2 5 10 3 4 8 7 9 
+
+而我的显示：
+
+328.77
+0 7 8 9 3 10 4 5 2 1 6 
 
 
 
@@ -1255,5 +1267,4 @@ Ed:For bug 1 and 2, i generated values between 0 and 100 and considered shores i
 For bug 3, I used 0,0 as an edge case. I essentially did variations of two numbers to create different coordinates, for example:
 (num1, num2), (num1, -num2),(-num1, -num2) etc.. 
 
-
-
+结束
