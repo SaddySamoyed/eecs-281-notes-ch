@@ -129,7 +129,178 @@ List：假设 edges 是随机分布的，**每个 vertex 的 vertex list 长度�
 
 查找最短路径
 
-1. **DFS：只适用 trees**
-2. **BFS：只适用 unweighted graph**
+1. **DFS：只适用 trees**， list **O(V+ E)** , matrix V^2
+2. **BFS：只适用 unweighted**， list **O(V+ E)** , matrix V^2
 3. **Dijstra：适用于 weighted graph**
+
+记一个 distance vector，表示所有 nodes 到 source 的距离
+
+初始化：dist[source] = 0，dist[其他] = infty
+
+一直到所有端点都被 visit 完之前，持续 **visit 当前没有被 visit 过的顶点中 dist 最小的一个，称之为 $u$** ，访问它的所有 neighbors，尝试更新 $u$ 的每个 neighbor $v$ 的 dist 值：经过 $u$ 是否能让它的距离变短？
+
+```
+Dijkstra(G, s)
+  for all u ∈ V \ {s}, d(u) = ∞
+  d(s)=0, R = {}
+  while R != V
+  	pick u not in R with smallest d(u)
+  	R = R ∪ {u}
+  	for all vertices v adjacent to u
+  		if d(v) > d(u) + l(u, v) {d(v) = d(u) + l(u, v)}
+```
+
+O(|V|^2 + |E|) , |E| 是更新节点距离总耗，|V|^2 遍历所有 lists
+
+![Screenshot 2024-12-12 at 23.45.21](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-12-12 at 23.45.21.png)
+
+![Screenshot 2024-12-12 at 23.45.08](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-12-12 at 23.45.08.png)
+
+
+
+## MST
+
+Cut Property: **任意切分一个图，在 cross 两个顶点集的所有边上，如果其中一条严格小于其他所有边，那么这条边一定在 MST 中；corollay：shortest edge for one vertex must be in all MST; in some if unstrict；如果其中的一条边比 cycle 中的其他边都严格长，那么它一定不在任何 MST 中**
+
+记录三个 vector，每个都 of |V| size
+
+1. visited vector：每个 node v 是否被 visited
+2. minimal edge weight vector: 每个 node v 的 minimal edge weight
+3. parent vector: 每个 node v 的 parent
+
+Prim:
+
+**loop |V| 次，每次选择 intie set 和 outie set 边缘上最短的一个 edge，把它连接的 outie node 加入 intie set 中，这样就无 cycle 地添加了 |V-1| 条 edges，根据连通图的性质，最后一定会得到一个 spanning tree！**
+
+每一次我们把一个 node 加入 intie set，我们就更新它所有 neighbors 的边的长度，放入 minimal weight edges vector
+
+
+
+#### 使用 heap 的 Prim
+
+和 Dijkstra 一样，我们既然每次都要找到 outies 的 minimal edges 里面的最小值，不如起一个 PQ，总能提高运行效率
+
+PQ：每次更新 minimal edges，我们都把更新好的 <node, min_edge_val> 放进 PQ.
+
+这个 implementation 比 Dijkstra 更简单，因为我们处理丢进 PQ 但中途被放进 intie 的 nodes 的方法也很简单：每次从 PQ 中弹出 top 元素，检查它是不是 outie 元素，是的话就正常操作，不是就忽略。
+
+
+
+1. 不使用 heap 的朴素实现
+
+   loop: |V|；每个 loop 一层 outie loop 来选择 minimal edge：|V|；更新 neighbors 的 min edges: O(1 + |E|/|V|)
+
+   因而是 $O(|V|^2 + |E|)$
+
+2. 使用 heap 的实现：
+
+   While pq nonempty：loop 是 O(|E|) 的
+
+   ​     PQ.Getmin: O(log |E|)
+
+   ​     在 loop 内遍历更新 neighbors 的 min edges：O(1 + |E|/|V|)；
+
+   ​            对于每个 neighbor 都 insert PQ: O(log|E|)
+
+   因而是 $O(|E| log|E|) $
+
+在 graph 比较 sparse 的情况下，使用 heap 更快
+
+
+
+**Minimum-cost egde property**：如果 graph 中 minimum cost 的 edge 是 Unique 的，那么它一定在任何 MST 中；Corollary: **sorting property**：对一个 connected graph 的所有边长**进行排序，前 k 个不形成 cycle 的 edges 一定是某个 MST 的 subgraph**。
+
+Kruskal's algorithm：我们 sort edges，然后 loop through all edges，跳过形成 cycle 的.
+
+**当我们想添加一条边的时候，它会形成一个 cycle 当且仅当它的两个顶点已经 connected**，所以用一个 **union-find set 来 keep track of connectivity，**每当放一个新的 edge 等待判断的时候，我们首先查看它们是否在同一个集合，**进入 MST 的时候，我们就把它们的顶点 union**. （设置其中一个的 parent 为另一个）
+
+排序：O(Elog⁡E)；查找和合并：O(E⋅α(V)) 约等于 E，合计 O(ElogE)
+
+
+
+
+
+
+
+### Backtracking & BnB
+
+Backtracking:
+
+```
+Algorithm checknode(node v)
+	if (promising(v))
+		if (isSol(v))
+			done
+		else
+			for each node u adjacent to v
+				checknode(u)
+```
+
+
+
+BnB:
+
+```
+Algorithm checknode(Node v, Best currBest)
+  Node u
+  if (promising(v, currBest))
+    if (solution(v)) then 
+      update(currBest)
+    else
+      for each child u of v
+        checknode(u, currBest)
+    return currBest
+```
+
+
+
+
+
+通常的 recursive algorithm 是把整个问题 recursively 划分为 independent 的子问题
+
+而 DP 则用来处理可以分成 subproblems，但它们之间却不 independent 的问题
+
+
+
+
+
+
+
+## DP
+
+Knight Move:
+
+问题：从某个格子 (startX, startY) 出发，走 exactly K 步，有多少种走法可以到另一个格子 (destX, destY)？ 3D table，其中第一个维度表示第几步，第二第三维度是整个棋盘
+
+第 N 步的棋盘：遍历第 N-1 步的棋盘，所有 >0 (说明第 N-1 步possible 到达这个地方) 的格子的 possible moves.
+$$
+dp[k][x][y]= \sum_{\text{(nx, ny) 是有效位置}}
+
+ dp[k−1][nx][ny]
+$$
+第 N-1 步的棋盘上的一格上面的数字多大，say it is M，就表示 **前 N-1 步有 M 种方法在第 N-1 步时到达这个格子**，于是第 N-1 步到第 N 步，这个格子上 8 个方向上的 moves 都有 M 重.（直观）也就是 for all 8 directions，`dp[k][nx][ny] += dp[k - 1][x][y];` 超过棋盘边界不算。
+
+
+
+Knapsack:
+
+```c++
+// 0-1 Knapsack Function
+int knapsack(const vector<int>& weights, const vector<int>& values, int W) {
+    int n = weights.size();
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+    for (int i = 1; i <= n; ++i) {
+        for (int w = 0; w <= W; ++w) {
+            if (weights[i - 1] <= w) {
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+
+    return dp[n][W];
+}
+```
 
