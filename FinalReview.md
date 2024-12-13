@@ -1,3 +1,21 @@
+## Hash
+
+dict: 1. sorted vector: insert O(n)；2. unsorted vectors: search O(n)；3. linked list: Search O(n)；4. BST (比如 std::map 使用 red-black tree)： search 平均 O(logn), worst O(n)；insert 平均 O(logn), worst O(n)；5. hash table (比如 std::unordered_map<>使用 hash table)：search 平均 O(1), worst O(n)；insert 平均 O(1), worst O(n)
+
+Hash table：把 key 以某个函数转化成一个 Int，使用 arithmetic operations to calculate a table index from a given key
+
+要做：1. translation: 把一个 key 翻译为一个 int；2. compression: limit an int to a valid index；3. collision resolution: 解决 hash to same table index 的 search keys 的冲突；前两步合称一个 hash function
+
+
+
+![Screenshot 2024-12-13 at 00.10.25](/Users/fanqiulin/Library/Application Support/typora-user-images/Screenshot 2024-12-13 at 00.10.25.png)
+
+
+
+<img src="note-assets\{79C7EA6A-F46B-4030-AF8C-CE95FD1B2E58}.png" alt="{79C7EA6A-F46B-4030-AF8C-CE95FD1B2E58}" style="zoom:50%;" />
+
+
+
 ## Tree and BST
 
 Tree Def
@@ -162,13 +180,13 @@ O(|V|^2 + |E|) , |E| 是更新节点距离总耗，|V|^2 遍历所有 lists
 
 Cut Property: **任意切分一个图，在 cross 两个顶点集的所有边上，如果其中一条严格小于其他所有边，那么这条边一定在 MST 中；corollay：shortest edge for one vertex must be in all MST; in some if unstrict；如果其中的一条边比 cycle 中的其他边都严格长，那么它一定不在任何 MST 中**
 
+Prim:
+
 记录三个 vector，每个都 of |V| size
 
 1. visited vector：每个 node v 是否被 visited
 2. minimal edge weight vector: 每个 node v 的 minimal edge weight
 3. parent vector: 每个 node v 的 parent
-
-Prim:
 
 **loop |V| 次，每次选择 intie set 和 outie set 边缘上最短的一个 edge，把它连接的 outie node 加入 intie set 中，这样就无 cycle 地添加了 |V-1| 条 edges，根据连通图的性质，最后一定会得到一个 spanning tree！**
 
@@ -178,13 +196,7 @@ Prim:
 
 #### 使用 heap 的 Prim
 
-和 Dijkstra 一样，我们既然每次都要找到 outies 的 minimal edges 里面的最小值，不如起一个 PQ，总能提高运行效率
-
-PQ：每次更新 minimal edges，我们都把更新好的 <node, min_edge_val> 放进 PQ.
-
-这个 implementation 比 Dijkstra 更简单，因为我们处理丢进 PQ 但中途被放进 intie 的 nodes 的方法也很简单：每次从 PQ 中弹出 top 元素，检查它是不是 outie 元素，是的话就正常操作，不是就忽略。
-
-
+既然每次都要找到 outies 的 minimal edges 里面的最小值，不如起一个 PQ，每次更新 minimal edges，我们都把更新好的 <node, min_edge_val> 放进 PQ. 每次从 PQ 中弹出 top 元素，检查它是不是 outie 元素，是的话就正常操作，不是就忽略。
 
 1. 不使用 heap 的朴素实现
 
